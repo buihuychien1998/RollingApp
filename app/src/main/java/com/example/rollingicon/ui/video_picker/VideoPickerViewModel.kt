@@ -10,9 +10,11 @@ import com.example.rollingicon.models.AppIcon
 import com.example.rollingicon.utils.IconType
 import com.example.rollingicon.utils.MAX_APP_ICONS_TO_LOAD
 import com.example.rollingicon.utils.PreferencesHelper
+import com.example.rollingicon.utils.TIME_DELAY
 import com.example.rollingicon.utils.getVideoThumbnail
 import com.example.rollingicon.utils.toByteArray
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -46,6 +48,7 @@ class VideoPickerViewModel(private val application: Application) : AndroidViewMo
         val context = application.applicationContext
         viewModelScope.launch(Dispatchers.IO) {
             try {
+                delay(TIME_DELAY)
                 _loading.value = true
                 // Load selected icons from SharedPreferences
                 val iconsFromPreferences = withContext(Dispatchers.IO) {

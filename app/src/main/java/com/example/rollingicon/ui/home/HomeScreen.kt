@@ -116,7 +116,7 @@ fun HomeScreen(
 
             if (deniedPermissions.isEmpty()) {
                 navController.navigate(viewModel.clickedRoutes.route)
-                PermissionUtils.onPermissionsGranted(context)
+//                PermissionUtils.onPermissionsGranted(context)
             } else {
                 if (context is Activity) {
 

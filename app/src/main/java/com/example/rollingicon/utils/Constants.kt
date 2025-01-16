@@ -20,3 +20,5 @@ val defaultApps = listOf(
 )
 
 const val MAX_APP_ICONS_TO_LOAD = 25
+const val TWEEN_DURATION = 300
+const val TIME_DELAY = 300L

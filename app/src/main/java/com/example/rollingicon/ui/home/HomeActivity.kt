@@ -8,6 +8,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.core.tween
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
@@ -24,12 +26,12 @@ import com.example.rollingicon.ui.settings.SettingsScreen
 import com.example.rollingicon.ui.share_view_model.SharedViewModel
 import com.example.rollingicon.ui.video_picker.VideoPickerScreen
 import com.example.rollingicon.utils.PreferencesHelper
+import com.example.rollingicon.utils.TWEEN_DURATION
 import com.example.rollingicon.utils.languages
 import java.util.Locale
 
 
 class HomeActivity : ComponentActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -45,7 +47,13 @@ class HomeActivity : ComponentActivity() {
             val currentLanguage = PreferencesHelper.getSelectedLanguage(this)
             changeLanguage(currentLanguage)
 
-            NavHost(navController = navController, startDestination = if (isLFO)  AppRoutes.Language.route else AppRoutes.Home.route) {
+            NavHost(navController = navController,
+                startDestination = if (isLFO)  AppRoutes.Language.route else AppRoutes.Home.route,
+                enterTransition = { slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Start, tween(TWEEN_DURATION)) },
+                exitTransition = { slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Start, tween(TWEEN_DURATION)) },
+                popEnterTransition = { slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.End, tween(TWEEN_DURATION)) },
+                popExitTransition = { slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.End, tween(TWEEN_DURATION)) }
+                ) {
                 composable(AppRoutes.Home.route) {
                     HomeScreen(navController, sharedViewModel)
                 }

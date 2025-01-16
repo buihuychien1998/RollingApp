@@ -10,8 +10,10 @@ import com.example.rollingicon.utils.PreferencesHelper
 import com.example.rollingicon.utils.PreferencesHelper.loadAppIconsFromPreferences
 import com.example.rollingicon.utils.PreferencesHelper.loadImageIconsFromPreferences
 import com.example.rollingicon.utils.PreferencesHelper.loadVideoIconsFromPreferences
+import com.example.rollingicon.utils.TIME_DELAY
 import com.example.rollingicon.utils.getInstalledApps
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -62,6 +64,7 @@ class AppPickerViewModel(private val application: Application) : AndroidViewMode
     fun loadAppData() {
         val context = application.applicationContext
         viewModelScope.launch {
+            delay(TIME_DELAY)
             _loading.value = true
 
             // Load selected icons from SharedPreferences
