@@ -10,7 +10,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.draganddrop.dragAndDropSource
 import androidx.compose.foundation.draganddrop.dragAndDropTarget
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -80,6 +79,8 @@ import com.example.rollingicon.theme.clr_FFDDDB
 import com.example.rollingicon.ui.loading.LoadingScreen
 import com.example.rollingicon.ui.share_view_model.SharedViewModel
 import com.example.rollingicon.utils.IconType
+import com.example.rollingicon.utils.custom.SafeClick
+import com.example.rollingicon.utils.custom.SafeClickable
 import com.example.rollingicon.utils.getCompressedBitmapFromUri
 import com.example.rollingicon.utils.toBitmap
 
@@ -144,20 +145,26 @@ fun ImagePickerScreen(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    IconButton(modifier = Modifier.offset(x = (-16).dp), onClick = {
-                        onBack(
-                            isChanged,
-                            viewModel,
-                            selectedMedia ?: mutableListOf(),
-                            sharedViewModel,
-                            navController
-                        )
-                    }) {
-                        Image(
-                            modifier = Modifier.size(24.dp),
-                            painter = rememberAsyncImagePainter(R.drawable.ic_arrow_left),
-                            contentDescription = "ic_arrow_left"
-                        )
+                    SafeClick(onClick = { onBack(
+                        isChanged,
+                        viewModel,
+                        selectedMedia ?: mutableListOf(),
+                        sharedViewModel,
+                        navController
+                    ) }) { enabled, onClick ->
+                        IconButton(
+                            onClick = onClick,
+                            enabled = enabled,
+                            modifier = Modifier
+                                .offset(x = (-16).dp),
+                        ) {
+                            Image(
+                                modifier = Modifier
+                                    .size(24.dp),
+                                painter = rememberAsyncImagePainter(R.drawable.ic_arrow_left),
+                                contentDescription = "ic_arrow_left"
+                            )
+                        }
                     }
                     Text(
                         text = stringResource(id = R.string.text_add_photos),
@@ -171,56 +178,64 @@ fun ImagePickerScreen(
                     )
 
 
-                    Button(
-                        onClick = {
-                            viewModel.clearSelection()
-                        },
-                        colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
-                        contentPadding = PaddingValues(vertical = 8.dp),
-                        modifier = Modifier.wrapContentSize()
-                    ) {
-                        Text(
-                            text = stringResource(id = R.string.text_clear),
-                            fontFamily = AppFont.Grandstander,
-                            color = Color.White,
-                            style = TextStyle(fontWeight = FontWeight.Medium, fontSize = 16.sp),
-                        )
+                    SafeClick(onClick = { viewModel.clearSelection() }) { enabled, onClick ->
+                        Button(
+                            onClick = onClick,
+                            enabled = enabled,
+                            colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
+                            contentPadding = PaddingValues(vertical = 8.dp),
+                            modifier = Modifier.wrapContentSize()
+                        ) {
+                            Text(
+                                text = stringResource(id = R.string.text_clear),
+                                fontFamily = AppFont.Grandstander,
+                                color = Color.White,
+                                style = TextStyle(fontWeight = FontWeight.Medium, fontSize = 16.sp),
+                            )
+                        }
                     }
+
                 }
                 Spacer(modifier = Modifier.height(16.dp))
-                Box(
-                    modifier = Modifier.clickable {
+
+                SafeClickable(
+                    onClick = {
                         pickMediaLauncher.launch(
                             arrayOf(
                                 "image/*"
                             )
                         )
                     },
-                    contentAlignment = Alignment.Center,
-                ) {
+                    content = { enabled ->
+                        Box(
+                            contentAlignment = Alignment.Center,
+                        ) {
 
-                    Image(
-                        painter = rememberAsyncImagePainter(R.drawable.img_add_media),
-                        contentDescription = null,
-                        contentScale = ContentScale.FillWidth
-                    )
+                            Image(
+                                painter = rememberAsyncImagePainter(R.drawable.img_add_media),
+                                contentDescription = null,
+                                contentScale = ContentScale.FillWidth
+                            )
 
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Image(
-                            painter = rememberAsyncImagePainter(R.drawable.ic_add_icon),
-                            contentDescription = "Add Icon",
-                            modifier = Modifier.size(24.dp)
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Text(
-                            text = stringResource(id = R.string.text_add_photos),
-                            fontFamily = AppFont.Grandstander,
-                            fontSize = 20.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = Color.White
-                        )
+                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                Image(
+                                    painter = rememberAsyncImagePainter(R.drawable.ic_add_icon),
+                                    contentDescription = "Add Icon",
+                                    modifier = Modifier.size(24.dp)
+                                )
+                                Spacer(modifier = Modifier.height(8.dp))
+                                Text(
+                                    text = stringResource(id = R.string.text_add_photos),
+                                    fontFamily = AppFont.Grandstander,
+                                    fontSize = 20.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color.White
+                                )
+                            }
+                        }
                     }
-                }
+                )
+
 
                 Spacer(modifier = Modifier.height(16.dp))
 

@@ -73,6 +73,7 @@ import com.example.rollingicon.ui.loading.LoadingScreen
 import com.example.rollingicon.ui.share_view_model.SharedViewModel
 import com.example.rollingicon.utils.IconType
 import com.example.rollingicon.utils.PermissionUtils
+import com.example.rollingicon.utils.custom.SafeClick
 import com.example.rollingicon.utils.startWallpaperService
 import com.example.rollingicon.utils.toBitmap
 
@@ -142,7 +143,6 @@ fun HomeScreen(
             requestPermissionLauncher = requestPermissionLauncher
         )
     }
-
 
 
     // Loading screen with a spinner and a message
@@ -238,7 +238,7 @@ fun RollingIconScreen(
 @Composable
 private fun AppIconsGrid(appIcons: List<AppIcon>?) {
     if (appIcons?.isEmpty() == true) {
-        Column (horizontalAlignment = Alignment.CenterHorizontally){
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Spacer(modifier = Modifier.weight(1f))
             Text(
                 text = stringResource(id = R.string.text_your_list_is_empty),
@@ -392,42 +392,46 @@ private fun HomeHeader(
             fontFamily = AppFont.Grandstander
         )
         Spacer(modifier = Modifier.width(4.dp))
-        IconButton(
-            onClick = {
-                navController.navigate(AppRoutes.Settings.route)
+        SafeClick(onClick = { navController.navigate(AppRoutes.Settings.route) }) { enabled, onClick ->
+            IconButton(
+                onClick = onClick,
+                enabled = enabled
+            ) {
+                Image(
+                    painter = rememberAsyncImagePainter(R.drawable.ic_settings),
+                    modifier = Modifier
+                        .size(32.dp),
+                    contentDescription = "Settings",
+                )
             }
-        ) {
-            Image(
-                painter = rememberAsyncImagePainter(R.drawable.ic_settings),
-                modifier = Modifier
-                    .size(32.dp),
-                contentDescription = "Settings",
-            )
         }
         Spacer(modifier = Modifier.width(4.dp))
-        Button(
-            colors = ButtonDefaults.buttonColors(
-                contentColor = clr_4664FF,
-                containerColor = Color.White
-            ),
-            shape = RoundedCornerShape(20),
-            contentPadding = PaddingValues(horizontal = 8.dp),
-            onClick = {
-                context.startWallpaperService()
+        SafeClick(onClick = { context.startWallpaperService() }) { enabled, onClick ->
+            Button(
+                colors = ButtonDefaults.buttonColors(
+                    contentColor = clr_4664FF,
+                    containerColor = Color.White,
+                    disabledContainerColor = Color.Transparent,
+                    disabledContentColor = Color.Transparent,
+                ),
+                shape = RoundedCornerShape(20),
+                contentPadding = PaddingValues(horizontal = 8.dp),
+                onClick = onClick,
+                enabled = enabled
+            ) {
+                Text(
+                    text = stringResource(id = R.string.text_preview),
+                    fontSize = 14.sp,
+                    fontFamily = AppFont.Grandstander
+                )
+                Spacer(modifier = Modifier.width(4.dp))
+                Image(
+                    painter = rememberAsyncImagePainter(R.drawable.ic_preview),
+                    modifier = Modifier
+                        .size(24.dp),
+                    contentDescription = "Preview",
+                )
             }
-        ) {
-            Text(
-                text = stringResource(id = R.string.text_preview),
-                fontSize = 14.sp,
-                fontFamily = AppFont.Grandstander
-            )
-            Spacer(modifier = Modifier.width(4.dp))
-            Image(
-                painter = rememberAsyncImagePainter(R.drawable.ic_preview),
-                modifier = Modifier
-                    .size(24.dp),
-                contentDescription = "Preview",
-            )
         }
     }
 }
@@ -470,68 +474,79 @@ fun AddIconDialog(
                 Spacer(modifier = Modifier.height(12.dp))
 
                 // Add Application button
-                Button(
+                SafeClick(
                     onClick = onAddApplication,
-                    shape = RoundedCornerShape(20),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = clr_4664FF
-                    ),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 8.dp),
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .padding(horizontal = 8.dp, vertical = 16.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Image(
-                            modifier = Modifier.size(24.dp),
-                            painter = rememberAsyncImagePainter(R.drawable.ic_add_application),
-                            contentDescription = stringResource(id = R.string.text_add_application)
-                        )
-                        Text(
-                            text = stringResource(id = R.string.text_add_application),
-                            fontFamily = AppFont.Grandstander,
-                            fontWeight = FontWeight.Medium,
-                            fontSize = 16.sp,
-                            color = Color.White
-                        )
+                    content = { enabled, onClick ->
+                        Button(
+                            onClick = onClick,  // Trigger SafeClick's internal onClick when clicked
+                            enabled = enabled,  // Disable the button if not enabled
+                            shape = RoundedCornerShape(20),
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = clr_4664FF
+                            ),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 8.dp),
+                        ) {
+                            Column(
+                                modifier = Modifier
+                                    .padding(horizontal = 8.dp, vertical = 16.dp),
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                Image(
+                                    modifier = Modifier.size(24.dp),
+                                    painter = rememberAsyncImagePainter(R.drawable.ic_add_application),
+                                    contentDescription = stringResource(id = R.string.text_add_application)
+                                )
+                                Text(
+                                    text = stringResource(id = R.string.text_add_application),
+                                    fontFamily = AppFont.Grandstander,
+                                    fontWeight = FontWeight.Medium,
+                                    fontSize = 16.sp,
+                                    color = Color.White
+                                )
+                            }
+                        }
                     }
-                }
+                )
+
 
                 Row {
                     // Add Photos button
-                    Button(
-                        onClick = onAddPhotos,
-                        shape = RoundedCornerShape(20),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = clr_C2D8FF
-                        ),
-                        modifier = Modifier
-                            .weight(1f)
-                            .padding(vertical = 8.dp),
-                    ) {
-                        Column(
-                            modifier = Modifier
-                                .padding(horizontal = 8.dp, vertical = 16.dp),
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            Image(
-                                modifier = Modifier.size(24.dp),
-                                painter = rememberAsyncImagePainter(R.drawable.ic_add_photo),
-                                contentDescription = stringResource(id = R.string.text_add_photos)
-                            )
-                            Text(
-                                text = stringResource(id = R.string.text_add_photos),
-                                fontFamily = AppFont.Grandstander,
-                                fontWeight = FontWeight.Medium,
-                                fontSize = 16.sp,
-                                color = clr_4664FF
-                            )
+                    SafeClick(
+                        onClick = onAddVideos,
+                        content = { enabled, onClick ->
+                            Button(
+                                onClick = onClick,  // Trigger SafeClick's internal onClick when clicked
+                                enabled = enabled,  // Disable the button if not enabled
+                                shape = RoundedCornerShape(20),
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = clr_C2D8FF,
+                                ),
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .padding(vertical = 8.dp),
+                            ) {
+                                Column(
+                                    modifier = Modifier
+                                        .padding(horizontal = 8.dp, vertical = 16.dp),
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    Image(
+                                        modifier = Modifier.size(24.dp),
+                                        painter = rememberAsyncImagePainter(R.drawable.ic_add_video),
+                                        contentDescription = stringResource(id = R.string.text_add_photos)
+                                    )
+                                    Text(
+                                        text = stringResource(id = R.string.text_add_videos),
+                                        fontFamily = AppFont.Grandstander,
+                                        fontSize = 16.sp,
+                                        color = clr_4664FF
+                                    )
+                                }
+                            }
                         }
-
-                    }
+                    )
 
                     Spacer(modifier = Modifier.width(16.dp))
 

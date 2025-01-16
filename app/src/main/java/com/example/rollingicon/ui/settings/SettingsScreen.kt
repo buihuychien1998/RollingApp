@@ -58,6 +58,7 @@ import com.example.rollingicon.theme.clr_D5DEE8
 import com.example.rollingicon.theme.clr_ECF4FF
 import com.example.rollingicon.utils.PreferencesHelper
 import com.example.rollingicon.utils.custom.CustomSwitch
+import com.example.rollingicon.utils.custom.SafeClick
 import com.example.rollingicon.utils.languages
 
 @Composable
@@ -126,18 +127,20 @@ fun SettingsTopBar(navController: NavController) {
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.fillMaxWidth()
     ) {
-        IconButton(
-            modifier = Modifier
-                .offset(x = (-16).dp),
-            onClick = {
-                navController.popBackStack()
-            }) {
-            Image(
+        SafeClick(onClick = { navController.popBackStack() }) { enabled, onClick ->
+            IconButton(
+                onClick = onClick,
+                enabled = enabled,
                 modifier = Modifier
-                    .size(24.dp),
-                painter = rememberAsyncImagePainter(R.drawable.ic_arrow_left),
-                contentDescription = "ic_arrow_left"
-            )
+                    .offset(x = (-16).dp)
+            ) {
+                Image(
+                    modifier = Modifier
+                        .size(24.dp),
+                    painter = rememberAsyncImagePainter(R.drawable.ic_arrow_left),
+                    contentDescription = "ic_arrow_left"
+                )
+            }
         }
         Text(
             text = stringResource(id = R.string.text_settings),
@@ -205,44 +208,51 @@ fun LanguageSection(navController: NavController) {
     )
     Spacer(modifier = Modifier.height(12.dp))
 
-    Button(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(16.dp))
-            .background(Color.White),
-        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp),
-        colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
-        onClick = {
-            navController.navigate(AppRoutes.Language.route)
-        }) {
-        Row(
+    SafeClick(onClick = { navController.navigate(AppRoutes.Language.route) }) { enabled, onClick ->
+        Button(
+            enabled = enabled,
+            onClick = onClick,
             modifier = Modifier
-                .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(16.dp))
+                .background(Color.White),
+            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color.Transparent,
+                disabledContainerColor = Color.Transparent,
+                disabledContentColor = Color.Transparent,
+            ),
         ) {
-            Image(
-                painter = rememberAsyncImagePainter(currentLanguage.flagResId),
-                contentDescription = null,
+            Row(
                 modifier = Modifier
-                    .size(20.dp)
-                    .clip(CircleShape)
-            )
-            Spacer(modifier = Modifier.width(8.dp))
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Image(
+                    painter = rememberAsyncImagePainter(currentLanguage.flagResId),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(20.dp)
+                        .clip(CircleShape)
+                )
+                Spacer(modifier = Modifier.width(8.dp))
 
-            Text(
-                text = currentLanguage.name,
-                color = clr_2C323F,
-                fontFamily = AppFont.Grandstander,
-                style = TextStyle(fontSize = 16.sp),
-                modifier = Modifier.weight(1f)
-            )
-            Image(
-                painter = rememberAsyncImagePainter(R.drawable.ic_arrow_right),
-                contentDescription = null,
-                modifier = Modifier.size(24.dp)
-            )
+                Text(
+                    text = currentLanguage.name,
+                    color = clr_2C323F,
+                    fontFamily = AppFont.Grandstander,
+                    style = TextStyle(fontSize = 16.sp),
+                    modifier = Modifier.weight(1f)
+                )
+                Image(
+                    painter = rememberAsyncImagePainter(R.drawable.ic_arrow_right),
+                    contentDescription = null,
+                    modifier = Modifier.size(24.dp)
+                )
+            }
         }
     }
+
 
 }
 

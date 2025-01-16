@@ -9,6 +9,8 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -49,8 +51,12 @@ class HomeActivity : ComponentActivity() {
 
             NavHost(navController = navController,
                 startDestination = if (isLFO)  AppRoutes.Language.route else AppRoutes.Home.route,
-                enterTransition = { slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Start, tween(TWEEN_DURATION)) },
-                exitTransition = { slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Start, tween(TWEEN_DURATION)) },
+                enterTransition = {
+                    EnterTransition.None
+                },
+                exitTransition = {
+                    ExitTransition.None
+                },
                 popEnterTransition = { slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.End, tween(TWEEN_DURATION)) },
                 popExitTransition = { slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.End, tween(TWEEN_DURATION)) }
                 ) {

@@ -50,6 +50,7 @@ import com.example.rollingicon.models.Language
 import com.example.rollingicon.theme.AppFont
 import com.example.rollingicon.theme.clr_2C323F
 import com.example.rollingicon.theme.clr_4664FF
+import com.example.rollingicon.utils.custom.SafeClick
 
 @Composable
 fun LanguageScreen(
@@ -85,16 +86,20 @@ fun LanguageScreen(
             ) {
                 // Show back button if required
                 if (showBackButton) {
-                    IconButton(
-                        modifier = Modifier
-                            .offset(x = (-16).dp),
-                        onClick = { onBackPressed?.invoke() }) {
-                        Image(
+                    SafeClick(onClick = { onBackPressed?.invoke() }) { enabled, onClick ->
+                        IconButton(
+                            onClick = onClick,
+                            enabled = enabled,
                             modifier = Modifier
-                                .size(24.dp),
-                            painter = rememberAsyncImagePainter(R.drawable.ic_arrow_left),
-                            contentDescription = "ic_arrow_left"
-                        )
+                                .offset(x = (-16).dp)
+                        ) {
+                            Image(
+                                modifier = Modifier
+                                    .size(24.dp),
+                                painter = rememberAsyncImagePainter(R.drawable.ic_arrow_left),
+                                contentDescription = "ic_arrow_left"
+                            )
+                        }
                     }
                 }
 
@@ -109,12 +114,18 @@ fun LanguageScreen(
                     fontWeight = FontWeight.Bold,
                     fontSize = 24.sp
                 )
-                IconButton(onClick = onConfirm) {
-                    Icon(
-                        imageVector = Icons.Default.Check,
-                        contentDescription = "Confirm",
-                        tint = Color.White
-                    )
+
+                SafeClick(onClick = onConfirm) { enabled, onClick ->
+                    IconButton(
+                        onClick = onClick,
+                        enabled = enabled,
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Check,
+                            contentDescription = "Confirm",
+                            tint = Color.White
+                        )
+                    }
                 }
             }
 
@@ -186,6 +197,7 @@ fun LanguageItem(
         }
     }
 }
+
 // Preview function
 @Preview(showBackground = true)
 @Composable

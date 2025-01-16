@@ -64,6 +64,7 @@ import com.example.rollingicon.theme.clr_C2D8FF
 import com.example.rollingicon.theme.clr_D5DEE8
 import com.example.rollingicon.ui.loading.LoadingScreen
 import com.example.rollingicon.ui.share_view_model.SharedViewModel
+import com.example.rollingicon.utils.custom.SafeClick
 import com.example.rollingicon.utils.toBitmap
 
 @Composable
@@ -122,19 +123,22 @@ fun AppIconList(
         Row(
             modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically
         ) {
-            IconButton(
-                modifier = Modifier
-                    .offset(x = (-16).dp),
-                onClick = {
-                    onBack(isChanged, viewModel, selectedApps, shareViewModel, navController)
-                }) {
-                Image(
+            SafeClick(onClick = { onBack(isChanged, viewModel, selectedApps, shareViewModel, navController) }) { enabled, onClick ->
+                IconButton(
+                    onClick = onClick,
+                    enabled = enabled,
                     modifier = Modifier
-                        .size(24.dp),
-                    painter = rememberAsyncImagePainter(R.drawable.ic_arrow_left),
-                    contentDescription = "ic_arrow_left"
-                )
+                        .offset(x = (-16).dp),
+                    ) {
+                    Image(
+                        modifier = Modifier
+                            .size(24.dp),
+                        painter = rememberAsyncImagePainter(R.drawable.ic_arrow_left),
+                        contentDescription = "ic_arrow_left"
+                    )
+                }
             }
+
             Text(
                 text = stringResource(id = R.string.text_add_application),
                 textAlign = TextAlign.Start,
@@ -147,19 +151,23 @@ fun AppIconList(
             )
 
 
-            Button(
-                onClick = { viewModel.clearSelectedIcons() },
-                colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
-                contentPadding = PaddingValues(vertical = 8.dp),
-                modifier = Modifier.wrapContentSize()
-            ) {
-                Text(
-                    text = stringResource(id = R.string.text_clear),
-                    fontFamily = AppFont.Grandstander,
-                    color = Color.White,
-                    style = TextStyle(fontWeight = FontWeight.Medium, fontSize = 16.sp),
-                )
+            SafeClick(onClick = { viewModel.clearSelectedIcons() }) { enabled, onClick ->
+                Button(
+                    onClick = onClick,
+                    enabled = enabled,
+                    colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
+                    contentPadding = PaddingValues(vertical = 8.dp),
+                    modifier = Modifier.wrapContentSize()
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.text_clear),
+                        fontFamily = AppFont.Grandstander,
+                        color = Color.White,
+                        style = TextStyle(fontWeight = FontWeight.Medium, fontSize = 16.sp),
+                    )
+                }
             }
+
         }
         Spacer(modifier = Modifier.height(16.dp))
         // Search Bar
