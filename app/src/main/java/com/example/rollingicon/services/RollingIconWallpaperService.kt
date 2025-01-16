@@ -1,4 +1,4 @@
-package com.example.rollingicon
+package com.example.rollingicon.services
 
 import android.content.Context
 import android.content.Intent
@@ -6,174 +6,25 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Paint
-import android.graphics.drawable.Drawable
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
+import android.media.MediaPlayer
 import android.net.Uri
-import android.os.Parcelable
 import android.service.wallpaper.WallpaperService
 import android.util.Log
 import android.view.MotionEvent
 import android.view.SurfaceHolder
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import kotlinx.parcelize.Parcelize
-import kotlinx.parcelize.IgnoredOnParcel
+import com.example.rollingicon.R
+import com.example.rollingicon.models.AppIcon
+import com.example.rollingicon.models.IconSettings
+import com.example.rollingicon.utils.IconType
+import com.example.rollingicon.utils.PreferencesHelper
 import kotlin.math.hypot
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.random.Random
-
-@Parcelize
-data class AppIcon (
-//    @IgnoredOnParcel
-    val drawable: ByteArray?,
-    val packageName: String, // Store the package name
-    val name: String, // Store the package name
-    var x: Float = 0f,
-    var y: Float = 0f,
-    var velocityX: Float = 0f,
-    var velocityY: Float = 0f,
-    val radius: Float = 75f, // Flag to increase the icon size
-    var isClicked: Boolean = false, // Flag to check if the icon is clicked
-    var isExploding: Boolean = false, // Flag for explosion animation
-    var explosionParticles: MutableList<ExplosionParticle> = mutableListOf(), // Store explosion particles
-    var isDragging: Boolean = false,
-    var dragOffsetX: Float = 0f,
-    var dragOffsetY: Float = 0f
-) : Parcelable {
-    // Ensure proper equality check
-    override fun equals(other: Any?): Boolean {
-        return (other is AppIcon) && packageName == other.packageName
-    }
-
-    override fun hashCode(): Int {
-        return packageName.hashCode()
-    }
-
-    fun update(gravityX: Float, gravityY: Float, width: Int, height: Int) {
-        val SENSOR_SENSITIVITY = 0.6f // Fine-tuned sensitivity for smoother gravity response
-        velocityX += gravityX * SENSOR_SENSITIVITY
-        velocityY += gravityY * SENSOR_SENSITIVITY
-
-        // Apply friction to simulate natural slowing down
-        velocityX *= 0.9f // Tăng nhẹ hiệu ứng giảm tốc
-        velocityY *= 0.9f
-
-        // Ngưỡng vận tốc tối thiểu
-        if (Math.abs(velocityX) < 0.5f) velocityX = Random.nextFloat() * 2 - 1 // Random trong khoảng [-1, 1]
-        if (Math.abs(velocityY) < 0.5f) velocityY = Random.nextFloat() * 2 - 1
-        // Update icon position
-        x += velocityX
-        y += velocityY
-
-        // Handle collisions with screen edges
-        //Khi một icon va chạm với các cạnh màn hình hoặc nhau, hãy giảm hệ số phản lực để tránh di chuyển quá nhanh.
-        if (x < radius || x > width - radius) {
-            velocityX = -velocityX * 0.6f // Giảm hệ số phản lực
-            x = max(radius, min(x, width - radius))
-        }
-        if (y < radius || y > height - radius) {
-            velocityY = -velocityY * 0.6f // Giảm hệ số phản lực
-            y = max(radius, min(y, height - radius))
-        }
-
-        // Update explosion particles
-        if (isExploding) {
-            explosionParticles.forEach { it.update() }
-            explosionParticles.removeAll { it.alpha <= 0 }
-            if (explosionParticles.isEmpty()) resetState()
-        }
-    }
-
-    fun draw(canvas: Canvas, paint: Paint) {
-        // If the icon is exploding, draw the particles
-        if (isExploding) {
-            for (particle in explosionParticles) {
-                particle.draw(canvas, paint)
-            }
-        } else {
-            drawable?.toDrawable()?.setBounds(
-                (x - radius).toInt(),
-                (y - radius).toInt(),
-                (x + radius).toInt(),
-                (y + radius).toInt()
-            )
-//            drawable?.toDrawable()?.draw(canvas)
-            val bitmap = BitmapFactory.decodeByteArray(drawable, 0, drawable?.size ?: 0)
-            canvas.drawBitmap(bitmap, x - radius, y - radius, paint)
-        }
-    }
-
-    // Check if the icon was touched
-    fun isTouched(touchX: Float, touchY: Float) =
-        hypot(touchX - x, touchY - y) <= radius * 1.1f // Adding a small buffer for precision
-
-    // Start explosion effect by generating particles
-    fun startExplosion() {
-        explosionParticles.addAll(
-            List(100) {
-                ExplosionParticle(
-                    x, y,
-                    angle = Random.nextFloat() * 2 * Math.PI.toFloat(),
-                    speed = Random.nextFloat() * 10 + 10
-                )
-            }
-        )
-        isExploding = true
-    }
-
-    // Reset the icon's state after explosion
-    fun resetState() {
-        x = Random.nextFloat() * 800f + 100f // Random new position
-        y = Random.nextFloat() * 800f + 100f
-        velocityX = (-1..5).random().toFloat()
-        velocityY = (-1..5).random().toFloat()
-//        velocityX = Random.nextFloat() * 4 + 2 // Tốc độ từ 2 đến 6
-//        velocityY = Random.nextFloat() * 4 + 2
-        isExploding = false
-        explosionParticles.clear() // Clear the particles
-    }
-}
-
-@Parcelize
-data class ExplosionParticle(
-    var x: Float,
-    var y: Float,
-    var angle: Float,
-    var speed: Float,
-    var alpha: Float = 1.0f,
-    val color: Int = generateRandomColor() // Generate a random color for each particle
-) : Parcelable {
-    private val radius = 5f
-
-    // Generate a random color (using ARGB format)
-    companion object {
-        fun generateRandomColor(): Int {
-            val red = Random.nextInt(0xFF)
-            val green = Random.nextInt(0xFF)
-            val blue = Random.nextInt(0xFF)
-            return (0xFF shl 24) or (red shl 16) or (green shl 8) or blue // ARGB color
-        }
-    }
-
-    fun update() {
-        // Move the particle in the direction of the angle with speed
-        x += speed * Math.cos(angle.toDouble()).toFloat()
-        y += speed * Math.sin(angle.toDouble()).toFloat()
-        speed *= 0.98f // Slow down over time
-        alpha -= 0.05f // Fade out over time
-    }
-
-    fun draw(canvas: Canvas, paint: Paint) {
-        paint.alpha = (alpha * 255).toInt() // Set alpha for fading effect
-        paint.color = color // Set the color for the particle
-        canvas.drawCircle(x, y, radius, paint)
-    }
-}
-
 
 class RollingIconWallpaperService : WallpaperService() {
     override fun onCreateEngine(): Engine {
@@ -181,51 +32,68 @@ class RollingIconWallpaperService : WallpaperService() {
     }
 
     inner class RollingIconEngine : Engine(), SensorEventListener {
+        private var accelerometerValues: FloatArray? = null
         private val icons = mutableListOf<AppIcon>()
         private lateinit var sensorManager: SensorManager
         private var accelerometer: Sensor? = null
         private var gravityX = 0f
         private var gravityY = 0f
         private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
-        private val maxIcons = 10
         val padding = 15f // Khoảng đệm giữa các icon
         private var isSurfaceAvailable = false
         private var backgroundBitmap: Bitmap? = null
         val SENSOR_INACTIVITY_THRESHOLD = 1000L // 1 second of inactivity
         private var lastSensorUpdateTime = System.currentTimeMillis()
+        private lateinit var settings: IconSettings
+        private lateinit var mediaPlayer: MediaPlayer
 
         override fun onCreate(surfaceHolder: SurfaceHolder?) {
             super.onCreate(surfaceHolder)
-            initializeIcons()
+            settings = loadSettings()  // Load all settings at once
             loadBackgroundImage()
+            initializeSound()
+            initializeIcons()
             initializeSensors()
             startRendering()
         }
 
+        private fun loadSettings(): IconSettings {
+            val context = applicationContext
+            // Load each setting from SharedPreferences
+            val iconSize = PreferencesHelper.loadIconSize(context) 
+            val iconSpeed = PreferencesHelper.loadIconSpeed(context) 
+            val canTouch = PreferencesHelper.loadCanTouch(context) 
+            val canDrag = PreferencesHelper.loadCanDrag(context) 
+            val canExplosion =
+                PreferencesHelper.loadCanExplosion(context) 
+            val canSound = PreferencesHelper.loadCanSound(context) 
+
+
+            return IconSettings(
+                iconSize = iconSize,
+                iconSpeed = iconSpeed.iconSpeedValue,
+                canTouch = canTouch,
+                canDrag = canDrag,
+                canExplosion = canExplosion,
+                canSound = canSound
+            )
+        }
+
+        private fun initializeSound() {
+            mediaPlayer = MediaPlayer.create(applicationContext, R.raw.icon_click_sound)
+        }
+
         private fun initializeIcons() {
-            val pm = packageManager
             val screenWidth = resources.displayMetrics.widthPixels
             val screenHeight = resources.displayMetrics.heightPixels
-
-//            pm.getInstalledApplications(PackageManager.GET_META_DATA)
-//                .filter { app ->
-//                    (app.flags and ApplicationInfo.FLAG_SYSTEM == 0) &&
-//                            (app.flags and ApplicationInfo.FLAG_UPDATED_SYSTEM_APP == 0)
-//                }
-//                .take(maxIcons)
-//                .forEach { app ->
-//                    icons.add(AppIcon(app.loadIcon(pm), app.packageName))
-//                }
             // Retrieve icons passed from MainActivity
-// Retrieve the list of icons from SharedPreferences
-            val sharedPreferences = getSharedPreferences("icon_data", MODE_PRIVATE)
-            val iconsJson = sharedPreferences.getString("icons_list", "[]")
-            val iconsList = parseIconsFromJson(iconsJson ?: "[]")
-            icons.addAll(iconsList)
-            println("iconsList")
-            println("${icons.size}")
+            val savedIcons =
+                PreferencesHelper.loadSelectedIconsFromPreferences(this@RollingIconWallpaperService)
+            val iconSize = settings.iconSize
+            val iconSpeed = settings.iconSpeed
 
-            for (icon in icons) {
+            icons.addAll(savedIcons)
+            icons.forEach { icon ->
                 var isOverlapping: Boolean
                 do {
                     isOverlapping = false
@@ -240,19 +108,15 @@ class RollingIconWallpaperService : WallpaperService() {
                     }
                 } while (isOverlapping)
 
-                icon.velocityX = (-1..5).random().toFloat()
-                icon.velocityY = (-1..5).random().toFloat()
+                // Apply icon size and speed settings
+                icon.radius = iconSize
+//                icon.velocityX = (-1..5).random().toFloat() * iconSpeed
+//                icon.velocityY = (-1..5).random().toFloat() * iconSpeed
+                icon.velocityX = 5 * iconSpeed
+                icon.velocityY = 5 * iconSpeed
 //                icon.velocityX = Random.nextFloat() * 4 + 2 // Tốc độ từ 2 đến 6
 //                icon.velocityY = Random.nextFloat() * 4 + 2
             }
-        }
-
-        // Method to parse JSON into a list of AppIcon
-        private fun parseIconsFromJson(json: String): List<AppIcon> {
-            // Parse JSON to create the list of AppIcon objects
-            val gson = Gson()
-            val type = object : TypeToken<List<AppIcon>>() {}.type
-            return gson.fromJson(json, type)
         }
 
         private fun checkOverlap(icon1: AppIcon, icon2: AppIcon, padding: Float): Boolean {
@@ -263,7 +127,7 @@ class RollingIconWallpaperService : WallpaperService() {
         }
 
         private fun loadBackgroundImage() {
-            backgroundBitmap = BitmapFactory.decodeResource(resources, R.drawable.background_image)
+            backgroundBitmap = BitmapFactory.decodeResource(resources, R.drawable.bg_rolling_app)
         }
 
         private fun initializeSensors() {
@@ -271,9 +135,7 @@ class RollingIconWallpaperService : WallpaperService() {
             accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
             accelerometer?.let {
                 sensorManager.registerListener(
-                    this,
-                    it,
-                    SensorManager.SENSOR_DELAY_UI
+                    this, it, SensorManager.SENSOR_DELAY_UI
                 )
             }
         }
@@ -359,6 +221,20 @@ class RollingIconWallpaperService : WallpaperService() {
             }
         }
 
+        private fun isDeviceMoving(accelerometerValues: FloatArray): Boolean {
+            val x = accelerometerValues[0]
+            val y = accelerometerValues[1]
+            val z = accelerometerValues[2]
+
+            // Calculate the total acceleration (magnitude of the vector)
+            val acceleration = hypot(hypot(x.toDouble(), y.toDouble()), z.toDouble())
+
+            // Define a threshold to determine movement (adjust as needed)
+            val threshold = 1.0f
+
+            return acceleration > threshold
+        }
+
         private fun resolveOverlap(icon1: AppIcon, icon2: AppIcon) {
             val dx = icon2.x - icon1.x
             val dy = icon2.y - icon1.y
@@ -373,13 +249,30 @@ class RollingIconWallpaperService : WallpaperService() {
                 val overlapY = (overlap * Math.sin(angle)).toFloat()
 
                 // Tách các biểu tượng bằng cách di chuyển dần dần
-                val separationFactor = 0.5f
+                val separationFactor = 0.6f
                 icon1.x -= overlapX * separationFactor
                 icon1.y -= overlapY * separationFactor
                 icon2.x += overlapX * separationFactor
                 icon2.y += overlapY * separationFactor
 
                 // Giảm vận tốc để làm giảm hiệu ứng nảy mạnh
+//                val dampingFactor = 0.4f
+//                icon1.velocityX *= dampingFactor
+//                icon1.velocityY *= dampingFactor
+//                icon2.velocityX *= dampingFactor
+//                icon2.velocityY *= dampingFactor
+                // Nếu vận tốc quá nhỏ, đặt lại về 0 để tránh di chuyển không mong muốn
+                if (hypot(icon1.velocityX.toDouble(), icon1.velocityY.toDouble()) < 0.1) {
+                    icon1.velocityX = 0f
+                    icon1.velocityY = 0f
+                }
+
+                if (hypot(icon2.velocityX.toDouble(), icon2.velocityY.toDouble()) < 0.1) {
+                    icon2.velocityX = 0f
+                    icon2.velocityY = 0f
+                }
+
+                // Giảm tốc độ dần dần sau va chạm
                 val dampingFactor = 0.4f
                 icon1.velocityX *= dampingFactor
                 icon1.velocityY *= dampingFactor
@@ -408,16 +301,18 @@ class RollingIconWallpaperService : WallpaperService() {
                     }
 
                     MotionEvent.ACTION_MOVE -> {
-                        for (icon in icons) {
-                            if (icon.isDragging) {
-                                val dx = (touchX - (icon.x + icon.dragOffsetX))
-                                val dy = (touchY - (icon.y + icon.dragOffsetY))
-                                if (hypot(dx, dy) > DRAG_THRESHOLD) {
-                                    icon.isClicked = false // Cancel click only if dragged significantly
+                        if(settings.canDrag){
+                            for (icon in icons) {
+                                if (icon.isDragging) {
+                                    val dx = (touchX - (icon.x + icon.dragOffsetX))
+                                    val dy = (touchY - (icon.y + icon.dragOffsetY))
+                                    if (hypot(dx, dy) > DRAG_THRESHOLD) {
+                                        icon.isClicked = false
+                                    }
+                                    icon.x = touchX - icon.dragOffsetX
+                                    icon.y = touchY - icon.dragOffsetY
+                                    break
                                 }
-                                icon.x = touchX - icon.dragOffsetX
-                                icon.y = touchY - icon.dragOffsetY
-                                break
                             }
                         }
                     }
@@ -442,35 +337,93 @@ class RollingIconWallpaperService : WallpaperService() {
         }
 
         private fun handleIconClick(icon: AppIcon) {
-            icon.startExplosion() // Trigger explosion
+            println(settings.toString())
+            if (!settings.canTouch) return
 
-            // Create the intent to launch the app
-            val intent = packageManager.getLaunchIntentForPackage(icon.packageName)
-                ?.apply { addFlags(Intent.FLAG_ACTIVITY_NEW_TASK) }
-                ?: Intent(Intent.ACTION_VIEW).apply {
-                    data = Uri.parse("market://details?id=${icon.packageName}")
-                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            if (settings.canExplosion) {
+                icon.startExplosion() // Trigger explosion
+            }
+
+            if (settings.canSound) {
+                mediaPlayer.start()
+            }
+
+            when (icon.type) {
+                IconType.APP.name -> {
+                    // Create the intent to launch the app
+                    val intent = packageManager.getLaunchIntentForPackage(icon.packageName)
+                        ?.apply { addFlags(Intent.FLAG_ACTIVITY_NEW_TASK) }
+                        ?: Intent(Intent.ACTION_VIEW).apply {
+                            data = Uri.parse("market://details?id=${icon.packageName}")
+                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        }
+                    startActivity(intent)
                 }
 
-            // Start the app
-            startActivity(intent)
+                IconType.IMAGE.name -> {
+                    println()
+                    // Mở ảnh
+                    val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+                        setDataAndType(
+                            Uri.parse(icon.filePath),
+                            "image/*"
+                        ) // Adjust MIME type as needed
+                        flags =
+                            Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_ACTIVITY_NEW_TASK
+                    }
+
+                    try {
+                        startActivity(intent)
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                        Log.e("Error", "Failed to open the file: ${e.message}")
+                    }
+                }
+
+                IconType.VIDEO.name -> {
+                    println(icon.filePath)
+
+                    val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+                        setDataAndType(
+                            Uri.parse(icon.filePath),
+                            "video/*"
+                        ) // Adjust MIME type as needed
+                        flags =
+                            Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_ACTIVITY_NEW_TASK
+                    }
+
+                    try {
+                        startActivity(intent)
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                        Log.e("Error", "Failed to open the file: ${e.message}")
+                    }
+                }
+
+                else -> {
+                    Log.w("IconType", "Unknown type: ${icon.type}")
+                }
+            }
         }
 
-        private fun smoothGravity(newGravity: Float, oldGravity: Float, factor: Float)
-        = oldGravity + factor * (newGravity - oldGravity)
+        private fun smoothGravity(newGravity: Float, oldGravity: Float, factor: Float) =
+            oldGravity + factor * (newGravity - oldGravity)
 
         override fun onSensorChanged(event: SensorEvent?) {
-            Log.d("SensorData", "X: ${event?.values?.get(0)}, Y: ${event?.values?.get(1)}")
             val currentTime = System.currentTimeMillis()
             if (currentTime - lastSensorUpdateTime > SENSOR_INACTIVITY_THRESHOLD) {
-                Log.w("SensorWarning", "Sensor seems inactive, attempting reinitialization.")
                 reinitializeSensor()
             }
             lastSensorUpdateTime = currentTime
             val SENSOR_NOISE_THRESHOLD = 0.05f // Fine-tune this value
 
             if (event == null || event.sensor.type != Sensor.TYPE_ACCELEROMETER) return
-
+             accelerometerValues = event.values
+            // Kiểm tra gia tốc để xem thiết bị có di chuyển không
+            val deviceMoving = accelerometerValues?.let { isDeviceMoving(it) } ?: true
+            if (!deviceMoving) {
+                return
+            }
             val x = event.values[0]
             val y = event.values[1]
 
@@ -479,7 +432,6 @@ class RollingIconWallpaperService : WallpaperService() {
                 gravityY = smoothGravity(y, gravityY, SENSOR_NOISE_THRESHOLD)
             } else {
                 // Log if sensor seems inactive for a long time
-                Log.w("SensorEvent", "Sensor seems inactive, attempting reinitialization.")
                 reinitializeSensor()
             }
         }

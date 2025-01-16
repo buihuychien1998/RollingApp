@@ -5,11 +5,19 @@
     <uses-permission android:name="android.permission.SET_WALLPAPER_HINTS"/>
     <uses-permission android:name="android.permission.SET_WALLPAPER"/>
     <uses-feature android:name="android.hardware.sensor.accelerometer" android:required="true" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32"
+        tools:ignore="ScopedStorage" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO"/>
+
     <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"
         tools:ignore="QueryAllPackagesPermission" />
 
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
@@ -17,11 +25,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.RollingIcon"
-        tools:targetApi="31">
+        android:localeConfig="@xml/locale_config"
+        android:enableOnBackInvokedCallback="true"
+        android:requestLegacyExternalStorage="true"
+        tools:targetApi="tiramisu">
+
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.home.HomeActivity"
             android:exported="true"
-            android:label="@string/app_name"
+            android:configChanges="locale|layoutDirection"
             android:theme="@style/Theme.RollingIcon">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,7 +42,7 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".RollingIconWallpaperService"
+        <service android:name=".services.RollingIconWallpaperService"
             android:permission="android.permission.BIND_WALLPAPER"
             android:exported="true">
             <intent-filter>
@@ -41,6 +53,17 @@
                 android:name="android.service.wallpaper"
                 android:resource="@xml/rolling_icon_wallpaper" />
         </service>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths">
+            </meta-data>
+        </provider>
     </application>
 
 

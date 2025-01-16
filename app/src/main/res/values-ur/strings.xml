@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">رولنگ آئیکن</string>
+    <string name="text_language">زبان</string>
+    <string name="text_add_icon">آئیکن شامل کریں</string>
+    <string name="text_preview">پیش منظر</string>
+    <string name="text_add_application">ایپلیکیشن شامل کریں</string>
+    <string name="text_add_photos">تصاویر شامل کریں</string>
+    <string name="text_add_videos">ویڈیوز شامل کریں</string>
+    <string name="text_clear">صاف کریں</string>
+    <string name="text_search">تلاش کریں</string>
+    <string name="text_settings">ترتیبات</string>
+    <string name="text_permission">اجازت</string>
+    <string name="text_grant_write_setting_permission">سیٹنگ لکھنے کی اجازت دیں</string>
+    <string name="text_icon">آئیکن</string>
+    <string name="text_speed">رفتار</string>
+    <string name="text_speed_slow">سست</string>
+    <string name="text_speed_normal">عام</string>
+    <string name="text_speed_fast">جلدی</string>
+    <string name="text_speed_crazy">پانکھی</string>
+    <string name="text_touch">چھونا</string>
+    <string name="text_drag">کھینچنا</string>
+    <string name="text_explosion">انفجار</string>
+    <string name="text_sound">آواز</string>
+    <string name="text_gravity_box">جاذبیت خانہ</string>
+    <string name="text_privacy_policy">رازداری کی پالیسی</string>
+    <string name="text_about_ads">اشتہارات کے بارے میں</string>
+    <string name="text_size_setting">سائز (20–140)</string>
+    <string name="text_size">سائز</string>
+    <string name="text_information">معلومات</string>
+    <string name="text_your_list_is_empty">آپ کی فہرست خالی ہے</string>
+    <string name="text_delete">مٹائیں</string>
+</resources>

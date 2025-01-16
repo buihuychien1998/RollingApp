@@ -1,3 +1,32 @@
 <resources>
-    <string name="app_name">RollingIcon</string>
+    <string name="app_name">Rolling Icon</string>
+    <string name="text_language">Language</string>
+    <string name="text_add_icon">Add icon</string>
+    <string name="text_preview">Preview</string>
+    <string name="text_add_application">Add application</string>
+    <string name="text_add_photos">Add photos</string>
+    <string name="text_add_videos">Add videos</string>
+    <string name="text_clear">Clear</string>
+    <string name="text_search">Search</string>
+    <string name="text_settings">Settings</string>
+    <string name="text_permission">Permission</string>
+    <string name="text_grant_write_setting_permission">Grant write setting permission</string>
+    <string name="text_icon">Icon</string>
+    <string name="text_speed">Speed</string>
+    <string name="text_speed_slow">Slow</string>
+    <string name="text_speed_normal">Normal</string>
+    <string name="text_speed_fast">Fast</string>
+    <string name="text_speed_crazy">Crazy</string>
+    <string name="text_touch">Touch</string>
+    <string name="text_drag">Drag</string>
+    <string name="text_explosion">Explosion</string>
+    <string name="text_sound">Sound</string>
+    <string name="text_gravity_box">Gravity Box</string>
+    <string name="text_privacy_policy">Privacy Policy</string>
+    <string name="text_about_ads">About Ads</string>
+    <string name="text_size_setting">Size (20–140)</string>
+    <string name="text_size">Size</string>
+    <string name="text_information">Information</string>
+    <string name="text_your_list_is_empty">Your list is empty</string>
+    <string name="text_delete">Delete</string>
 </resources>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">الأيقونة المتدحرجة</string>
+    <string name="text_language">اللغة</string>
+    <string name="text_add_icon">إضافة أيقونة</string>
+    <string name="text_preview">معاينة</string>
+    <string name="text_add_application">إضافة تطبيق</string>
+    <string name="text_add_photos">إضافة صور</string>
+    <string name="text_add_videos">إضافة مقاطع فيديو</string>
+    <string name="text_clear">مسح</string>
+    <string name="text_search">بحث</string>
+    <string name="text_settings">الإعدادات</string>
+    <string name="text_permission">إذن</string>
+    <string name="text_grant_write_setting_permission">منح إذن الكتابة في الإعدادات</string>
+    <string name="text_icon">أيقونة</string>
+    <string name="text_speed">السرعة</string>
+    <string name="text_speed_slow">بطيء</string>
+    <string name="text_speed_normal">عادي</string>
+    <string name="text_speed_fast">سريع</string>
+    <string name="text_speed_crazy">جنوني</string>
+    <string name="text_touch">لمس</string>
+    <string name="text_drag">سحب</string>
+    <string name="text_explosion">انفجار</string>
+    <string name="text_sound">صوت</string>
+    <string name="text_gravity_box">صندوق الجاذبية</string>
+    <string name="text_privacy_policy">سياسة الخصوصية</string>
+    <string name="text_about_ads">حول الإعلانات</string>
+    <string name="text_size_setting">الحجم (20-140)</string>
+    <string name="text_size">الحجم</string>
+    <string name="text_information">معلومات</string>
+    <string name="text_your_list_is_empty">قائمتك فارغة</string>
+    <string name="text_delete">حذف</string>
+</resources>

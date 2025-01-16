@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Ícone Rolante</string>
+    <string name="text_language">Idioma</string>
+    <string name="text_add_icon">Adicionar ícone</string>
+    <string name="text_preview">Prévia</string>
+    <string name="text_add_application">Adicionar aplicativo</string>
+    <string name="text_add_photos">Adicionar fotos</string>
+    <string name="text_add_videos">Adicionar vídeos</string>
+    <string name="text_clear">Limpar</string>
+    <string name="text_search">Pesquisar</string>
+    <string name="text_settings">Configurações</string>
+    <string name="text_permission">Permissão</string>
+    <string name="text_grant_write_setting_permission">Conceder permissão para escrever nas configurações</string>
+    <string name="text_icon">Ícone</string>
+    <string name="text_speed">Velocidade</string>
+    <string name="text_speed_slow">Lento</string>
+    <string name="text_speed_normal">Normal</string>
+    <string name="text_speed_fast">Rápido</string>
+    <string name="text_speed_crazy">Louco</string>
+    <string name="text_touch">Toque</string>
+    <string name="text_drag">Arrastar</string>
+    <string name="text_explosion">Explosão</string>
+    <string name="text_sound">Som</string>
+    <string name="text_gravity_box">Caixa de gravidade</string>
+    <string name="text_privacy_policy">Política de Privacidade</string>
+    <string name="text_about_ads">Sobre os anúncios</string>
+    <string name="text_size_setting">Tamanho (20–140)</string>
+    <string name="text_size">Tamanho</string>
+    <string name="text_information">Informações</string>
+    <string name="text_your_list_is_empty">Sua lista está vazia</string>
+    <string name="text_delete">Excluir</string>
+</resources>

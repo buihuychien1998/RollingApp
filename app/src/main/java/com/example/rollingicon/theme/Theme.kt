@@ -1,4 +1,4 @@
-package com.example.rollingicon.ui.theme
+package com.example.rollingicon.theme
 
 import android.app.Activity
 import android.os.Build

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">रोलिंग आइकन</string>
+    <string name="text_language">भाषा</string>
+    <string name="text_add_icon">आइकन जोड़ें</string>
+    <string name="text_preview">पूर्वावलोकन</string>
+    <string name="text_add_application">एप्लिकेशन जोड़ें</string>
+    <string name="text_add_photos">तस्वीरें जोड़ें</string>
+    <string name="text_add_videos">वीडियो जोड़ें</string>
+    <string name="text_clear">साफ करें</string>
+    <string name="text_search">खोजें</string>
+    <string name="text_settings">सेटिंग्स</string>
+    <string name="text_permission">अनुमति</string>
+    <string name="text_grant_write_setting_permission">लिखने की सेटिंग अनुमति दें</string>
+    <string name="text_icon">आइकन</string>
+    <string name="text_speed">गति</string>
+    <string name="text_speed_slow">धीमा</string>
+    <string name="text_speed_normal">सामान्य</string>
+    <string name="text_speed_fast">तेज़</string>
+    <string name="text_speed_crazy">पागल</string>
+    <string name="text_touch">स्पर्श</string>
+    <string name="text_drag">खींचें</string>
+    <string name="text_explosion">विस्फोट</string>
+    <string name="text_sound">ध्वनि</string>
+    <string name="text_gravity_box">गुरुत्वाकर्षण बॉक्स</string>
+    <string name="text_privacy_policy">गोपनीयता नीति</string>
+    <string name="text_about_ads">विज्ञापनों के बारे में</string>
+    <string name="text_size_setting">आकार (20–140)</string>
+    <string name="text_size">आकार</string>
+    <string name="text_information">जानकारी</string>
+    <string name="text_your_list_is_empty">आपकी सूची खाली है</string>
+    <string name="text_delete">हटाएं</string>
+</resources>
