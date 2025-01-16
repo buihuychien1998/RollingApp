@@ -411,8 +411,8 @@ private fun HomeHeader(
                 colors = ButtonDefaults.buttonColors(
                     contentColor = clr_4664FF,
                     containerColor = Color.White,
-                    disabledContainerColor = Color.Transparent,
-                    disabledContentColor = Color.Transparent,
+                    disabledContainerColor = Color.White,
+                    disabledContentColor = clr_4664FF,
                 ),
                 shape = RoundedCornerShape(20),
                 contentPadding = PaddingValues(horizontal = 8.dp),
@@ -535,7 +535,7 @@ fun AddIconDialog(
                                     Image(
                                         modifier = Modifier.size(24.dp),
                                         painter = rememberAsyncImagePainter(R.drawable.ic_add_video),
-                                        contentDescription = stringResource(id = R.string.text_add_photos)
+                                        contentDescription = stringResource(id = R.string.text_add_videos)
                                     )
                                     Text(
                                         text = stringResource(id = R.string.text_add_videos),
@@ -551,34 +551,41 @@ fun AddIconDialog(
                     Spacer(modifier = Modifier.width(16.dp))
 
                     // Add Videos button
-                    Button(
-                        onClick = onAddVideos,
-                        shape = RoundedCornerShape(20),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = clr_C2D8FF,
-                        ),
-                        modifier = Modifier
-                            .weight(1f)
-                            .padding(vertical = 8.dp),
-                    ) {
-                        Column(
-                            modifier = Modifier
-                                .padding(horizontal = 8.dp, vertical = 16.dp),
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            Image(
-                                modifier = Modifier.size(24.dp),
-                                painter = rememberAsyncImagePainter(R.drawable.ic_add_video),
-                                contentDescription = stringResource(id = R.string.text_add_photos)
-                            )
-                            Text(
-                                text = stringResource(id = R.string.text_add_videos),
-                                fontFamily = AppFont.Grandstander,
-                                fontSize = 16.sp,
-                                color = clr_4664FF
-                            )
+
+                    SafeClick(
+                        onClick = onAddPhotos,
+                        content = { enabled, onClick ->
+                            Button(
+                                onClick = onClick,  // Trigger SafeClick's internal onClick when clicked
+                                enabled = enabled,  // Disable the button if not enabled
+                                shape = RoundedCornerShape(20),
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = clr_C2D8FF,
+                                ),
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .padding(vertical = 8.dp),
+                            ) {
+                                Column(
+                                    modifier = Modifier
+                                        .padding(horizontal = 8.dp, vertical = 16.dp),
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    Image(
+                                        modifier = Modifier.size(24.dp),
+                                        painter = rememberAsyncImagePainter(R.drawable.ic_add_photo),
+                                        contentDescription = stringResource(id = R.string.text_add_photos)
+                                    )
+                                    Text(
+                                        text = stringResource(id = R.string.text_add_photos),
+                                        fontFamily = AppFont.Grandstander,
+                                        fontSize = 16.sp,
+                                        color = clr_4664FF
+                                    )
+                                }
+                            }
                         }
-                    }
+                    )
                 }
             }
         }

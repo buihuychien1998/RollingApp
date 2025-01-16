@@ -182,7 +182,11 @@ fun ImagePickerScreen(
                         Button(
                             onClick = onClick,
                             enabled = enabled,
-                            colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = Color.Transparent,
+                                disabledContainerColor = Color.Transparent,
+                                disabledContentColor = Color.Transparent,
+                            ),
                             contentPadding = PaddingValues(vertical = 8.dp),
                             modifier = Modifier.wrapContentSize()
                         ) {

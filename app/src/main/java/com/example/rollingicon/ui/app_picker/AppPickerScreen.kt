@@ -123,13 +123,21 @@ fun AppIconList(
         Row(
             modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically
         ) {
-            SafeClick(onClick = { onBack(isChanged, viewModel, selectedApps, shareViewModel, navController) }) { enabled, onClick ->
+            SafeClick(onClick = {
+                onBack(
+                    isChanged,
+                    viewModel,
+                    selectedApps,
+                    shareViewModel,
+                    navController
+                )
+            }) { enabled, onClick ->
                 IconButton(
                     onClick = onClick,
                     enabled = enabled,
                     modifier = Modifier
                         .offset(x = (-16).dp),
-                    ) {
+                ) {
                     Image(
                         modifier = Modifier
                             .size(24.dp),
@@ -155,7 +163,11 @@ fun AppIconList(
                 Button(
                     onClick = onClick,
                     enabled = enabled,
-                    colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.Transparent,
+                        disabledContainerColor = Color.Transparent,
+                        disabledContentColor = Color.Transparent,
+                    ),
                     contentPadding = PaddingValues(vertical = 8.dp),
                     modifier = Modifier.wrapContentSize()
                 ) {
@@ -205,8 +217,8 @@ fun AppIconList(
             textStyle = TextStyle(color = Color.White), // Optionally set the text color
             singleLine = true
         )
-        if (filteredApps?.isEmpty() == true){
-            Column (horizontalAlignment = Alignment.CenterHorizontally){
+        if (filteredApps?.isEmpty() == true) {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Spacer(modifier = Modifier.weight(1f))
                 Text(
                     text = stringResource(id = R.string.text_your_list_is_empty),
@@ -222,7 +234,7 @@ fun AppIconList(
                     contentDescription = null
                 )
             }
-        }else{
+        } else {
             LazyVerticalGrid(
                 state = rememberLazyGridState(),
                 columns = GridCells.Fixed(4), // 3 columns in the grid
