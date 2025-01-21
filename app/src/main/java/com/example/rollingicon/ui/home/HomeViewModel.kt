@@ -8,13 +8,11 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.rollingicon.models.AppIcon
 import com.example.rollingicon.routes.AppRoutes
-import com.example.rollingicon.utils.MAX_APP_ICONS_TO_LOAD
 import com.example.rollingicon.utils.PreferencesHelper.isFirstLoadIcon
 import com.example.rollingicon.utils.PreferencesHelper.loadSelectedIconsFromPreferences
 import com.example.rollingicon.utils.PreferencesHelper.saveAppIconsFromPreferences
 import com.example.rollingicon.utils.defaultApps
 import com.example.rollingicon.utils.getAppIconFromPackageName
-import com.example.rollingicon.utils.getAppsFromDevice
 import com.example.rollingicon.utils.getPackageNameForAppName
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -48,10 +46,10 @@ class HomeViewModel(private val application: Application) : AndroidViewModel(app
                     }.toMutableList()
 
                     // If there are not enough icons, load more apps from the device
-                    if (icons.size < MAX_APP_ICONS_TO_LOAD) {
-                        val additionalApps = getAppsFromDevice(packageManager, MAX_APP_ICONS_TO_LOAD - icons.size)
-                        icons.addAll(additionalApps)
-                    }
+//                    if (icons.size < MAX_APP_ICONS_TO_LOAD) {
+//                        val additionalApps = getAppsFromDevice(packageManager, MAX_APP_ICONS_TO_LOAD - icons.size)
+//                        icons.addAll(additionalApps)
+//                    }
 
                     // Save these icons to preferences for future loads
                     saveAppIconsFromPreferences(context, icons)

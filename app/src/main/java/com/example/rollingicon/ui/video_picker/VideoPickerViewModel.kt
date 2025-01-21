@@ -8,7 +8,6 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.rollingicon.models.AppIcon
 import com.example.rollingicon.utils.IconType
-import com.example.rollingicon.utils.MAX_APP_ICONS_TO_LOAD
 import com.example.rollingicon.utils.PreferencesHelper
 import com.example.rollingicon.utils.TIME_DELAY
 import com.example.rollingicon.utils.getVideoThumbnail
@@ -88,14 +87,14 @@ class VideoPickerViewModel(private val application: Application) : AndroidViewMo
             name = name,
             type = IconType.VIDEO.name,
             filePath = filePath,
-            selected = (_selectedAppIcons.value.size + _selectedImage.value.filter { it.selected }.size + (_selectedVideo.value ?: mutableListOf()).filter { it.selected }.size) < MAX_APP_ICONS_TO_LOAD
+            selected = true
         )
         val updatedList = ((_selectedVideo.value ?: mutableListOf()) + appIcon).toMutableList()
         _selectedVideo.value = updatedList
     }
 
     fun toggleSelection(index: Int) {
-        if (index !in (_selectedVideo.value ?: mutableListOf()).indices || _selectedAppIcons.value.size + _selectedImage.value.filter { it.selected }.size + (_selectedVideo.value ?: mutableListOf()).filter { it.selected }.size >= MAX_APP_ICONS_TO_LOAD) return // Ensure index is valid
+        if (index !in (_selectedVideo.value ?: mutableListOf()).indices) return // Ensure index is valid
 
         // Make a copy of the current list with the updated item
         val updatedMedia = (_selectedVideo.value ?: mutableListOf()).toMutableList()

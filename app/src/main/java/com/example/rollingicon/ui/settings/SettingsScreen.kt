@@ -2,6 +2,7 @@ package com.example.rollingicon.ui.settings
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -102,11 +103,6 @@ fun SettingsScreen(navController: NavController) {
 
                     // Icon Settings
                     IconSettings(settingsViewModel)
-
-                    Spacer(modifier = Modifier.height(16.dp))
-
-                    // Gravity Box Settings
-                    GravityBoxSettings()
 
                     Spacer(modifier = Modifier.height(16.dp))
 
@@ -352,26 +348,23 @@ fun IconSettings(settingsViewModel: SettingsViewModel) {
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.padding(end = 8.dp)
                 ) {
-                    IconButton(
-                        onClick = {
+                    Image(
+                        painter = rememberAsyncImagePainter(
+                            if (selectedSpeed == resId) R.drawable.ic_language_selected else R.drawable.ic_language_unselected
+                        ),
+                        contentDescription = if (selectedSpeed == resId) "Selected" else "Not Selected",
+                        modifier = Modifier.size(24.dp).clickable{
                             settingsViewModel.setSelectedSpeed(resId)
-                        },
-                        modifier = Modifier.size(24.dp) // Adjust size as needed
-                    ) {
-                        Image(
-                            painter = rememberAsyncImagePainter(
-                                if (selectedSpeed == resId) R.drawable.ic_language_selected else R.drawable.ic_language_unselected
-                            ),
-                            contentDescription = if (selectedSpeed == resId) "Selected" else "Not Selected",
-                            modifier = Modifier.size(24.dp) // Adjust size as needed
-                        )
-                    }
+                        } // Adjust size as needed
+                    )
                     Spacer(modifier = Modifier.width(6.dp))
                     Text(
                         text = stringResource(id = resId),
                         fontFamily = AppFont.Grandstander,
+                        textAlign = TextAlign.Center,
                         style = TextStyle(fontSize = 14.sp),
-                        color = clr_96ACC4
+                        color = clr_96ACC4,
+                        modifier = Modifier.offset(y = 2.dp) // Ensures text is centered in the Row
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                 }

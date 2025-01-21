@@ -1,8 +1,9 @@
 package com.example.rollingicon.ui.home
 
 import android.app.Activity
-import android.content.Context
+import android.content.Intent
 import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -69,6 +70,7 @@ import com.example.rollingicon.routes.AppRoutes
 import com.example.rollingicon.theme.AppFont
 import com.example.rollingicon.theme.clr_4664FF
 import com.example.rollingicon.theme.clr_C2D8FF
+import com.example.rollingicon.ui.dialog.SuccessDialog
 import com.example.rollingicon.ui.loading.LoadingScreen
 import com.example.rollingicon.ui.share_view_model.SharedViewModel
 import com.example.rollingicon.utils.IconType
@@ -144,7 +146,6 @@ fun HomeScreen(
         )
     }
 
-
     // Loading screen with a spinner and a message
     Surface(modifier = Modifier.fillMaxSize()) {
         RollingIconScreen(
@@ -183,7 +184,18 @@ fun RollingIconScreen(
     onAddVideos: () -> Unit
 ) {
     val context = LocalContext.current
-    val showDialog = remember { mutableStateOf(false) }
+    val showCreateDialog = remember { mutableStateOf(false) }
+    val isWallpaperSet = remember { mutableStateOf(false) }
+// You can do the assignment inside onAttach or onCreate, i.e, before the activity is displayed
+    // You can do the assignment inside onAttach or onCreate, i.e, before the activity is displayed
+    val liveWallpaperLauncher: ActivityResultLauncher<Intent> =
+        rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                // There are no request codes
+                isWallpaperSet.value = true
+            }
+        }
+
 
     Surface(
         modifier = Modifier
@@ -204,31 +216,39 @@ fun RollingIconScreen(
                 .padding(horizontal = 16.dp)
         ) {
             // Header with title and toggle
-            HomeHeader(navController, context)
+            HomeHeader(navController, liveWallpaperLauncher)
             // Add Icon Section
-            AddIconSection(showDialog, appIcons)
+            AddIconSection(showCreateDialog, appIcons)
             Spacer(modifier = Modifier.height(4.dp))
             // Grid of AppIcons
             AppIconsGrid(appIcons)
         }
 
         // Bottom sheet dialog for adding options
-        if (showDialog.value) {
+        if (showCreateDialog.value) {
             AddIconDialog(
                 onAddApplication = {
                     onAddApplication()
-                    showDialog.value = false
+                    showCreateDialog.value = false
                 },
                 onAddPhotos = {
                     onAddPhotos()
-                    showDialog.value = false
+                    showCreateDialog.value = false
                 },
                 onAddVideos = {
                     onAddVideos()
-                    showDialog.value = false
+                    showCreateDialog.value = false
                 },
                 onDismiss = {
-                    showDialog.value = false
+                    showCreateDialog.value = false
+                }
+            )
+        }
+
+        if (isWallpaperSet.value) {
+            SuccessDialog(
+                onDismiss = {
+                    isWallpaperSet.value = false
                 }
             )
         }
@@ -278,25 +298,22 @@ private fun AddIconSection(
     showDialog: MutableState<Boolean>,
     appIcons: MutableList<AppIcon>?
 ) {
-    Row(
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        // Add Icon Section (Button)
+    if (appIcons.isNullOrEmpty()) {
+        // Show only the Add Icon Button
         Box(
             contentAlignment = Alignment.Center,
             modifier = Modifier
-                .weight(1f)
+                .fillMaxWidth()
                 .clickable {
                     showDialog.value = true
                 }
         ) {
             Image(
-                painter = rememberAsyncImagePainter(R.drawable.bg_add_icon),
+                painter = rememberAsyncImagePainter(R.drawable.img_add_media),
                 contentDescription = "Add Icon Background",
                 modifier = Modifier
-                    .wrapContentSize() // Make the image stretch across the width of its container
-                    .height(176.dp) // Set the desired height
+                    .fillMaxWidth()
+                    .height(176.dp)
             )
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Image(
@@ -314,23 +331,63 @@ private fun AddIconSection(
                 )
             }
         }
-        // First Grid (2 items in the first row) aligned next to the button
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2), // 2 columns for first row
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            modifier = Modifier
-                .weight(1f) // Make the grid take up more space than the button
-                .height(176.dp) // Match the height of the button
+    } else {
+        // Show Add Icon Button and Grid
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            modifier = Modifier.fillMaxWidth()
         ) {
-            appIcons?.let {
-                items(it.take(4)) { appIcon ->
-                    AppIconItem(appIcon)
+            // Add Icon Section (Button)
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
+                    .weight(1f)
+                    .clickable {
+                        showDialog.value = true
+                    }
+            ) {
+                Image(
+                    painter = rememberAsyncImagePainter(R.drawable.bg_add_icon),
+                    contentDescription = "Add Icon Background",
+                    modifier = Modifier
+                        .wrapContentSize()
+                        .height(176.dp)
+                )
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Image(
+                        painter = rememberAsyncImagePainter(R.drawable.ic_add_icon),
+                        contentDescription = "Add Icon",
+                        modifier = Modifier.size(24.dp)
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = stringResource(id = R.string.text_add_icon),
+                        fontFamily = AppFont.Grandstander,
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
+                    )
+                }
+            }
+            // First Grid (2 items in the first row) aligned next to the button
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(2), // 2 columns for first row
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier
+                    .weight(1f)
+                    .height(176.dp)
+            ) {
+                appIcons.let {
+                    items(it.take(4)) { appIcon ->
+                        AppIconItem(appIcon)
+                    }
                 }
             }
         }
     }
 }
+
 
 @Composable
 private fun AppIconItem(appIcon: AppIcon) {
@@ -357,8 +414,8 @@ private fun AppIconItem(appIcon: AppIcon) {
                 modifier = Modifier
                     .size(60.dp)
                     .clip(RoundedCornerShape(12.dp)) // Apply rounded corners
-                    .background(Color.White),// Debugging layout
-                contentScale = ContentScale.FillBounds
+                ,// Debugging layout
+                contentScale = ContentScale.Crop
             )
         }
 
@@ -373,8 +430,9 @@ private fun AppIconItem(appIcon: AppIcon) {
 @Composable
 private fun HomeHeader(
     navController: NavController,
-    context: Context,
+    launcher: ActivityResultLauncher<Intent>
 ) {
+    val context = LocalContext.current
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -406,7 +464,10 @@ private fun HomeHeader(
             }
         }
         Spacer(modifier = Modifier.width(4.dp))
-        SafeClick(onClick = { context.startWallpaperService() }) { enabled, onClick ->
+        SafeClick(onClick = {
+            context.startWallpaperService(launcher = launcher)
+
+        }) { enabled, onClick ->
             Button(
                 colors = ButtonDefaults.buttonColors(
                     contentColor = clr_4664FF,

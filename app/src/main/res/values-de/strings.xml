@@ -30,4 +30,7 @@
     <string name="text_information">Information</string>
     <string name="text_your_list_is_empty">Ihre Liste ist leer</string>
     <string name="text_delete">Löschen</string>
+    <string name="text_complete">Fertig</string>
+    <string name="text_your_wallpaper_has_been_changed">Ihr Hintergrund wurde geändert</string>
+    <string name="text_confirm">Bestätigen</string>
 </resources>

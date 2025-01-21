@@ -309,9 +309,8 @@ fun AppIconGridItem(
                 placeholder = painterResource(id = R.drawable.ic_place_holder), // Replace with your placeholder resource
                 modifier = Modifier
                     .size(60.dp)
-                    .clip(RoundedCornerShape(12.dp)) // Apply rounded corners
-                    .background(Color.White),// Debugging layout
-                contentScale = ContentScale.FillBounds
+                    .clip(RoundedCornerShape(12.dp)),
+                contentScale = ContentScale.Crop
             )
         }
 

@@ -5,7 +5,6 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.rollingicon.models.AppIcon
-import com.example.rollingicon.utils.MAX_APP_ICONS_TO_LOAD
 import com.example.rollingicon.utils.PreferencesHelper
 import com.example.rollingicon.utils.PreferencesHelper.loadAppIconsFromPreferences
 import com.example.rollingicon.utils.PreferencesHelper.loadImageIconsFromPreferences
@@ -96,8 +95,7 @@ class AppPickerViewModel(private val application: Application) : AndroidViewMode
     }
 
     fun addIcon(appIcon: AppIcon) {
-        if (!_selectedAppIcons.value.contains(appIcon) &&
-            (_selectedAppIcons.value.size + _selectedImage.value.filter { it.selected }.size + _selectedVideo.value.filter { it.selected }.size) < MAX_APP_ICONS_TO_LOAD) {
+        if (!_selectedAppIcons.value.contains(appIcon)) {
             val updatedList = (_selectedAppIcons.value + appIcon).toMutableList()
             _selectedAppIcons.value = updatedList
         }

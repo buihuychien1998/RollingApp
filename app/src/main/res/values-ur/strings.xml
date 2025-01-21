@@ -30,4 +30,7 @@
     <string name="text_information">معلومات</string>
     <string name="text_your_list_is_empty">آپ کی فہرست خالی ہے</string>
     <string name="text_delete">مٹائیں</string>
+    <string name="text_complete">مکمل</string>
+    <string name="text_your_wallpaper_has_been_changed">آپ کی وال پیپر تبدیل کر دی گئی ہے</string>
+    <string name="text_confirm">تصدیق کریں</string>
 </resources>

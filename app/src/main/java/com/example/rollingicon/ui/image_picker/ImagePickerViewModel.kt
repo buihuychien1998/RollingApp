@@ -7,7 +7,6 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.rollingicon.models.AppIcon
 import com.example.rollingicon.utils.IconType
-import com.example.rollingicon.utils.MAX_APP_ICONS_TO_LOAD
 import com.example.rollingicon.utils.PreferencesHelper
 import com.example.rollingicon.utils.TIME_DELAY
 import com.example.rollingicon.utils.getCompressedBitmapFromUri
@@ -87,7 +86,7 @@ class ImagePickerViewModel(private val application: Application) : AndroidViewMo
             name = name,
             type = IconType.IMAGE.name,
             filePath = filePath,
-            selected = (_selectedAppIcons.value.size + (selectedImage.value ?: mutableListOf()).filter { it.selected }.size + _selectedVideo.value.filter { it.selected }.size) < MAX_APP_ICONS_TO_LOAD
+            selected = true
         )
 
         val updatedList = ((selectedImage.value ?: mutableListOf()) + appIcon).toMutableList()
@@ -95,7 +94,7 @@ class ImagePickerViewModel(private val application: Application) : AndroidViewMo
     }
 
     fun toggleSelection(index: Int) {
-        if (index !in (selectedImage.value ?: mutableListOf()).indices || _selectedAppIcons.value.size + (_selectedImage.value ?: mutableListOf()).filter { it.selected }.size + _selectedVideo.value.filter { it.selected }.size >= MAX_APP_ICONS_TO_LOAD) return // Ensure index is valid
+        if (index !in (selectedImage.value ?: mutableListOf()).indices) return // Ensure index is valid
         // Print current state
         val updatedList = (selectedImage.value ?: mutableListOf()).toMutableList()
 

@@ -30,4 +30,7 @@
     <string name="text_information">معلومات</string>
     <string name="text_your_list_is_empty">قائمتك فارغة</string>
     <string name="text_delete">حذف</string>
+    <string name="text_complete">اكتمل</string>
+    <string name="text_your_wallpaper_has_been_changed">تم تغيير خلفية الشاشة الخاصة بك</string>
+    <string name="text_confirm">تأكيد</string>
 </resources>

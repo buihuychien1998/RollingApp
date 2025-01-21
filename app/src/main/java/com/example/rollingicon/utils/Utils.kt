@@ -11,6 +11,7 @@ import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import androidx.activity.result.ActivityResultLauncher
 import com.example.rollingicon.models.AppIcon
 import com.example.rollingicon.services.RollingIconWallpaperService
 import kotlinx.coroutines.Dispatchers
@@ -131,13 +132,20 @@ fun getInstalledApps(packageManager: PackageManager): MutableList<AppIcon> {
         }.toMutableList()
 }
 
-fun Context.startWallpaperService() {
+fun Context.startWallpaperService(launcher: ActivityResultLauncher<Intent>) {
     val intent = Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER)
     intent.putExtra(
         WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT,
         ComponentName(this, RollingIconWallpaperService::class.java)
     )
-    this.startActivity(intent)
+    launcher.launch(intent)
+}
+
+fun Context.isRollingIconWallpaperSet(): Boolean {
+    val wallpaperManager = WallpaperManager.getInstance(this)
+    val currentWallpaper = wallpaperManager.wallpaperInfo
+    return currentWallpaper?.packageName == packageName &&
+            currentWallpaper?.serviceName == RollingIconWallpaperService::class.java.name
 }
 
 

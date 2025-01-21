@@ -29,4 +29,7 @@
     <string name="text_information">Information</string>
     <string name="text_your_list_is_empty">Your list is empty</string>
     <string name="text_delete">Delete</string>
+    <string name="text_complete">Complete</string>
+    <string name="text_your_wallpaper_has_been_changed">Your wallpaper has been changed</string>
+    <string name="text_confirm">Confirm</string>
 </resources>

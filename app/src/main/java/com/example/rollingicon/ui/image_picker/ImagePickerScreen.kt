@@ -9,7 +9,6 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.draganddrop.dragAndDropSource
 import androidx.compose.foundation.draganddrop.dragAndDropTarget
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -390,9 +389,8 @@ fun ImagePickerScreen(
                                                         placeholder = painterResource(id = R.drawable.ic_place_holder), // Replace with your placeholder resource
                                                         modifier = Modifier
                                                             .size(60.dp)
-                                                            .clip(RoundedCornerShape(12.dp)) // Apply rounded corners
-                                                            .background(Color.White),// Debugging layout
-                                                        contentScale = ContentScale.FillBounds
+                                                            .clip(RoundedCornerShape(12.dp)),
+                                                        contentScale = ContentScale.Crop
                                                     )
                                                 }
 
