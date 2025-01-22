@@ -24,7 +24,7 @@
     <string name="text_gravity_box">Gravity Box</string>
     <string name="text_privacy_policy">Privacy Policy</string>
     <string name="text_about_ads">About Ads</string>
-    <string name="text_size_setting">Size (20–140)</string>
+    <string name="text_size_setting">Size (10–70)</string>
     <string name="text_size">Size</string>
     <string name="text_information">Information</string>
     <string name="text_your_list_is_empty">Your list is empty</string>
@@ -32,4 +32,5 @@
     <string name="text_complete">Complete</string>
     <string name="text_your_wallpaper_has_been_changed">Your wallpaper has been changed</string>
     <string name="text_confirm">Confirm</string>
+    <string name="text_no_icons_selected">You haven\'t selected any icons yet.</string>
 </resources>

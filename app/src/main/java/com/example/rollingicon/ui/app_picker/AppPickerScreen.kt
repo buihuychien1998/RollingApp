@@ -42,6 +42,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -54,9 +55,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import coil3.compose.AsyncImage
 import coil3.compose.rememberAsyncImagePainter
-import coil3.request.ImageRequest
 import com.example.rollingicon.R
 import com.example.rollingicon.models.AppIcon
 import com.example.rollingicon.theme.AppFont
@@ -301,15 +300,24 @@ fun AppIconGridItem(
             shape = RoundedCornerShape(12.dp) // Adjusted for smaller size
         ), contentAlignment = Alignment.Center) {
         appIconBitmap?.let {
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(it)
-                    .build(),
+//            AsyncImage(
+//                model = ImageRequest.Builder(LocalContext.current)
+//                    .data(it)
+//                    .build(),
+//                contentDescription = "App Icon",
+//                placeholder = painterResource(id = R.drawable.ic_place_holder), // Replace with your placeholder resource
+//                modifier = Modifier
+//                    .size(60.dp)
+//                    .clip(RoundedCornerShape(12.dp)),
+//                contentScale = ContentScale.Crop
+//            )
+            Image(
+                bitmap = it.asImageBitmap(),
                 contentDescription = "App Icon",
-                placeholder = painterResource(id = R.drawable.ic_place_holder), // Replace with your placeholder resource
                 modifier = Modifier
                     .size(60.dp)
-                    .clip(RoundedCornerShape(12.dp)),
+                    .clip(RoundedCornerShape(12.dp)) // Apply rounded corners
+                ,// Debugging layout
                 contentScale = ContentScale.Crop
             )
         }

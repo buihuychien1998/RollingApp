@@ -15,6 +15,10 @@ import androidx.activity.result.ActivityResultLauncher
 import com.example.rollingicon.models.AppIcon
 import com.example.rollingicon.services.RollingIconWallpaperService
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
@@ -86,18 +90,62 @@ fun getPackageNameForAppName(context: Context, appNames: List<String>): List<Str
 fun getAppIconFromPackageName(packageManager: PackageManager, appName: String): AppIcon? {
     return try {
         val packageInfo = packageManager.getPackageInfo(appName, 0)
-        val drawable: Drawable = packageManager.getApplicationIcon(packageInfo.applicationInfo)
-        val bitmap = getBitmapFromDrawable(drawable)
-        AppIcon(
-            drawable = bitmap.toByteArray(),
-            packageName = packageInfo.packageName,
-            name = packageManager.getApplicationLabel(packageInfo.applicationInfo).toString()
-        )
+        val appInfo = packageInfo.applicationInfo
+
+        // Load data asynchronously
+        runBlocking {
+            val deferredIcon = async(Dispatchers.Default) {
+                packageManager.getApplicationIcon(appInfo).let { drawable ->
+                    getBitmapFromDrawable(drawable).toByteArray()
+                }
+            }
+
+            val deferredLabel = async(Dispatchers.Default) {
+                packageManager.getApplicationLabel(appInfo).toString()
+            }
+
+            // Wait for both icon and label to complete
+            AppIcon(
+                drawable = deferredIcon.await() ?: ByteArray(0), // Handle null drawable
+                packageName = appInfo.packageName,
+                name = deferredLabel.await()
+            )
+        }
     } catch (e: PackageManager.NameNotFoundException) {
         null
     }
 }
 
+
+suspend fun loadAppIconsConcurrently(context: Context, appNames: List<String>): List<AppIcon> = coroutineScope {
+    val packageManager = context.packageManager
+    val installedApps = packageManager.getInstalledApplications(PackageManager.GET_META_DATA)
+
+    val appNameToInfoMap = installedApps.associateBy {
+        packageManager.getApplicationLabel(it).toString()
+    }
+
+    appNames.mapNotNull { appName ->
+        appNameToInfoMap[appName]?.let { appInfo ->
+            async {
+                try {
+                    val iconDrawable = packageManager.getApplicationIcon(appInfo)
+                    val iconBitmap = getBitmapFromDrawable(iconDrawable).toByteArray()
+                    val appLabel = packageManager.getApplicationLabel(appInfo).toString()
+
+                    AppIcon(
+                        drawable = iconBitmap,
+                        packageName = appInfo.packageName,
+                        name = appLabel
+                    )
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    null
+                }
+            }
+        }
+    }.mapNotNull { it.await() }
+}
 // Function to get all installed apps on the device
 suspend fun getAppsFromDevice(packageManager: PackageManager, limit: Int): List<AppIcon> {
     return withContext(Dispatchers.IO) {
@@ -118,18 +166,38 @@ suspend fun getAppsFromDevice(packageManager: PackageManager, limit: Int): List<
 }
 
 fun getInstalledApps(packageManager: PackageManager): MutableList<AppIcon> {
-    val installedApplications =
-        packageManager.getInstalledApplications(PackageManager.GET_META_DATA)
-    return installedApplications
-        .filter { it.flags and ApplicationInfo.FLAG_SYSTEM == 0 }  // Exclude system apps
-        .map {
+    val installedApplications = packageManager.getInstalledApplications(PackageManager.GET_META_DATA)
 
-            AppIcon(
-                drawable = getBitmapFromDrawable(it.loadIcon(packageManager)).toByteArray(),
-                packageName = it.packageName,
-                name = it.loadLabel(packageManager).toString()
-            )
-        }.toMutableList()
+    return runBlocking {
+        installedApplications
+            .filter { it.flags and ApplicationInfo.FLAG_SYSTEM == 0 } // Exclude system apps
+            .map { appInfo ->
+                async(Dispatchers.Default) {
+                    // Use async to parallelize loading icon and labels
+                    AppIcon(
+                        drawable = appInfo.loadIcon(packageManager)?.let { icon ->
+                            getBitmapFromDrawable(icon).toByteArray()
+                        },
+                        packageName = appInfo.packageName,
+                        name = appInfo.loadLabel(packageManager).toString()
+                    )
+                }
+            }
+            .awaitAll() // Await all parallelized tasks
+            .toMutableList()
+    }
+//    val installedApplications =
+//        packageManager.getInstalledApplications(PackageManager.GET_META_DATA)
+//    return installedApplications
+//        .filter { it.flags and ApplicationInfo.FLAG_SYSTEM == 0 }  // Exclude system apps
+//        .map {
+//
+//            AppIcon(
+//                drawable = getBitmapFromDrawable(it.loadIcon(packageManager)).toByteArray(),
+//                packageName = it.packageName,
+//                name = it.loadLabel(packageManager).toString()
+//            )
+//        }.toMutableList()
 }
 
 fun Context.startWallpaperService(launcher: ActivityResultLauncher<Intent>) {

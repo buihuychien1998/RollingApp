@@ -25,7 +25,7 @@
     <string name="text_gravity_box">Schwerkraft-Box</string>
     <string name="text_privacy_policy">Datenschutzrichtlinie</string>
     <string name="text_about_ads">Über Werbung</string>
-    <string name="text_size_setting">Größe (20–140)</string>
+    <string name="text_size_setting">Größe (10–70)</string>
     <string name="text_size">Größe</string>
     <string name="text_information">Information</string>
     <string name="text_your_list_is_empty">Ihre Liste ist leer</string>
@@ -33,4 +33,5 @@
     <string name="text_complete">Fertig</string>
     <string name="text_your_wallpaper_has_been_changed">Ihr Hintergrund wurde geändert</string>
     <string name="text_confirm">Bestätigen</string>
+    <string name="text_no_icons_selected">Sie haben noch keine Symbole ausgewählt.</string>
 </resources>

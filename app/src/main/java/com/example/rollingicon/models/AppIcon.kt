@@ -1,5 +1,6 @@
 package com.example.rollingicon.models
 
+import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
@@ -24,7 +25,7 @@ data class AppIcon(
     var y: Float = 0f, // Y position for dragging
     var velocityX: Float = 0f, // X velocity for movement
     var velocityY: Float = 0f, // Y velocity for movement
-    var radius: Float = 75f, // Radius for scaling icon size
+    var radius: Float = 20f, // Radius for scaling icon size
     var isClicked: Boolean = false, // Flag to track if the icon is clicked
     var isExploding: Boolean = false, // Flag to indicate explosion animation
     var explosionParticles: MutableList<ExplosionParticle> = mutableListOf(), // Explosion particles
@@ -37,8 +38,19 @@ data class AppIcon(
     private var cachedBitmap: Bitmap? = null // Cached bitmap for reuse
 
     private fun getCachedBitmap(): Bitmap? {
-        val width = radius * 2
-        val height = radius * 2
+        var width = radius * 2.25f
+        var height = radius * 2.25f
+        val screenWidth = Resources.getSystem().displayMetrics.widthPixels // Get screen width
+        val screenHeight = Resources.getSystem().displayMetrics.heightPixels // Get screen height
+
+        // Scale down if bitmap exceeds screen dimensions
+        val widthScaleFactor = screenWidth / width
+        val heightScaleFactor = screenHeight / height
+        if (width > screenWidth || height > screenHeight) {
+            val scaleFactor = minOf(widthScaleFactor, heightScaleFactor)
+            width *= scaleFactor
+            height *= scaleFactor
+        }
         if (cachedBitmap == null && drawable != null) {
             // Decode the byte array into a Bitmap
             val originalBitmap = BitmapFactory.decodeByteArray(drawable, 0, drawable?.size ?: 0)
@@ -60,6 +72,7 @@ data class AppIcon(
         return cachedBitmap
     }
 
+
     // Ensure proper equality check
     override fun equals(other: Any?): Boolean {
         if (packageName.isEmpty()) {
@@ -77,30 +90,33 @@ data class AppIcon(
 
     fun update(gravityX: Float, gravityY: Float, width: Int, height: Int) {
         val SENSOR_SENSITIVITY = 1.2f // Fine-tuned sensitivity for smoother gravity response
+        val frictionFactor = 1.0f // Friction for slowing down
+        val bounceDamping = 0.4f // Damping when bouncing off edges
+
+        // Apply gravity to the velocity, with adjusted sensitivity
         velocityX += gravityX * SENSOR_SENSITIVITY
         velocityY += gravityY * SENSOR_SENSITIVITY
 
         // Apply friction to simulate natural slowing down
-        velocityX *= 1.0f // Tăng nhẹ hiệu ứng giảm tốc
-        velocityY *= 1.0f
+        velocityX *= frictionFactor
+        velocityY *= frictionFactor
 
-        // Ngưỡng vận tốc tối thiểu
-        if (Math.abs(velocityX) < 0.5f) velocityX =
-            Random.nextFloat() * 2 - 1 // Random trong khoảng [-1, 1]
-        if (Math.abs(velocityY) < 0.5f) velocityY = Random.nextFloat() * 2 - 1
+        // Apply random speed for low velocity
+        if (Math.abs(velocityX) < 0.5f) velocityX = 0.5f * (if (Random.nextBoolean()) 1 else -1)
+        if (Math.abs(velocityY) < 0.5f) velocityY = 0.5f * (if (Random.nextBoolean()) 1 else -1)
+
         // Update icon position
         x += velocityX
         y += velocityY
 
         // Handle collisions with screen edges
-        //Khi một icon va chạm với các cạnh màn hình hoặc nhau, hãy giảm hệ số phản lực để tránh di chuyển quá nhanh.
-        if (x < radius || x > width - radius) {
-            velocityX = -velocityX * 0.6f // Giảm hệ số phản lực
-            x = max(radius, min(x, width - radius))
+        if (x < radius * 0.75f || x > width - radius * 1.25f) {
+            velocityX = -velocityX * bounceDamping  // Apply damping
+            x = max(radius * 0.75f, min(x, width - radius))
         }
-        if (y < radius || y > height - radius) {
-            velocityY = -velocityY * 0.6f // Giảm hệ số phản lực
-            y = max(radius, min(y, height - radius))
+        if (y < radius * 0.75f || y > height - radius * 1.25f) {
+            velocityY = -velocityY * bounceDamping
+            y = max(radius * 0.75f, min(y, height - radius))
         }
 
         // Update explosion particles
@@ -129,12 +145,18 @@ data class AppIcon(
 
     // Start explosion effect by generating particles
     fun startExplosion() {
+        // Increase the number of particles and their speed for a larger explosion effect
+        val numberOfParticles = 200 // Increased number of particles for a bigger explosion
+        val explosionSpeed = 20f // Increased speed for more dramatic movement of particles
+        val particleSize = radius * 0.1f
+
         explosionParticles.addAll(
-            List(100) {
+            List(numberOfParticles) {
                 ExplosionParticle(
                     x, y,
                     angle = Random.nextFloat() * 2 * Math.PI.toFloat(),
-                    speed = Random.nextFloat() * 10 + 10
+                    speed = Random.nextFloat() * explosionSpeed + explosionSpeed, // Increase speed for larger explosion
+                    radius = particleSize
                 )
             }
         )

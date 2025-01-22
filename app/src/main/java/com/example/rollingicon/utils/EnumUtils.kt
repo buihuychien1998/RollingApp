@@ -15,10 +15,10 @@ enum class IconType {
 }
 
 enum class Speed(val speedResId: Int, val iconSpeedValue: Float) {
-    NORMAL(R.string.text_speed_normal, 5.0f),
-    FAST(R.string.text_speed_fast, 10.0f),
-    SLOW(R.string.text_speed_slow, 2.5f),
-    CRAZY(R.string.text_speed_crazy, 100.0f);
+    NORMAL(R.string.text_speed_normal, 0.85f),
+    FAST(R.string.text_speed_fast, 0.98f),
+    SLOW(R.string.text_speed_slow, 0.001f),
+    CRAZY(R.string.text_speed_crazy, 1.15f);
 
 
     companion object {

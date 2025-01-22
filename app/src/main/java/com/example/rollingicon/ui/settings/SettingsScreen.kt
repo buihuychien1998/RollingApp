@@ -275,39 +275,53 @@ fun IconSettings(settingsViewModel: SettingsViewModel) {
             .padding(16.dp)
     ) {
         // Icon Size Slider
-        Text(
-            text = stringResource(id = R.string.text_size_setting),
-            fontFamily = AppFont.Grandstander,
-            style = TextStyle(fontSize = 16.sp),
-            color = clr_2C323F
-        )
-
-        Box(
-            contentAlignment = Alignment.BottomEnd,
-            modifier = Modifier.fillMaxWidth() // Makes the Row span the entire width
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
         ) {
+            // Text Label
             Text(
-                text = iconSize.toInt().toString(),
+                text = stringResource(id = R.string.text_size_setting),
                 fontFamily = AppFont.Grandstander,
-                style = TextStyle(
-                    textAlign = TextAlign.Center,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 32.sp
-                ),
-                color = clr_2C323F,
-                modifier = Modifier.fillMaxWidth() // Makes Text take remaining horizontal space
+                style = TextStyle(fontSize = 16.sp),
+                color = clr_2C323F
             )
-            Image(
-                rememberAsyncImagePainter(R.drawable.img_icon_size),
-                contentDescription = null,
-                modifier = Modifier.size(60.dp),
-            )
+
+            // Slider Value Display and Image
+            Box(
+                contentAlignment = Alignment.BottomEnd,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(70.dp) // Reserve space for text and image
+            ) {
+                // Display Slider Value
+                Text(
+                    text = iconSize.toInt().toString(),
+                    fontFamily = AppFont.Grandstander,
+                    style = TextStyle(
+                        textAlign = TextAlign.Center,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 32.sp
+                    ),
+                    color = clr_2C323F,
+                    modifier = Modifier.fillMaxWidth() // Center text horizontally
+                )
+
+                // Image with Dynamic Size
+                Image(
+                    painter = rememberAsyncImagePainter(R.drawable.img_icon_size),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size((iconSize.coerceIn(10f, 70f)).dp) // Adjust size based on slider (min 40, max 100)
+                        .align(Alignment.BottomEnd) // Align image to the right
+                )
+            }
         }
 
         Slider(
             value = iconSize,
             onValueChange = { settingsViewModel.setIconSize(it) },
-            valueRange = 20f..140f,
+            valueRange = 10f..70f,
             colors = SliderDefaults.colors(
                 thumbColor = Color.White,
                 activeTrackColor = clr_4664FF,

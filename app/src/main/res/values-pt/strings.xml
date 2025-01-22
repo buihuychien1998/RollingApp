@@ -25,7 +25,7 @@
     <string name="text_gravity_box">Caixa de gravidade</string>
     <string name="text_privacy_policy">Política de Privacidade</string>
     <string name="text_about_ads">Sobre os anúncios</string>
-    <string name="text_size_setting">Tamanho (20–140)</string>
+    <string name="text_size_setting">Tamanho (10–70)</string>
     <string name="text_size">Tamanho</string>
     <string name="text_information">Informações</string>
     <string name="text_your_list_is_empty">Sua lista está vazia</string>
@@ -33,4 +33,5 @@
     <string name="text_complete">Concluído</string>
     <string name="text_your_wallpaper_has_been_changed">Seu papel de parede foi alterado</string>
     <string name="text_confirm">Confirmar</string>
+    <string name="text_no_icons_selected">Você ainda não selecionou nenhum ícone.</string>
 </resources>

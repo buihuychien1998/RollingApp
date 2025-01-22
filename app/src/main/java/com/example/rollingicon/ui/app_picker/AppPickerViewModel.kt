@@ -12,6 +12,7 @@ import com.example.rollingicon.utils.PreferencesHelper.loadVideoIconsFromPrefere
 import com.example.rollingicon.utils.TIME_DELAY
 import com.example.rollingicon.utils.getInstalledApps
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -66,28 +67,30 @@ class AppPickerViewModel(private val application: Application) : AndroidViewMode
             delay(TIME_DELAY)
             _loading.value = true
 
-            // Load selected icons from SharedPreferences
-            val iconsFromPreferences = withContext(Dispatchers.IO) {
-                loadAppIconsFromPreferences(context)
-            }
-            // Load installed apps from the device
-            val installedApps = withContext(Dispatchers.IO) {
-                val packageManager = context.packageManager
-                getInstalledApps(packageManager)
+            // Perform all I/O operations concurrently
+            val (iconsFromPreferences, installedApps, imageFromPreferences, videoFromPreferences) = withContext(Dispatchers.IO) {
+                val iconsDeferred = async { loadAppIconsFromPreferences(context) }
+                val appsDeferred = async {
+                    val packageManager = context.packageManager
+                    getInstalledApps(packageManager)
+                }
+                val imageDeferred = async { loadImageIconsFromPreferences(context) }
+                val videoDeferred = async { loadVideoIconsFromPreferences(context) }
+
+                // Await all deferred results
+                listOf(
+                    iconsDeferred.await(),
+                    appsDeferred.await(),
+                    imageDeferred.await(),
+                    videoDeferred.await()
+                )
             }
 
+            // Update UI state
             _selectedAppIcons.value = iconsFromPreferences
             _initialSelectedApps.value = iconsFromPreferences.toMutableList()
             _allInstalledApps.value = installedApps
-
-            val imageFromPreferences = withContext(Dispatchers.IO) {
-                loadImageIconsFromPreferences(context)
-            }
             _selectedImage.value = imageFromPreferences
-
-            val videoFromPreferences = withContext(Dispatchers.IO) {
-                loadVideoIconsFromPreferences(context)
-            }
             _selectedVideo.value = videoFromPreferences
 
             _loading.value = false

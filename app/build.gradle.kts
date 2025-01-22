@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("kotlin-parcelize")
+    id("io.sentry.android.gradle") version "4.14.1"
 }
 
 android {

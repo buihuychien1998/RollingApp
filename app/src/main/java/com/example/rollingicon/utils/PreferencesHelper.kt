@@ -165,7 +165,7 @@ object PreferencesHelper {
 
     // Function to load individual settings
     fun loadIconSize(context: Context): Float {
-        return get(context, ICON_SIZE_KEY, 75f) // Default size 75f
+        return get(context, ICON_SIZE_KEY, 20f)
     }
 
     fun loadIconSpeed(context: Context): Speed {

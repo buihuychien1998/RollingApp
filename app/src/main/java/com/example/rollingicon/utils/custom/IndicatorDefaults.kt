@@ -4,7 +4,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 object IndicatorDefaults {
-    val Size = 48.0.dp
+    val Size = 72.0.dp
     val StaticItemColor = Color(0xff757575)
     val DynamicItemColor = Color(0xffEEEEEE)
 

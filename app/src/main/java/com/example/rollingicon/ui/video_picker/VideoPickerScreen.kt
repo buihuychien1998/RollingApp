@@ -66,10 +66,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import coil3.compose.AsyncImage
 import coil3.compose.rememberAsyncImagePainter
-import coil3.request.ImageRequest
-import coil3.request.crossfade
 import com.example.rollingicon.R
 import com.example.rollingicon.models.AppIcon
 import com.example.rollingicon.theme.AppFont
@@ -209,7 +206,7 @@ fun VideoPickerScreen(
                             )
                         )
                     },
-                    content = { enabled ->
+                    content = {
                         Box(
                             contentAlignment = Alignment.Center,
                         ) {
@@ -346,7 +343,7 @@ fun VideoPickerScreen(
                                             onTap = {
                                                 viewModel.toggleSelection(index)
                                             },
-                                            onLongPress = { offset ->
+                                            onLongPress = {
                                                 dragBoxIndex = index
                                                 isDragging = true
                                                 startTransfer(
@@ -380,17 +377,26 @@ fun VideoPickerScreen(
                                             }
                                     } else {
                                         appIconBitmap?.let {
-                                            AsyncImage(
-                                                model = ImageRequest.Builder(LocalContext.current)
-                                                    .data(it)
-                                                    .crossfade(true)
-                                                    .build(),
+//                                            AsyncImage(
+//                                                model = ImageRequest.Builder(LocalContext.current)
+//                                                    .data(it)
+//                                                    .crossfade(true)
+//                                                    .build(),
+//                                                contentDescription = "App Icon",
+//                                                placeholder = painterResource(id = R.drawable.ic_place_holder), // Replace with your placeholder resource
+//                                                modifier = Modifier
+//                                                    .size(60.dp)
+//                                                    .clip(RoundedCornerShape(12.dp)),
+//
+//                                                contentScale = ContentScale.Crop
+//                                            )
+                                            Image(
+                                                bitmap = it.asImageBitmap(),
                                                 contentDescription = "App Icon",
-                                                placeholder = painterResource(id = R.drawable.ic_place_holder), // Replace with your placeholder resource
                                                 modifier = Modifier
                                                     .size(60.dp)
-                                                    .clip(RoundedCornerShape(12.dp)),
-
+                                                    .clip(RoundedCornerShape(12.dp)) // Apply rounded corners
+                                                ,// Debugging layout
                                                 contentScale = ContentScale.Crop
                                             )
                                         }

@@ -25,7 +25,7 @@
     <string name="text_gravity_box">جاذبیت خانہ</string>
     <string name="text_privacy_policy">رازداری کی پالیسی</string>
     <string name="text_about_ads">اشتہارات کے بارے میں</string>
-    <string name="text_size_setting">سائز (20–140)</string>
+    <string name="text_size_setting">سائز (10–70)</string>
     <string name="text_size">سائز</string>
     <string name="text_information">معلومات</string>
     <string name="text_your_list_is_empty">آپ کی فہرست خالی ہے</string>
@@ -33,4 +33,5 @@
     <string name="text_complete">مکمل</string>
     <string name="text_your_wallpaper_has_been_changed">آپ کی وال پیپر تبدیل کر دی گئی ہے</string>
     <string name="text_confirm">تصدیق کریں</string>
+    <string name="text_no_icons_selected">آپ نے ابھی تک کوئی آئیکن منتخب نہیں کیا ہے۔</string> <!-- Urdu -->
 </resources>

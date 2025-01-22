@@ -2,6 +2,7 @@ package com.example.rollingicon.ui.home
 
 import android.app.Activity
 import android.content.Intent
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -45,6 +46,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -61,9 +63,7 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import coil3.compose.AsyncImage
 import coil3.compose.rememberAsyncImagePainter
-import coil3.request.ImageRequest
 import com.example.rollingicon.R
 import com.example.rollingicon.models.AppIcon
 import com.example.rollingicon.routes.AppRoutes
@@ -183,7 +183,6 @@ fun RollingIconScreen(
     onAddPhotos: () -> Unit,
     onAddVideos: () -> Unit
 ) {
-    val context = LocalContext.current
     val showCreateDialog = remember { mutableStateOf(false) }
     val isWallpaperSet = remember { mutableStateOf(false) }
 // You can do the assignment inside onAttach or onCreate, i.e, before the activity is displayed
@@ -216,7 +215,7 @@ fun RollingIconScreen(
                 .padding(horizontal = 16.dp)
         ) {
             // Header with title and toggle
-            HomeHeader(navController, liveWallpaperLauncher)
+            HomeHeader(navController, liveWallpaperLauncher, appIcons)
             // Add Icon Section
             AddIconSection(showCreateDialog, appIcons)
             Spacer(modifier = Modifier.height(4.dp))
@@ -298,7 +297,7 @@ private fun AddIconSection(
     showDialog: MutableState<Boolean>,
     appIcons: MutableList<AppIcon>?
 ) {
-    if (appIcons.isNullOrEmpty()) {
+    if (appIcons == null || appIcons.isEmpty()) {
         // Show only the Add Icon Button
         Box(
             contentAlignment = Alignment.Center,
@@ -378,10 +377,8 @@ private fun AddIconSection(
                     .weight(1f)
                     .height(176.dp)
             ) {
-                appIcons.let {
-                    items(it.take(4)) { appIcon ->
-                        AppIconItem(appIcon)
-                    }
+                items(appIcons.take(4)) { appIcon ->
+                    AppIconItem(appIcon)
                 }
             }
         }
@@ -405,12 +402,21 @@ private fun AppIconItem(appIcon: AppIcon) {
             ), contentAlignment = Alignment.Center
     ) {
         appIconBitmap?.let {
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(it)
-                    .build(),
+//            AsyncImage(
+//                model = ImageRequest.Builder(LocalContext.current)
+//                    .data(it)
+//                    .build(),
+//                contentDescription = "App Icon",
+//                placeholder = painterResource(id = R.drawable.ic_place_holder), // Replace with your placeholder resource
+//                modifier = Modifier
+//                    .size(60.dp)
+//                    .clip(RoundedCornerShape(12.dp)) // Apply rounded corners
+//                ,// Debugging layout
+//                contentScale = ContentScale.Crop
+//            )
+            Image(
+                bitmap = it.asImageBitmap(),
                 contentDescription = "App Icon",
-                placeholder = painterResource(id = R.drawable.ic_place_holder), // Replace with your placeholder resource
                 modifier = Modifier
                     .size(60.dp)
                     .clip(RoundedCornerShape(12.dp)) // Apply rounded corners
@@ -430,7 +436,8 @@ private fun AppIconItem(appIcon: AppIcon) {
 @Composable
 private fun HomeHeader(
     navController: NavController,
-    launcher: ActivityResultLauncher<Intent>
+    launcher: ActivityResultLauncher<Intent>,
+    appIcons: MutableList<AppIcon>?
 ) {
     val context = LocalContext.current
     Row(
@@ -465,8 +472,16 @@ private fun HomeHeader(
         }
         Spacer(modifier = Modifier.width(4.dp))
         SafeClick(onClick = {
-            context.startWallpaperService(launcher = launcher)
-
+            try {
+                if (appIcons.isNullOrEmpty()) {
+                    Toast.makeText(context, R.string.text_no_icons_selected, Toast.LENGTH_SHORT)
+                        .show()
+                    return@SafeClick
+                }
+                context.startWallpaperService(launcher = launcher)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }) { enabled, onClick ->
             Button(
                 colors = ButtonDefaults.buttonColors(

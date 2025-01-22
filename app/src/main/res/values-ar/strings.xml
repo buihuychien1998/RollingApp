@@ -25,7 +25,7 @@
     <string name="text_gravity_box">صندوق الجاذبية</string>
     <string name="text_privacy_policy">سياسة الخصوصية</string>
     <string name="text_about_ads">حول الإعلانات</string>
-    <string name="text_size_setting">الحجم (20-140)</string>
+    <string name="text_size_setting">الحجم (10-70)</string>
     <string name="text_size">الحجم</string>
     <string name="text_information">معلومات</string>
     <string name="text_your_list_is_empty">قائمتك فارغة</string>
@@ -33,4 +33,5 @@
     <string name="text_complete">اكتمل</string>
     <string name="text_your_wallpaper_has_been_changed">تم تغيير خلفية الشاشة الخاصة بك</string>
     <string name="text_confirm">تأكيد</string>
+    <string name="text_no_icons_selected">لم تقم باختيار أيقونات بعد.</string>
 </resources>

@@ -12,9 +12,9 @@ import com.example.rollingicon.utils.PreferencesHelper.isFirstLoadIcon
 import com.example.rollingicon.utils.PreferencesHelper.loadSelectedIconsFromPreferences
 import com.example.rollingicon.utils.PreferencesHelper.saveAppIconsFromPreferences
 import com.example.rollingicon.utils.defaultApps
-import com.example.rollingicon.utils.getAppIconFromPackageName
-import com.example.rollingicon.utils.getPackageNameForAppName
+import com.example.rollingicon.utils.loadAppIconsConcurrently
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -40,10 +40,13 @@ class HomeViewModel(private val application: Application) : AndroidViewModel(app
                 // Check if this is the first load, and decide what to load
                 val icons = if (isFirstLoadIcon(context)) {
                     // Load default apps first
-                    val packageNames = getPackageNameForAppName(context, defaultApps)
-                    val icons = packageNames.mapNotNull {
-                        getAppIconFromPackageName(packageManager, it)
-                    }.toMutableList()
+//                    val icons = getPackageNameForAppName(context, defaultApps)
+//                        .asSequence() // Use sequence to minimize intermediate collection overhead
+//                        .mapNotNull { packageName ->
+//                            getAppIconFromPackageName(packageManager, packageName)
+//                        }
+//                        .toMutableList()
+                    val icons = loadAppIconsConcurrently(context, defaultApps)
 
                     // If there are not enough icons, load more apps from the device
 //                    if (icons.size < MAX_APP_ICONS_TO_LOAD) {
@@ -52,10 +55,11 @@ class HomeViewModel(private val application: Application) : AndroidViewModel(app
 //                    }
 
                     // Save these icons to preferences for future loads
-                    saveAppIconsFromPreferences(context, icons)
+                    saveAppIconsFromPreferences(context, icons.toMutableList())
 
                     icons
                 } else {
+                    delay(500)
                     // Load saved icons from preferences
                     loadSelectedIconsFromPreferences(context)
                 }

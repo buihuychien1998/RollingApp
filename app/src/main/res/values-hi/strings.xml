@@ -25,7 +25,7 @@
     <string name="text_gravity_box">गुरुत्वाकर्षण बॉक्स</string>
     <string name="text_privacy_policy">गोपनीयता नीति</string>
     <string name="text_about_ads">विज्ञापनों के बारे में</string>
-    <string name="text_size_setting">आकार (20–140)</string>
+    <string name="text_size_setting">आकार (10–70)</string>
     <string name="text_size">आकार</string>
     <string name="text_information">जानकारी</string>
     <string name="text_your_list_is_empty">आपकी सूची खाली है</string>
@@ -33,4 +33,5 @@
     <string name="text_complete">पूरा</string>
     <string name="text_your_wallpaper_has_been_changed">आपका वॉलपेपर बदल दिया गया है</string>
     <string name="text_confirm">पुष्टि करें</string>
+    <string name="text_no_icons_selected">आपने अभी तक कोई आइकन नहीं चुना है।</string>
 </resources>

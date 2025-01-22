@@ -3,7 +3,6 @@ package com.example.rollingicon.models
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.os.Parcelable
-import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import kotlin.random.Random
 
@@ -14,11 +13,9 @@ data class ExplosionParticle(
     var angle: Float,
     var speed: Float,
     var alpha: Float = 1.0f,
+    var radius: Float = 1.0f,
     val color: Int = generateRandomColor() // Generate a random color for each particle
 ) : Parcelable {
-    @IgnoredOnParcel
-    private val radius = 5f
-
     // Generate a random color (using ARGB format)
     companion object {
         fun generateRandomColor(): Int {
