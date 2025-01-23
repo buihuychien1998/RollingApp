@@ -39,6 +39,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -48,7 +49,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import coil3.compose.rememberAsyncImagePainter
 import com.example.rollingicon.R
 import com.example.rollingicon.routes.AppRoutes
 import com.example.rollingicon.theme.AppFont
@@ -70,7 +70,7 @@ fun SettingsScreen(navController: NavController) {
     Box {
         Image(
             modifier = Modifier.fillMaxSize(),
-            painter = rememberAsyncImagePainter(R.drawable.bg_rolling_app),
+            painter = painterResource(R.drawable.bg_rolling_app),
             contentDescription = "background_image",
             contentScale = ContentScale.FillBounds
         )
@@ -133,7 +133,7 @@ fun SettingsTopBar(navController: NavController) {
                 Image(
                     modifier = Modifier
                         .size(24.dp),
-                    painter = rememberAsyncImagePainter(R.drawable.ic_arrow_left),
+                    painter = painterResource(R.drawable.ic_arrow_left),
                     contentDescription = "ic_arrow_left"
                 )
             }
@@ -225,7 +225,7 @@ fun LanguageSection(navController: NavController) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
-                    painter = rememberAsyncImagePainter(currentLanguage.flagResId),
+                    painter = painterResource(currentLanguage.flagResId),
                     contentDescription = null,
                     modifier = Modifier
                         .size(20.dp)
@@ -241,7 +241,7 @@ fun LanguageSection(navController: NavController) {
                     modifier = Modifier.weight(1f)
                 )
                 Image(
-                    painter = rememberAsyncImagePainter(R.drawable.ic_arrow_right),
+                    painter = painterResource(R.drawable.ic_arrow_right),
                     contentDescription = null,
                     modifier = Modifier.size(24.dp)
                 )
@@ -309,7 +309,7 @@ fun IconSettings(settingsViewModel: SettingsViewModel) {
 
                 // Image with Dynamic Size
                 Image(
-                    painter = rememberAsyncImagePainter(R.drawable.img_icon_size),
+                    painter = painterResource(R.drawable.img_icon_size),
                     contentDescription = null,
                     modifier = Modifier
                         .size((iconSize.coerceIn(10f, 70f)).dp) // Adjust size based on slider (min 40, max 100)
@@ -333,7 +333,7 @@ fun IconSettings(settingsViewModel: SettingsViewModel) {
 
             thumb = {
                 Image(
-                    rememberAsyncImagePainter(R.drawable.ic_thumb_slider),
+                    painterResource(R.drawable.ic_thumb_slider),
                     contentDescription = null,
                     modifier = Modifier.size(24.dp),
                 )
@@ -363,7 +363,7 @@ fun IconSettings(settingsViewModel: SettingsViewModel) {
                     modifier = Modifier.padding(end = 8.dp)
                 ) {
                     Image(
-                        painter = rememberAsyncImagePainter(
+                        painter = painterResource(
                             if (selectedSpeed == resId) R.drawable.ic_language_selected else R.drawable.ic_language_unselected
                         ),
                         contentDescription = if (selectedSpeed == resId) "Selected" else "Not Selected",
@@ -445,7 +445,7 @@ fun GravityBoxSettings() {
                 modifier = Modifier.weight(1f)
             )
             Image(
-                painter = rememberAsyncImagePainter(R.drawable.ic_arrow_right),
+                painter = painterResource(R.drawable.ic_arrow_right),
                 contentDescription = null,
                 modifier = Modifier.size(24.dp)
             )
@@ -488,7 +488,7 @@ fun GravityBoxSettings() {
 
             }
             Image(
-                painter = rememberAsyncImagePainter(R.drawable.img_icon_gravity_box),
+                painter = painterResource(R.drawable.img_icon_gravity_box),
                 contentDescription = null,
                 modifier = Modifier.size(width = 71.dp, height = 152.dp)
             )

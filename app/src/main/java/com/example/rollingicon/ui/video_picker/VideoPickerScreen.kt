@@ -66,7 +66,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import coil3.compose.rememberAsyncImagePainter
 import com.example.rollingicon.R
 import com.example.rollingicon.models.AppIcon
 import com.example.rollingicon.theme.AppFont
@@ -126,7 +125,7 @@ fun VideoPickerScreen(
         Box(modifier = Modifier.fillMaxSize()) {
             Image(
                 modifier = Modifier.fillMaxSize(),
-                painter = rememberAsyncImagePainter(R.drawable.bg_rolling_app),
+                painter = painterResource(R.drawable.bg_rolling_app),
                 contentDescription = "background_image",
                 contentScale = ContentScale.FillBounds
             )
@@ -158,7 +157,7 @@ fun VideoPickerScreen(
                             Image(
                                 modifier = Modifier
                                     .size(24.dp),
-                                painter = rememberAsyncImagePainter(R.drawable.ic_arrow_left),
+                                painter = painterResource(R.drawable.ic_arrow_left),
                                 contentDescription = "ic_arrow_left"
                             )
                         }
@@ -212,14 +211,14 @@ fun VideoPickerScreen(
                         ) {
 
                             Image(
-                                painter = rememberAsyncImagePainter(R.drawable.img_add_media),
+                                painter = painterResource(R.drawable.img_add_media),
                                 contentDescription = null,
                                 contentScale = ContentScale.FillWidth
                             )
 
                             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                                 Image(
-                                    painter = rememberAsyncImagePainter(R.drawable.ic_add_icon),
+                                    painter = painterResource(R.drawable.ic_add_icon),
                                     contentDescription = "Add Icon",
                                     modifier = Modifier.size(24.dp)
                                 )
@@ -405,7 +404,7 @@ fun VideoPickerScreen(
                                 }
 
                                 Image(
-                                    painter = rememberAsyncImagePainter(R.drawable.ic_play_video),
+                                    painter = painterResource(R.drawable.ic_play_video),
                                     contentDescription = "Video Play",
                                     modifier = Modifier.size(24.dp)
                                 )
@@ -413,7 +412,7 @@ fun VideoPickerScreen(
                                 // Checkmark overlay
                                 if (appIcon.selected) {
                                     Image(
-                                        painter = rememberAsyncImagePainter(R.drawable.ic_check),
+                                        painter = painterResource(R.drawable.ic_check),
                                         contentDescription = "Selected",
                                         modifier = Modifier
                                             .align(Alignment.TopEnd)

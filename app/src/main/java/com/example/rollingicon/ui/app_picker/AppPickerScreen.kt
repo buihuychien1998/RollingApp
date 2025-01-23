@@ -55,7 +55,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import coil3.compose.rememberAsyncImagePainter
 import com.example.rollingicon.R
 import com.example.rollingicon.models.AppIcon
 import com.example.rollingicon.theme.AppFont
@@ -77,7 +76,7 @@ fun AppPickerScreen(
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             Image(
                 modifier = Modifier.fillMaxSize(),
-                painter = rememberAsyncImagePainter(R.drawable.bg_rolling_app),
+                painter = painterResource(R.drawable.bg_rolling_app),
                 contentDescription = "background_image",
                 contentScale = ContentScale.FillBounds
             )
@@ -140,7 +139,7 @@ fun AppIconList(
                     Image(
                         modifier = Modifier
                             .size(24.dp),
-                        painter = rememberAsyncImagePainter(R.drawable.ic_arrow_left),
+                        painter = painterResource(R.drawable.ic_arrow_left),
                         contentDescription = "ic_arrow_left"
                     )
                 }
@@ -192,7 +191,7 @@ fun AppIconList(
                 .border(1.dp, Color.White, RoundedCornerShape(16.dp)),
             leadingIcon = {
                 Image(
-                    painter = rememberAsyncImagePainter(R.drawable.ic_seach),
+                    painter = painterResource(R.drawable.ic_seach),
                     modifier = Modifier.size(16.dp),
                     contentDescription = null
                 )
@@ -326,7 +325,7 @@ fun AppIconGridItem(
         // Checkmark overlay
         if (isSelected) {
             Image(
-                painter = rememberAsyncImagePainter(R.drawable.ic_check),
+                painter = painterResource(R.drawable.ic_check),
                 contentDescription = "Selected",
                 modifier = Modifier
                     .align(Alignment.TopEnd)

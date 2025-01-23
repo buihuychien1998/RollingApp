@@ -135,7 +135,11 @@ data class AppIcon(
             }
         } else {
             val bitmap = getCachedBitmap()
-            bitmap?.let { canvas.drawBitmap(it, x - radius, y - radius, paint) }
+            bitmap?.let {
+                if (x > 0 && x < canvas.width && y > 0 && y < canvas.height) {
+                    canvas.drawBitmap(bitmap, x - radius, y - radius, paint)
+                }
+            }
         }
     }
 

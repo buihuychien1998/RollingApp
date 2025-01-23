@@ -203,7 +203,7 @@ fun RollingIconScreen(
     {
         Image(
             modifier = Modifier.fillMaxSize(),
-            painter = rememberAsyncImagePainter(R.drawable.bg_rolling_app),
+            painter = painterResource(R.drawable.bg_rolling_app),
             contentDescription = "background_image",
             contentScale = ContentScale.FillBounds
         )
@@ -308,7 +308,7 @@ private fun AddIconSection(
                 }
         ) {
             Image(
-                painter = rememberAsyncImagePainter(R.drawable.img_add_media),
+                painter = painterResource(R.drawable.img_add_media),
                 contentDescription = "Add Icon Background",
                 modifier = Modifier
                     .fillMaxWidth()
@@ -316,7 +316,7 @@ private fun AddIconSection(
             )
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Image(
-                    painter = rememberAsyncImagePainter(R.drawable.ic_add_icon),
+                    painter = painterResource(R.drawable.ic_add_icon),
                     contentDescription = "Add Icon",
                     modifier = Modifier.size(24.dp)
                 )
@@ -346,7 +346,7 @@ private fun AddIconSection(
                     }
             ) {
                 Image(
-                    painter = rememberAsyncImagePainter(R.drawable.bg_add_icon),
+                    painter = painterResource(R.drawable.bg_add_icon),
                     contentDescription = "Add Icon Background",
                     modifier = Modifier
                         .wrapContentSize()
@@ -354,7 +354,7 @@ private fun AddIconSection(
                 )
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Image(
-                        painter = rememberAsyncImagePainter(R.drawable.ic_add_icon),
+                        painter = painterResource(R.drawable.ic_add_icon),
                         contentDescription = "Add Icon",
                         modifier = Modifier.size(24.dp)
                     )
@@ -426,7 +426,7 @@ private fun AppIconItem(appIcon: AppIcon) {
         }
 
         if (appIcon.type == IconType.VIDEO.name) Image(
-            painter = rememberAsyncImagePainter(R.drawable.ic_play_video),
+            painter = painterResource(R.drawable.ic_play_video),
             contentDescription = "Video Play",
             modifier = Modifier.size(24.dp)
         )
@@ -463,7 +463,7 @@ private fun HomeHeader(
                 enabled = enabled
             ) {
                 Image(
-                    painter = rememberAsyncImagePainter(R.drawable.ic_settings),
+                    painter = painterResource(R.drawable.ic_settings),
                     modifier = Modifier
                         .size(32.dp),
                     contentDescription = "Settings",
@@ -502,7 +502,7 @@ private fun HomeHeader(
                 )
                 Spacer(modifier = Modifier.width(4.dp))
                 Image(
-                    painter = rememberAsyncImagePainter(R.drawable.ic_preview),
+                    painter = painterResource(R.drawable.ic_preview),
                     modifier = Modifier
                         .size(24.dp),
                     contentDescription = "Preview",
@@ -571,7 +571,7 @@ fun AddIconDialog(
                             ) {
                                 Image(
                                     modifier = Modifier.size(24.dp),
-                                    painter = rememberAsyncImagePainter(R.drawable.ic_add_application),
+                                    painter = painterResource(R.drawable.ic_add_application),
                                     contentDescription = stringResource(id = R.string.text_add_application)
                                 )
                                 Text(
@@ -610,7 +610,7 @@ fun AddIconDialog(
                                 ) {
                                     Image(
                                         modifier = Modifier.size(24.dp),
-                                        painter = rememberAsyncImagePainter(R.drawable.ic_add_video),
+                                        painter = painterResource(R.drawable.ic_add_video),
                                         contentDescription = stringResource(id = R.string.text_add_videos)
                                     )
                                     Text(
@@ -649,7 +649,7 @@ fun AddIconDialog(
                                 ) {
                                     Image(
                                         modifier = Modifier.size(24.dp),
-                                        painter = rememberAsyncImagePainter(R.drawable.ic_add_photo),
+                                        painter = painterResource(R.drawable.ic_add_photo),
                                         contentDescription = stringResource(id = R.string.text_add_photos)
                                     )
                                     Text(

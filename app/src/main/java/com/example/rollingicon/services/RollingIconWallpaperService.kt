@@ -87,8 +87,9 @@ class RollingIconWallpaperService : WallpaperService() {
             val screenWidth = resources.displayMetrics.widthPixels
             val screenHeight = resources.displayMetrics.heightPixels
             // Retrieve icons passed from MainActivity
-            val savedIcons =
-                PreferencesHelper.loadSelectedIconsFromPreferences(this@RollingIconWallpaperService)
+            val savedIcons = PreferencesHelper.loadSelectedIconsFromPreferences(this@RollingIconWallpaperService)
+            Log.d("IconLoading", "App Icons: ${savedIcons.size}")
+
             val iconSize = settings.iconSize
             val iconSpeed = settings.iconSpeed
 
@@ -108,16 +109,11 @@ class RollingIconWallpaperService : WallpaperService() {
                     }
                 } while (isOverlapping)
 
-                // Apply icon size and speed settings
                 val desiredRadius = iconSize * 5
-                val maxRadius = minOf(screenWidth, screenHeight) / 2 // Adjusted max size
+                val maxRadius = minOf(screenWidth, screenHeight) / 2
                 icon.radius = minOf(desiredRadius, maxRadius.toFloat())
-//                icon.velocityX = (-1..5).random().toFloat() * iconSpeed
-//                icon.velocityY = (-1..5).random().toFloat() * iconSpeed
                 icon.velocityX = 5 * iconSpeed
                 icon.velocityY = 5 * iconSpeed
-//                icon.velocityX = Random.nextFloat() * 4 + 2 // Tốc độ từ 2 đến 6
-//                icon.velocityY = Random.nextFloat() * 4 + 2
             }
         }
 
@@ -229,26 +225,11 @@ class RollingIconWallpaperService : WallpaperService() {
             }
         }
 
-        private fun isDeviceMoving(accelerometerValues: FloatArray): Boolean {
-            val x = accelerometerValues[0]
-            val y = accelerometerValues[1]
-            val z = accelerometerValues[2]
-
-            // Calculate the total acceleration (magnitude of the vector)
-            val acceleration = hypot(hypot(x.toDouble(), y.toDouble()), z.toDouble())
-
-            // Define a threshold to determine movement (adjust as needed)
-            val threshold = 1.0f
-
-            return acceleration > threshold
-        }
-
         private fun resolveOverlap(icon1: AppIcon, icon2: AppIcon) {
             val dx = icon2.x - icon1.x
             val dy = icon2.y - icon1.y
             val distance = hypot(dx, dy)
             val overlap = (icon1.radius + icon2.radius) - distance + 20
-            val minSpace = 50f // Minimum space to add between the icons
 
             // If there is an overlap, move icons apart based on the direction
             if (overlap > 0) {
@@ -413,8 +394,6 @@ class RollingIconWallpaperService : WallpaperService() {
             }
         }
 
-        private fun smoothGravity(newGravity: Float, oldGravity: Float, factor: Float) =
-            oldGravity + factor * (newGravity - oldGravity)
 
         override fun onSensorChanged(event: SensorEvent?) {
             val currentTime = System.currentTimeMillis()
@@ -422,17 +401,12 @@ class RollingIconWallpaperService : WallpaperService() {
                 reinitializeSensor()
             }
             lastSensorUpdateTime = currentTime
-            val SENSOR_NOISE_THRESHOLD = 0.01f // Fine-tune this value
 
             if (event == null || event.sensor.type != Sensor.TYPE_ACCELEROMETER) return
             accelerometerValues = event.values
-            // Kiểm tra gia tốc để xem thiết bị có di chuyển không
-            val deviceMoving = accelerometerValues?.let { isDeviceMoving(it) } ?: true
-            if (!deviceMoving) {
-                return
-            }
-            gravityX = -event.values[0] // Dùng giá trị trực tiếp
-            gravityY = event.values[1]  // Dùng giá trị trực tiếp
+
+            gravityX = -event.values[0]
+            gravityY = event.values[1]
         }
 
         private fun reinitializeSensor() {

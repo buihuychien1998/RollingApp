@@ -65,7 +65,7 @@ fun LanguageScreen(
     ) {
         Image(
             modifier = Modifier.fillMaxSize(),
-            painter = rememberAsyncImagePainter(R.drawable.bg_rolling_app),
+            painter = painterResource(R.drawable.bg_rolling_app),
             contentDescription = "background_image",
             contentScale = ContentScale.FillBounds
         )
@@ -92,7 +92,7 @@ fun LanguageScreen(
                             Image(
                                 modifier = Modifier
                                     .size(24.dp),
-                                painter = rememberAsyncImagePainter(R.drawable.ic_arrow_left),
+                                painter = painterResource(R.drawable.ic_arrow_left),
                                 contentDescription = "ic_arrow_left"
                             )
                         }
@@ -119,7 +119,7 @@ fun LanguageScreen(
                         Image(
                             modifier = Modifier
                                 .size(24.dp),
-                            painter = rememberAsyncImagePainter(R.drawable.ic_done),
+                            painter = painterResource(R.drawable.ic_done),
                             contentDescription = "ic_arrow_left"
                         )
                     }
@@ -164,7 +164,7 @@ fun LanguageItem(
         ) {
             // Flag image
             Image(
-                painter = rememberAsyncImagePainter(language.flagResId),
+                painter = painterResource(language.flagResId),
                 contentDescription = language.name,
                 modifier = Modifier
                     .size(32.dp)

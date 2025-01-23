@@ -127,7 +127,7 @@ fun ImagePickerScreen(
         Box(modifier = Modifier.fillMaxSize()) {
             Image(
                 modifier = Modifier.fillMaxSize(),
-                painter = rememberAsyncImagePainter(R.drawable.bg_rolling_app),
+                painter = painterResource(R.drawable.bg_rolling_app),
                 contentDescription = "background_image",
                 contentScale = ContentScale.FillBounds
             )
@@ -157,7 +157,7 @@ fun ImagePickerScreen(
                             Image(
                                 modifier = Modifier
                                     .size(24.dp),
-                                painter = rememberAsyncImagePainter(R.drawable.ic_arrow_left),
+                                painter = painterResource(R.drawable.ic_arrow_left),
                                 contentDescription = "ic_arrow_left"
                             )
                         }
@@ -212,14 +212,14 @@ fun ImagePickerScreen(
                         ) {
 
                             Image(
-                                painter = rememberAsyncImagePainter(R.drawable.img_add_media),
+                                painter = painterResource(R.drawable.img_add_media),
                                 contentDescription = null,
                                 contentScale = ContentScale.FillWidth
                             )
 
                             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                                 Image(
-                                    painter = rememberAsyncImagePainter(R.drawable.ic_add_icon),
+                                    painter = painterResource(R.drawable.ic_add_icon),
                                     contentDescription = "Add Icon",
                                     modifier = Modifier.size(24.dp)
                                 )
@@ -408,7 +408,7 @@ fun ImagePickerScreen(
                                     // Checkmark overlay
                                     if (appIcon.selected) {
                                         Image(
-                                            painter = rememberAsyncImagePainter(R.drawable.ic_check),
+                                            painter = painterResource(R.drawable.ic_check),
                                             contentDescription = "Selected",
                                             modifier = Modifier
                                                 .align(Alignment.TopEnd)
