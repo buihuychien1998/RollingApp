@@ -60,13 +60,13 @@ class RollingIconWallpaperService : WallpaperService() {
         private fun loadSettings(): IconSettings {
             val context = applicationContext
             // Load each setting from SharedPreferences
-            val iconSize = PreferencesHelper.loadIconSize(context) 
-            val iconSpeed = PreferencesHelper.loadIconSpeed(context) 
-            val canTouch = PreferencesHelper.loadCanTouch(context) 
-            val canDrag = PreferencesHelper.loadCanDrag(context) 
+            val iconSize = PreferencesHelper.loadIconSize(context)
+            val iconSpeed = PreferencesHelper.loadIconSpeed(context)
+            val canTouch = PreferencesHelper.loadCanTouch(context)
+            val canDrag = PreferencesHelper.loadCanDrag(context)
             val canExplosion =
-                PreferencesHelper.loadCanExplosion(context) 
-            val canSound = PreferencesHelper.loadCanSound(context) 
+                PreferencesHelper.loadCanExplosion(context)
+            val canSound = PreferencesHelper.loadCanSound(context)
 
 
             return IconSettings(
@@ -109,7 +109,9 @@ class RollingIconWallpaperService : WallpaperService() {
                 } while (isOverlapping)
 
                 // Apply icon size and speed settings
-                icon.radius = iconSize
+                val desiredRadius = iconSize * 5
+                val maxRadius = minOf(screenWidth, screenHeight) / 2 // Adjusted max size
+                icon.radius = minOf(desiredRadius, maxRadius.toFloat())
 //                icon.velocityX = (-1..5).random().toFloat() * iconSpeed
 //                icon.velocityY = (-1..5).random().toFloat() * iconSpeed
                 icon.velocityX = 5 * iconSpeed
@@ -144,16 +146,16 @@ class RollingIconWallpaperService : WallpaperService() {
             val handler = android.os.Handler()
             val renderRunnable = object : Runnable {
                 override fun run() {
-                    val holder = surfaceHolder
-                    if (!isSurfaceAvailable) return
-                    val canvas = holder.lockCanvas() ?: return
                     try {
+                        val holder = surfaceHolder
+                        if (!isSurfaceAvailable) return
+                        val canvas = holder.lockCanvas() ?: return
                         render(canvas)
-                    } finally {
                         holder.unlockCanvasAndPost(canvas)
+                        handler.postDelayed(this, 16) // 16~60 FPS 20~50
+                    } catch (e: Exception){
+                        e.printStackTrace()
                     }
-
-                    handler.postDelayed(this, 16) // 16~60 FPS 20~50
                 }
             }
 
@@ -179,26 +181,32 @@ class RollingIconWallpaperService : WallpaperService() {
 
         // Method to update the icons' position and check for overlap
         private fun updateIconsPosition(width: Int, height: Int) {
+            // Validate width and height
+            if (width <= 0 || height <= 0) {
+                return
+            }
 
             for (i in icons.indices) {
                 val icon = icons[i]
 
                 // Update the icon's position based on its velocity
-                icon.x += icon.velocityX
-                icon.y += icon.velocityY
+                icon.x += icon.velocityX * settings.iconSpeed
+                icon.y += icon.velocityY * settings.iconSpeed
 
                 // Check for collision with screen boundaries
-                if (icon.x < icon.radius || icon.x > width - icon.radius) {
-                    icon.velocityX = -icon.velocityX * 0.8f
-                    icon.x = max(icon.radius, min(icon.x, width - icon.radius))
+                if (icon.x < icon.radius * 0.75f || icon.x > width - icon.radius * 1.25f) {
+                    icon.velocityX = -icon.velocityX * 0.98f
+                    icon.x = max(icon.radius * 0.75f, min(icon.x, width - icon.radius))
                 }
-                if (icon.y < icon.radius || icon.y > height - icon.radius) {
-                    icon.velocityY = -icon.velocityY * 0.8f
-                    icon.y = max(icon.radius, min(icon.y, height - icon.radius))
+                if (icon.y < icon.radius * 0.75f || icon.y > height - icon.radius * 1.25f) {
+                    icon.velocityY = -icon.velocityY * 0.98f
+                    icon.y = max(icon.radius * 0.75f, min(icon.y, height - icon.radius))
                 }
 
-                icon.velocityX *= 0.9f
-                icon.velocityY *= 0.9f
+                // Giảm vận tốc dần dần (dựa trên iconSpeed)
+                val dampingFactor = settings.iconSpeed
+                icon.velocityX *= dampingFactor
+                icon.velocityY *= dampingFactor
 
                 // Check for overlaps with other icons
                 for (j in i + 1 until icons.size) {
@@ -249,7 +257,7 @@ class RollingIconWallpaperService : WallpaperService() {
                 val overlapY = (overlap * Math.sin(angle)).toFloat()
 
                 // Tách các biểu tượng bằng cách di chuyển dần dần
-                val separationFactor = 0.6f
+                val separationFactor = 0.4f
                 icon1.x -= overlapX * separationFactor
                 icon1.y -= overlapY * separationFactor
                 icon2.x += overlapX * separationFactor
@@ -262,10 +270,9 @@ class RollingIconWallpaperService : WallpaperService() {
 //                icon2.velocityX *= dampingFactor
 //                icon2.velocityY *= dampingFactor
                 // Nếu vận tốc quá nhỏ, đặt lại về 0 để tránh di chuyển không mong muốn
-                if (hypot(icon1.velocityX.toDouble(), icon1.velocityY.toDouble()) < 0.1) {
-                    icon1.velocityX = 0f
-                    icon1.velocityY = 0f
-                }
+                val MIN_VELOCITY_THRESHOLD = 0.05f
+                icon1.velocityX = if (icon1.velocityX < MIN_VELOCITY_THRESHOLD) 0f else icon1.velocityX
+                icon1.velocityY = if (icon1.velocityY < MIN_VELOCITY_THRESHOLD) 0f else icon1.velocityY
 
                 if (hypot(icon2.velocityX.toDouble(), icon2.velocityY.toDouble()) < 0.1) {
                     icon2.velocityX = 0f
@@ -301,7 +308,7 @@ class RollingIconWallpaperService : WallpaperService() {
                     }
 
                     MotionEvent.ACTION_MOVE -> {
-                        if(settings.canDrag){
+                        if (settings.canDrag) {
                             for (icon in icons) {
                                 if (icon.isDragging) {
                                     val dx = (touchX - (icon.x + icon.dragOffsetX))
@@ -415,25 +422,17 @@ class RollingIconWallpaperService : WallpaperService() {
                 reinitializeSensor()
             }
             lastSensorUpdateTime = currentTime
-            val SENSOR_NOISE_THRESHOLD = 0.05f // Fine-tune this value
+            val SENSOR_NOISE_THRESHOLD = 0.01f // Fine-tune this value
 
             if (event == null || event.sensor.type != Sensor.TYPE_ACCELEROMETER) return
-             accelerometerValues = event.values
+            accelerometerValues = event.values
             // Kiểm tra gia tốc để xem thiết bị có di chuyển không
             val deviceMoving = accelerometerValues?.let { isDeviceMoving(it) } ?: true
             if (!deviceMoving) {
                 return
             }
-            val x = event.values[0]
-            val y = event.values[1]
-
-            if (Math.abs(x - gravityX) > SENSOR_NOISE_THRESHOLD || Math.abs(y - gravityY) > SENSOR_NOISE_THRESHOLD) {
-                gravityX = smoothGravity(-x, gravityX, SENSOR_NOISE_THRESHOLD)
-                gravityY = smoothGravity(y, gravityY, SENSOR_NOISE_THRESHOLD)
-            } else {
-                // Log if sensor seems inactive for a long time
-                reinitializeSensor()
-            }
+            gravityX = -event.values[0] // Dùng giá trị trực tiếp
+            gravityY = event.values[1]  // Dùng giá trị trực tiếp
         }
 
         private fun reinitializeSensor() {

@@ -91,7 +91,7 @@ data class AppIcon(
     fun update(gravityX: Float, gravityY: Float, width: Int, height: Int) {
         val SENSOR_SENSITIVITY = 1.2f // Fine-tuned sensitivity for smoother gravity response
         val frictionFactor = 1.0f // Friction for slowing down
-        val bounceDamping = 0.4f // Damping when bouncing off edges
+        val bounceDamping = 0.1f // Damping when bouncing off edges
 
         // Apply gravity to the velocity, with adjusted sensitivity
         velocityX += gravityX * SENSOR_SENSITIVITY
