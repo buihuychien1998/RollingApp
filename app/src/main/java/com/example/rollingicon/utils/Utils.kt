@@ -22,6 +22,7 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
+import java.io.IOException
 
 
 fun Bitmap.toByteArray(): ByteArray {
@@ -201,12 +202,18 @@ fun getInstalledApps(packageManager: PackageManager): MutableList<AppIcon> {
 }
 
 fun Context.startWallpaperService(launcher: ActivityResultLauncher<Intent>) {
-    val intent = Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER)
-    intent.putExtra(
-        WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT,
-        ComponentName(this, RollingIconWallpaperService::class.java)
-    )
-    launcher.launch(intent)
+    val wallpaperManager = WallpaperManager.getInstance(this)
+    try {
+        wallpaperManager.clear()
+        val intent = Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER)
+        intent.putExtra(
+            WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT,
+            ComponentName(this, RollingIconWallpaperService::class.java)
+        )
+        launcher.launch(intent)
+    } catch (e: IOException) {
+        e.printStackTrace()
+    }
 }
 
 fun Context.isRollingIconWallpaperSet(): Boolean {

@@ -63,7 +63,6 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import coil3.compose.rememberAsyncImagePainter
 import com.example.rollingicon.R
 import com.example.rollingicon.models.AppIcon
 import com.example.rollingicon.routes.AppRoutes
@@ -185,7 +184,6 @@ fun RollingIconScreen(
 ) {
     val showCreateDialog = remember { mutableStateOf(false) }
     val isWallpaperSet = remember { mutableStateOf(false) }
-// You can do the assignment inside onAttach or onCreate, i.e, before the activity is displayed
     // You can do the assignment inside onAttach or onCreate, i.e, before the activity is displayed
     val liveWallpaperLauncher: ActivityResultLauncher<Intent> =
         rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
