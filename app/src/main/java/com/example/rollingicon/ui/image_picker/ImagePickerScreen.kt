@@ -2,6 +2,7 @@ package com.example.rollingicon.ui.image_picker
 
 import android.content.ClipData
 import android.content.ClipDescription
+import android.content.Intent
 import android.net.Uri
 import android.util.Log
 import androidx.activity.compose.BackHandler
@@ -118,9 +119,27 @@ fun ImagePickerScreen(
     val pickMediaLauncher =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.OpenMultipleDocuments(),
             onResult = { uris ->
+                val appIcons = mutableListOf<AppIcon>()
+
                 uris.forEach { uri ->
-                    viewModel.addMedia(uri) // Use ViewModel to add media
+                    context.contentResolver.takePersistableUriPermission(
+                        uri,
+                        Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                    )
+                    val name = uri.lastPathSegment ?: "Unnamed"
+                    val filePath = uri.toString()
+
+                    val appIcon = AppIcon(
+                        packageName = "",
+                        name = name,
+                        type = IconType.IMAGE.name,
+                        filePath = filePath,
+                        selected = true
+                    )
+                    appIcons.add(appIcon)
                 }
+
+                viewModel.addMedia(appIcons) // Use ViewModel to add media
             })
 
     Surface(modifier = Modifier.fillMaxSize()) {

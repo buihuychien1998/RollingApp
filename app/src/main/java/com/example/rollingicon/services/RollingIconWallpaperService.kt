@@ -351,7 +351,7 @@ class RollingIconWallpaperService : WallpaperService() {
                 IconType.IMAGE.name -> {
                     println()
                     // Mở ảnh
-                    val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+                    val intent = Intent(Intent.ACTION_VIEW).apply {
                         setDataAndType(
                             Uri.parse(icon.filePath),
                             "image/*"
@@ -371,7 +371,7 @@ class RollingIconWallpaperService : WallpaperService() {
                 IconType.VIDEO.name -> {
                     println(icon.filePath)
 
-                    val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+                    val intent = Intent(Intent.ACTION_VIEW).apply {
                         setDataAndType(
                             Uri.parse(icon.filePath),
                             "video/*"

@@ -1,7 +1,6 @@
 package com.example.rollingicon.ui.video_picker
 
 import android.app.Application
-import android.content.Context
 import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
@@ -76,20 +75,8 @@ class VideoPickerViewModel(private val application: Application) : AndroidViewMo
     }
 
     // Add media to the list
-    fun addMedia(uri: Uri, context: Context) {
-
-        val name = uri.lastPathSegment ?: "Unnamed"
-        val filePath = uri.toString()
-
-        val appIcon = AppIcon(
-            drawable = null,
-            packageName = "",
-            name = name,
-            type = IconType.VIDEO.name,
-            filePath = filePath,
-            selected = true
-        )
-        val updatedList = ((_selectedVideo.value ?: mutableListOf()) + appIcon).toMutableList()
+    fun addMedia(appIcons: List<AppIcon>) {
+        val updatedList = ((_selectedVideo.value ?: mutableListOf()) + appIcons).toMutableList()
         _selectedVideo.value = updatedList
     }
 

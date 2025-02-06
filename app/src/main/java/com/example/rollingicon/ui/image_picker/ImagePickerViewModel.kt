@@ -75,21 +75,8 @@ class ImagePickerViewModel(private val application: Application) : AndroidViewMo
     }
 
     // Add media to the list
-    fun addMedia(uri: Uri) {
-        val context = application.applicationContext
-        val name = uri.lastPathSegment ?: "Unnamed"
-        val filePath = uri.toString()
-
-        val appIcon = AppIcon(
-            drawable = null,
-            packageName = "",
-            name = name,
-            type = IconType.IMAGE.name,
-            filePath = filePath,
-            selected = true
-        )
-
-        val updatedList = ((selectedImage.value ?: mutableListOf()) + appIcon).toMutableList()
+    fun addMedia(appIcons: List<AppIcon>) {
+        val updatedList = ((selectedImage.value ?: mutableListOf()) + appIcons).toMutableList()
         _selectedImage.value = updatedList
     }
 

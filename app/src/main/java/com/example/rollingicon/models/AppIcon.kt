@@ -16,7 +16,7 @@ import kotlin.random.Random
 
 @Parcelize
 data class AppIcon(
-    var drawable: ByteArray?, // Optional byte array for icon drawable
+    var drawable: ByteArray? = null, // Optional byte array for icon drawable
     val packageName: String, // Used for apps; can be null for images/videos
     val name: String, // Name of the app or media item
     val type: String = IconType.APP.name, // Type of the icon ("app", "image", or "video")
