@@ -175,13 +175,17 @@ fun getInstalledApps(packageManager: PackageManager): MutableList<AppIcon> {
             .map { appInfo ->
                 async(Dispatchers.Default) {
                     // Use async to parallelize loading icon and labels
+                    var bitmap: Bitmap? = null
+                    appInfo.loadIcon(packageManager)?.let { icon ->
+                        bitmap = getBitmapFromDrawable(icon)
+                    }
                     AppIcon(
-                        drawable = appInfo.loadIcon(packageManager)?.let { icon ->
-                            getBitmapFromDrawable(icon).toByteArray()
-                        },
+                        drawable = bitmap?.toByteArray(),
                         packageName = appInfo.packageName,
                         name = appInfo.loadLabel(packageManager).toString()
-                    )
+                    ).apply{
+                        appBitmap = bitmap
+                    }
                 }
             }
             .awaitAll() // Await all parallelized tasks

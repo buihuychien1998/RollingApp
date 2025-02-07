@@ -63,7 +63,6 @@ import com.example.rollingicon.theme.clr_D5DEE8
 import com.example.rollingicon.ui.loading.LoadingScreen
 import com.example.rollingicon.ui.share_view_model.SharedViewModel
 import com.example.rollingicon.utils.custom.SafeClick
-import com.example.rollingicon.utils.toBitmap
 
 @Composable
 fun AppPickerScreen(
@@ -285,8 +284,8 @@ fun AppIconGridItem(
     appIcon: AppIcon, isSelected: Boolean, onSelect: () -> Unit, onDeselect: () -> Unit
 ) {
     // Use remember to avoid recalculating the bitmap on recomposition
-    val appIconBitmap by remember(appIcon.drawable) {
-        mutableStateOf(appIcon.drawable?.toBitmap())
+    val appIconBitmap by remember {
+        mutableStateOf(appIcon.appBitmap)
     }
 
     Box(modifier = Modifier

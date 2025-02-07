@@ -24,8 +24,10 @@ import com.example.rollingicon.routes.AppRoutes
 import com.example.rollingicon.ui.app_picker.AppPickerScreen
 import com.example.rollingicon.ui.image_picker.ImagePickerScreen
 import com.example.rollingicon.ui.language.LanguageScreen
+import com.example.rollingicon.ui.onboarding.OnboardingScreen
 import com.example.rollingicon.ui.settings.SettingsScreen
 import com.example.rollingicon.ui.share_view_model.SharedViewModel
+import com.example.rollingicon.ui.splash.SplashScreen
 import com.example.rollingicon.ui.video_picker.VideoPickerScreen
 import com.example.rollingicon.utils.PreferencesHelper
 import com.example.rollingicon.utils.TWEEN_DURATION
@@ -43,14 +45,14 @@ class HomeActivity : ComponentActivity() {
             val navController = rememberNavController()
             val sharedViewModel: SharedViewModel =
                 viewModel(LocalContext.current as ComponentActivity)
-            val isLFO = PreferencesHelper.isLFO(this)
+
 
             // Check the saved language preference or fallback to default
             val currentLanguage = PreferencesHelper.getSelectedLanguage(this)
             changeLanguage(currentLanguage)
 
             NavHost(navController = navController,
-                startDestination = if (isLFO)  AppRoutes.Language.route else AppRoutes.Home.route,
+                startDestination = AppRoutes.Splash.route,
                 enterTransition = {
                     EnterTransition.None
                 },
@@ -60,6 +62,12 @@ class HomeActivity : ComponentActivity() {
                 popEnterTransition = { slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.End, tween(TWEEN_DURATION)) },
                 popExitTransition = { slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.End, tween(TWEEN_DURATION)) }
                 ) {
+                composable(AppRoutes.Splash.route) {
+                    SplashScreen(navController)
+                }
+                composable(AppRoutes.Onboarding.route) {
+                    OnboardingScreen(navController)
+                }
                 composable(AppRoutes.Home.route) {
                     HomeScreen(navController, sharedViewModel)
                 }

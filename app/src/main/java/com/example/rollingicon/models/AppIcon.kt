@@ -10,8 +10,6 @@ import com.example.rollingicon.utils.IconType
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import kotlin.math.hypot
-import kotlin.math.max
-import kotlin.math.min
 import kotlin.random.Random
 
 @Parcelize
@@ -36,6 +34,8 @@ data class AppIcon(
 ) : Parcelable {
     @IgnoredOnParcel
     private var cachedBitmap: Bitmap? = null // Cached bitmap for reuse
+    @IgnoredOnParcel
+    var appBitmap : Bitmap? = null
 
     private fun getCachedBitmap(): Bitmap? {
         var width = radius * 2.25f
@@ -86,45 +86,6 @@ data class AppIcon(
             return filePath.hashCode()
         }
         return packageName.hashCode()
-    }
-
-    fun update(gravityX: Float, gravityY: Float, width: Int, height: Int) {
-        val SENSOR_SENSITIVITY = 1.2f // Fine-tuned sensitivity for smoother gravity response
-        val frictionFactor = 1.0f // Friction for slowing down
-        val bounceDamping = 0.1f // Damping when bouncing off edges
-
-        // Apply gravity to the velocity, with adjusted sensitivity
-        velocityX += gravityX * SENSOR_SENSITIVITY
-        velocityY += gravityY * SENSOR_SENSITIVITY
-
-        // Apply friction to simulate natural slowing down
-        velocityX *= frictionFactor
-        velocityY *= frictionFactor
-
-        // Apply random speed for low velocity
-        if (Math.abs(velocityX) < 0.5f) velocityX = 0.5f * (if (Random.nextBoolean()) 1 else -1)
-        if (Math.abs(velocityY) < 0.5f) velocityY = 0.5f * (if (Random.nextBoolean()) 1 else -1)
-
-        // Update icon position
-        x += velocityX
-        y += velocityY
-
-        // Handle collisions with screen edges
-        if (x < radius * 0.75f || x > width - radius * 1.25f) {
-            velocityX = -velocityX * bounceDamping  // Apply damping
-            x = max(radius * 0.75f, min(x, width - radius))
-        }
-        if (y < radius * 0.75f || y > height - radius * 1.25f) {
-            velocityY = -velocityY * bounceDamping
-            y = max(radius * 0.75f, min(y, height - radius))
-        }
-
-        // Update explosion particles
-        if (isExploding) {
-            explosionParticles.forEach { it.update() }
-            explosionParticles.removeAll { it.alpha <= 0 }
-            if (explosionParticles.isEmpty()) resetState()
-        }
     }
 
     fun draw(canvas: Canvas, paint: Paint) {
