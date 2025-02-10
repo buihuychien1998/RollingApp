@@ -102,7 +102,7 @@ class RollingIconWallpaperService : WallpaperService() {
                     icon.y = Random.nextFloat() * (screenHeight - 2 * icon.radius) + icon.radius
 
                     for (other in icons) {
-                        if (icon != other && checkOverlap(icon, other, padding)) {
+                        if (icon != other && checkOverlap(icon, other)) {
                             isOverlapping = true
                             break
                         }
@@ -117,7 +117,7 @@ class RollingIconWallpaperService : WallpaperService() {
             }
         }
 
-        private fun checkOverlap(icon1: AppIcon, icon2: AppIcon, padding: Float): Boolean {
+        private fun checkOverlap(icon1: AppIcon, icon2: AppIcon): Boolean {
             val dx = icon2.x - icon1.x
             val dy = icon2.y - icon1.y
             val distance = hypot(dx, dy)
@@ -168,22 +168,22 @@ class RollingIconWallpaperService : WallpaperService() {
             } ?: canvas.drawColor(0xFF000000.toInt())
 
             // Update and draw icons
-            updateIconsPosition(width, height)
-            icons.forEach { icon ->
-                icon.update(gravityX, gravityY, width, height)
-                icon.draw(canvas, paint)
-            }
+            updateIconsPosition(canvas, width, height)
         }
 
         // Method to update the icons' position and check for overlap
-        private fun updateIconsPosition(width: Int, height: Int) {
+        private fun updateIconsPosition(canvas: Canvas, width: Int, height: Int) {
+            val bounceDamping = 0.1f // Damping when bouncing off edges
+
             // Validate width and height
-            if (width <= 0 || height <= 0) {
-                return
-            }
+            if (width <= 0 || height <= 0) return
 
             for (i in icons.indices) {
                 val icon = icons[i]
+                // Apply gravity to the velocity, with adjusted sensitivity
+                icon.velocityX += gravityX
+                icon.velocityY += gravityY
+
 
                 // Update the icon's position based on its velocity
                 icon.x += icon.velocityX * settings.iconSpeed
@@ -191,11 +191,11 @@ class RollingIconWallpaperService : WallpaperService() {
 
                 // Check for collision with screen boundaries
                 if (icon.x < icon.radius * 0.75f || icon.x > width - icon.radius * 1.25f) {
-                    icon.velocityX = -icon.velocityX * 0.98f
+                    icon.velocityX = -icon.velocityX * bounceDamping
                     icon.x = max(icon.radius * 0.75f, min(icon.x, width - icon.radius))
                 }
                 if (icon.y < icon.radius * 0.75f || icon.y > height - icon.radius * 1.25f) {
-                    icon.velocityY = -icon.velocityY * 0.98f
+                    icon.velocityY = -icon.velocityY * bounceDamping
                     icon.y = max(icon.radius * 0.75f, min(icon.y, height - icon.radius))
                 }
 
@@ -207,21 +207,19 @@ class RollingIconWallpaperService : WallpaperService() {
                 // Check for overlaps with other icons
                 for (j in i + 1 until icons.size) {
                     val other = icons[j]
-                    if (checkOverlap(icon, other, padding)) {
+                    if (checkOverlap(icon, other)) {
                         resolveOverlap(icon, other)
                     }
                 }
 
                 // Update explosion particles if necessary
                 if (icon.isExploding) {
-                    for (particle in icon.explosionParticles) {
-                        particle.update()
-                    }
+                    icon.explosionParticles.forEach { it.update() }
                     icon.explosionParticles.removeAll { it.alpha <= 0 }
-                    if (icon.explosionParticles.isEmpty()) {
-                        icon.resetState()
-                    }
+                    if (icon.explosionParticles.isEmpty()) icon.resetState()
                 }
+
+                icon.draw(canvas, paint)
             }
         }
 
@@ -238,30 +236,17 @@ class RollingIconWallpaperService : WallpaperService() {
                 val overlapY = (overlap * Math.sin(angle)).toFloat()
 
                 // Tách các biểu tượng bằng cách di chuyển dần dần
-                val separationFactor = 0.4f
-                icon1.x -= overlapX * separationFactor
-                icon1.y -= overlapY * separationFactor
-                icon2.x += overlapX * separationFactor
-                icon2.y += overlapY * separationFactor
+                val totalRadius = icon1.radius + icon2.radius
+                val factor1 = icon2.radius / totalRadius
+                val factor2 = icon1.radius / totalRadius
 
-                // Giảm vận tốc để làm giảm hiệu ứng nảy mạnh
-//                val dampingFactor = 0.4f
-//                icon1.velocityX *= dampingFactor
-//                icon1.velocityY *= dampingFactor
-//                icon2.velocityX *= dampingFactor
-//                icon2.velocityY *= dampingFactor
-                // Nếu vận tốc quá nhỏ, đặt lại về 0 để tránh di chuyển không mong muốn
-                val MIN_VELOCITY_THRESHOLD = 0.05f
-                icon1.velocityX = if (icon1.velocityX < MIN_VELOCITY_THRESHOLD) 0f else icon1.velocityX
-                icon1.velocityY = if (icon1.velocityY < MIN_VELOCITY_THRESHOLD) 0f else icon1.velocityY
+                icon1.x -= overlapX * factor1
+                icon1.y -= overlapY * factor1
+                icon2.x += overlapX * factor2
+                icon2.y += overlapY * factor2
 
-                if (hypot(icon2.velocityX.toDouble(), icon2.velocityY.toDouble()) < 0.1) {
-                    icon2.velocityX = 0f
-                    icon2.velocityY = 0f
-                }
-
-                // Giảm tốc độ dần dần sau va chạm
-                val dampingFactor = 0.4f
+                // Reduce velocity slightly to avoid excessive bouncing
+                val dampingFactor = 0.5f
                 icon1.velocityX *= dampingFactor
                 icon1.velocityY *= dampingFactor
                 icon2.velocityX *= dampingFactor

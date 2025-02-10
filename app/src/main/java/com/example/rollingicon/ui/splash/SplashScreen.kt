@@ -1,7 +1,6 @@
 package com.example.rollingicon.ui.splash
 
 import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.EaseOutBounce
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
@@ -43,19 +42,19 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun SplashScreen(navController: NavController) {
-    val scale = remember { Animatable(0f) }
+    val scale = remember { Animatable(1f) }
     val progress = remember { Animatable(0f) }
 
     val context = LocalContext.current
 
     // Animate the logo popping in
     LaunchedEffect(Unit) {
-        launch {
-            scale.animateTo(
-                targetValue = 1f,
-                animationSpec = tween(durationMillis = 1000, easing = EaseOutBounce)
-            )
-        }
+//        launch {
+//            scale.animateTo(
+//                targetValue = 1f,
+//                animationSpec = tween(durationMillis = 1000, easing = EaseOutBounce)
+//            )
+//        }
         launch {
             progress.animateTo(
                 targetValue = 1f,
