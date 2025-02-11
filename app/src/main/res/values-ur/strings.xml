@@ -33,5 +33,13 @@
     <string name="text_complete">مکمل</string>
     <string name="text_your_wallpaper_has_been_changed">آپ کی وال پیپر تبدیل کر دی گئی ہے</string>
     <string name="text_confirm">تصدیق کریں</string>
-    <string name="text_no_icons_selected">آپ نے ابھی تک کوئی آئیکن منتخب نہیں کیا ہے۔</string> <!-- Urdu -->
+    <string name="text_no_icons_selected">آپ نے ابھی تک کوئی آئیکن منتخب نہیں کیا ہے۔</string>
+    <string name="text_next">اگلا</string>
+    <string name="text_start">شروع کریں</string>
+    <string name="onboarding_title_1">منفرد اور انٹرایکٹو تجربات</string>
+    <string name="onboarding_desc_1">ایک منفرد اور انٹرایکٹو انٹرفیس کا لطف اٹھائیں جو آپ کی ہوم اسکرین کو تخلیقی بناتا ہے۔</string>
+    <string name="onboarding_title_2">متحرک ہوم اسکرین آئیکن</string>
+    <string name="onboarding_desc_2">متحرک آئیکنز کے ساتھ ایک زیادہ متحرک ہوم اسکرین کا لطف اٹھائیں۔</string>
+    <string name="onboarding_title_3">آئیکن کی شکل اور اثرات کو حسب ضرورت بنائیں</string>
+    <string name="onboarding_desc_3">انٹرایکٹو اور حسب ضرورت آئیکن اینیمیشنز بنائیں۔</string>
 </resources>

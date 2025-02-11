@@ -1,3 +1,6 @@
+import java.text.SimpleDateFormat
+import java.util.Date
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -31,6 +34,44 @@ android {
             )
         }
     }
+    buildFeatures {
+        buildConfig = true
+        flavorDimensions += "env"  // Define flavor dimension
+    }
+
+    productFlavors {
+        create("dev") {
+            dimension = "env"  // Specify the dimension for this flavor
+            applicationIdSuffix = ".dev"  // Append '.dev' for development
+            versionNameSuffix = "-dev"  // Append '-dev' for development version
+            manifestPlaceholders["ad_app_id"] = "ca-app-pub-3940256099942544~3347511713"
+            buildConfigField("String", "banner_all", "\"ca-app-pub-3940256099942544/9214589741\"")
+            buildConfigField("String", "banner_splash", "\"ca-app-pub-3940256099942544/9214589741\"")
+            buildConfigField("String", "inter_splash", "\"ca-app-pub-3940256099942544/1033173712\"")
+            buildConfigField("String", "inter_home", "\"ca-app-pub-3940256099942544/1033173712\"")
+            buildConfigField("String", "inter_all", "\"ca-app-pub-3940256099942544/1033173712\"")
+            buildConfigField("String", "native_language", "\"ca-app-pub-3940256099942544/2247696110\"")
+            buildConfigField("String", "native_language_alt", "\"ca-app-pub-3940256099942544/2247696110\"")
+            buildConfigField("String", "native_onboarding", "\"ca-app-pub-3940256099942544/2247696110\"")
+            buildConfigField("String", "appopen_resume", "\"ca-app-pub-3940256099942544/9257395921\"")
+            // Add other dev-specific configurations here
+        }
+        create("prod") {
+            dimension = "env"  // Specify the dimension for this flavor
+            manifestPlaceholders["ad_app_id"] = "ca-app-pub-3940256099942544~3347511713"
+            buildConfigField("String", "banner_all", "\"ca-app-pub-3940256099942544/9214589741\"")  
+            buildConfigField("String", "banner_splash", "\"ca-app-pub-3940256099942544/9214589741\"")  
+            buildConfigField("String", "inter_splash", "\"ca-app-pub-3940256099942544/1033173712\"")  
+            buildConfigField("String", "inter_home", "\"ca-app-pub-3940256099942544/1033173712\"")  
+            buildConfigField("String", "inter_all", "\"ca-app-pub-3940256099942544/1033173712\"")  
+            buildConfigField("String", "native_language", "\"ca-app-pub-3940256099942544/2247696110\"")  
+            buildConfigField("String", "native_language_alt", "\"ca-app-pub-3940256099942544/2247696110\"")  
+            buildConfigField("String", "native_onboarding", "\"ca-app-pub-3940256099942544/2247696110\"")  
+            buildConfigField("String", "appopen_resume", "\"ca-app-pub-3940256099942544/9257395921\"")  
+            // Add production-specific configurations here
+        }
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -47,6 +88,34 @@ android {
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
+    }
+
+    android.applicationVariants.all {
+        this.outputs.forEach { output ->
+            if (output is com.android.build.gradle.internal.api.ApkVariantOutputImpl) {
+                val formattedDate = SimpleDateFormat("dd-MM-yyyy HH:mm").format(Date())
+                val newName = "RollingIcon_v${versionName}(${versionCode})_${buildType.name}_$formattedDate"
+                var outputFileName = "$newName.apk"
+
+                outputFileName = if (outputFileName.endsWith(".aab")) {
+                    "$newName.aab"
+                } else {
+                    "$newName.apk"
+                }
+
+                outputFileName = outputFileName
+                    .replace("release", "prod")
+                    .replace("debug", "dev")
+                    .replace("qa", "qa")
+                    .replace("staging", "staging")
+                    .replace("-.-", ".")
+                    .replace("--", "-")
+                    .replace("-aab", ".aab")
+                    .replace("-apk", ".apk")
+                output.outputFileName = outputFileName
+            }
+
         }
     }
 }
@@ -75,5 +144,6 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
     implementation("io.coil-kt.coil3:coil-compose:3.0.4")
     implementation("io.coil-kt.coil3:coil-svg:3.0.4")
+    implementation("com.google.android.gms:play-services-ads:23.6.0")
 
 }

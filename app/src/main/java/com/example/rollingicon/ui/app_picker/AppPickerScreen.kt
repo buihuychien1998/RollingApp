@@ -60,6 +60,8 @@ import com.example.rollingicon.models.AppIcon
 import com.example.rollingicon.theme.AppFont
 import com.example.rollingicon.theme.clr_C2D8FF
 import com.example.rollingicon.theme.clr_D5DEE8
+import com.example.rollingicon.ui.ads.BannerAd
+import com.example.rollingicon.ui.ads.banner_all
 import com.example.rollingicon.ui.loading.LoadingScreen
 import com.example.rollingicon.ui.share_view_model.SharedViewModel
 import com.example.rollingicon.utils.custom.SafeClick
@@ -114,140 +116,160 @@ fun AppIconList(
         modifier = Modifier
             .fillMaxSize()
             .safeDrawingPadding()
-            .padding(horizontal = 16.dp)
     ) {
         //Header
-        Row(
-            modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically
-        ) {
-            SafeClick(onClick = {
-                onBack(
-                    isChanged,
-                    viewModel,
-                    selectedApps,
-                    shareViewModel,
-                    navController
-                )
-            }) { enabled, onClick ->
-                IconButton(
-                    onClick = onClick,
-                    enabled = enabled,
-                    modifier = Modifier
-                        .offset(x = (-16).dp),
-                ) {
-                    Image(
-                        modifier = Modifier
-                            .size(24.dp),
-                        painter = painterResource(R.drawable.ic_arrow_left),
-                        contentDescription = "ic_arrow_left"
-                    )
-                }
-            }
-
-            Text(
-                text = stringResource(id = R.string.text_add_application),
-                textAlign = TextAlign.Start,
-                fontFamily = AppFont.Grandstander,
-                color = Color.White,
-                style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 24.sp),
-                modifier = Modifier
-                    .weight(1f)
-                    .offset(x = (-12).dp),
-            )
-
-
-            SafeClick(onClick = { viewModel.clearSelectedIcons() }) { enabled, onClick ->
-                Button(
-                    onClick = onClick,
-                    enabled = enabled,
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.Transparent,
-                        disabledContainerColor = Color.Transparent,
-                        disabledContentColor = Color.Transparent,
-                    ),
-                    contentPadding = PaddingValues(vertical = 8.dp),
-                    modifier = Modifier.wrapContentSize()
-                ) {
-                    Text(
-                        text = stringResource(id = R.string.text_clear),
-                        fontFamily = AppFont.Grandstander,
-                        color = Color.White,
-                        style = TextStyle(fontWeight = FontWeight.Medium, fontSize = 16.sp),
-                    )
-                }
-            }
-
-        }
-        Spacer(modifier = Modifier.height(16.dp))
-        // Search Bar
-        TextField(
-            value = searchQuery,
-            onValueChange = { query -> viewModel.updateSearchQuery(query) },
+        Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 16.dp)
-                .clip(RoundedCornerShape(16.dp)) // Apply rounded corners
-                .border(1.dp, Color.White, RoundedCornerShape(16.dp)),
-            leadingIcon = {
-                Image(
-                    painter = painterResource(R.drawable.ic_seach),
-                    modifier = Modifier.size(16.dp),
-                    contentDescription = null
-                )
-            },// Add white border with rounded corners
-            placeholder = {
-                Text(
-                    text = stringResource(id = R.string.text_search),
-                    fontFamily = AppFont.Grandstander,
-                    fontWeight = FontWeight.Medium,
-                    color = clr_D5DEE8,
-                    fontSize = 16.sp
-                )
-            },
-            colors = TextFieldDefaults.colors(
-                cursorColor = Color.White,
-                focusedContainerColor = Color.Transparent, // Set background to transparent
-                unfocusedContainerColor = Color.Transparent, // Set background to transparent
-                focusedIndicatorColor = Color.Transparent, // Optionally hide the focus indicator
-                unfocusedIndicatorColor = Color.Transparent // Hide indicator when unfocused
-            ),
-            textStyle = TextStyle(color = Color.White), // Optionally set the text color
-            singleLine = true
-        )
-        if (filteredApps?.isEmpty() == true) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Spacer(modifier = Modifier.weight(1f))
-                Text(
-                    text = stringResource(id = R.string.text_your_list_is_empty),
-                    fontSize = 24.sp,
-                    color = clr_C2D8FF,
-                    fontFamily = AppFont.Grandstander,
-                    fontWeight = FontWeight.Bold
-                )
+                .padding(horizontal = 16.dp)
+        ) {
+            AppPickerHeader(isChanged, viewModel, selectedApps, shareViewModel, navController)
+        }
+        BannerAd(banner_all)
+        Spacer(modifier = Modifier.height(16.dp))
+        // Search Bar
+        Column(modifier = Modifier.padding(horizontal = 16.dp)) {
+            TextField(
+                value = searchQuery,
+                onValueChange = { query -> viewModel.updateSearchQuery(query) },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp)
+                    .clip(RoundedCornerShape(16.dp)) // Apply rounded corners
+                    .border(1.dp, Color.White, RoundedCornerShape(16.dp)),
+                leadingIcon = {
+                    Image(
+                        painter = painterResource(R.drawable.ic_seach),
+                        modifier = Modifier.size(16.dp),
+                        contentDescription = null
+                    )
+                },// Add white border with rounded corners
+                placeholder = {
+                    Text(
+                        text = stringResource(id = R.string.text_search),
+                        fontFamily = AppFont.Grandstander,
+                        fontWeight = FontWeight.Medium,
+                        color = clr_D5DEE8,
+                        fontSize = 16.sp
+                    )
+                },
+                colors = TextFieldDefaults.colors(
+                    cursorColor = Color.White,
+                    focusedContainerColor = Color.Transparent, // Set background to transparent
+                    unfocusedContainerColor = Color.Transparent, // Set background to transparent
+                    focusedIndicatorColor = Color.Transparent, // Optionally hide the focus indicator
+                    unfocusedIndicatorColor = Color.Transparent // Hide indicator when unfocused
+                ),
+                textStyle = TextStyle(color = Color.White), // Optionally set the text color
+                singleLine = true
+            )
+            if (filteredApps?.isEmpty() == true) {
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Spacer(modifier = Modifier.weight(1f))
+                    Text(
+                        text = stringResource(id = R.string.text_your_list_is_empty),
+                        fontSize = 24.sp,
+                        color = clr_C2D8FF,
+                        fontFamily = AppFont.Grandstander,
+                        fontWeight = FontWeight.Bold
+                    )
 
-                Image(
-                    painter = painterResource(id = R.drawable.img_no_content),
-                    modifier = Modifier.fillMaxWidth(),
-                    contentDescription = null
-                )
-            }
-        } else {
-            LazyVerticalGrid(
-                state = rememberLazyGridState(),
-                columns = GridCells.Fixed(4), // 3 columns in the grid
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                modifier = Modifier.padding(12.dp)
-            ) {
-                items(
-                    items = filteredApps ?: mutableListOf(),
-                ) { appIcon ->
-                    AppIconGridItem(appIcon = appIcon,
-                        isSelected = selectedApps.contains(appIcon),
-                        onSelect = { viewModel.addIcon(appIcon) },
-                        onDeselect = { viewModel.removeIcon(appIcon) }
+                    Image(
+                        painter = painterResource(id = R.drawable.img_no_content),
+                        modifier = Modifier.fillMaxWidth(),
+                        contentDescription = null
                     )
                 }
+            } else {
+                LazyVerticalGrid(
+                    state = rememberLazyGridState(),
+                    columns = GridCells.Fixed(4), // 3 columns in the grid
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    modifier = Modifier.padding(vertical = 12.dp)
+                ) {
+                    items(
+                        items = filteredApps ?: mutableListOf(),
+                    ) { appIcon ->
+                        AppIconGridItem(appIcon = appIcon,
+                            isSelected = selectedApps.contains(appIcon),
+                            onSelect = { viewModel.addIcon(appIcon) },
+                            onDeselect = { viewModel.removeIcon(appIcon) }
+                        )
+                    }
+                }
+            }
+        }
+
+
+    }
+}
+
+@Composable
+private fun AppPickerHeader(
+    isChanged: Boolean,
+    viewModel: AppPickerViewModel,
+    selectedApps: MutableList<AppIcon>,
+    shareViewModel: SharedViewModel,
+    navController: NavController
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically
+    ) {
+        SafeClick(onClick = {
+            onBack(
+                isChanged,
+                viewModel,
+                selectedApps,
+                shareViewModel,
+                navController
+            )
+        }) { enabled, onClick ->
+            IconButton(
+                onClick = onClick,
+                enabled = enabled,
+                modifier = Modifier
+                    .offset(x = (-16).dp),
+            ) {
+                Image(
+                    modifier = Modifier
+                        .size(24.dp),
+                    painter = painterResource(R.drawable.ic_arrow_left),
+                    contentDescription = "ic_arrow_left"
+                )
+            }
+        }
+
+        Text(
+            text = stringResource(id = R.string.text_add_application),
+            textAlign = TextAlign.Start,
+            fontFamily = AppFont.Grandstander,
+            color = Color.White,
+            style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 24.sp),
+            modifier = Modifier
+                .weight(1f)
+                .offset(x = (-12).dp),
+        )
+
+
+        SafeClick(onClick = { viewModel.clearSelectedIcons() }) { enabled, onClick ->
+            Button(
+                onClick = onClick,
+                enabled = enabled,
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.Transparent,
+                    disabledContainerColor = Color.Transparent,
+                    disabledContentColor = Color.Transparent,
+                ),
+                contentPadding = PaddingValues(vertical = 8.dp),
+                modifier = Modifier.wrapContentSize()
+            ) {
+                Text(
+                    text = stringResource(id = R.string.text_clear),
+                    fontFamily = AppFont.Grandstander,
+                    color = Color.White,
+                    style = TextStyle(fontWeight = FontWeight.Medium, fontSize = 16.sp),
+                )
             }
         }
 

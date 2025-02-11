@@ -34,4 +34,12 @@
     <string name="text_your_wallpaper_has_been_changed">Seu papel de parede foi alterado</string>
     <string name="text_confirm">Confirmar</string>
     <string name="text_no_icons_selected">Você ainda não selecionou nenhum ícone.</string>
+    <string name="text_next">Próximo</string>
+    <string name="text_start">Iniciar</string>
+    <string name="onboarding_title_1">Experiências únicas e interativas</string>
+    <string name="onboarding_desc_1">Desfrute de uma interface única e interativa que traz criatividade para a sua tela inicial.</string>
+    <string name="onboarding_title_2">Ícone animado na tela inicial</string>
+    <string name="onboarding_desc_2">Desfrute de uma tela inicial mais dinâmica com ícones animados.</string>
+    <string name="onboarding_title_3">Personalize a aparência e os efeitos do ícone</string>
+    <string name="onboarding_desc_3">Crie animações interativas e personalizadas para os ícones.</string>
 </resources>

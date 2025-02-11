@@ -73,6 +73,8 @@ import com.example.rollingicon.models.AppIcon
 import com.example.rollingicon.theme.AppFont
 import com.example.rollingicon.theme.clr_C2D8FF
 import com.example.rollingicon.theme.clr_FFDDDB
+import com.example.rollingicon.ui.ads.BannerAd
+import com.example.rollingicon.ui.ads.banner_all
 import com.example.rollingicon.ui.loading.LoadingScreen
 import com.example.rollingicon.ui.share_view_model.SharedViewModel
 import com.example.rollingicon.utils.IconType
@@ -154,246 +156,192 @@ fun ImagePickerScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .safeDrawingPadding()
-                    .padding(horizontal = 16.dp)
             ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp)
                 ) {
-                    SafeClick(onClick = { onBack(
-                        isChanged,
-                        viewModel,
-                        selectedMedia ?: mutableListOf(),
-                        sharedViewModel,
-                        navController
-                    ) }) { enabled, onClick ->
-                        IconButton(
-                            onClick = onClick,
-                            enabled = enabled,
-                            modifier = Modifier
-                                .offset(x = (-16).dp),
-                        ) {
-                            Image(
-                                modifier = Modifier
-                                    .size(24.dp),
-                                painter = painterResource(R.drawable.ic_arrow_left),
-                                contentDescription = "ic_arrow_left"
-                            )
-                        }
-                    }
-                    Text(
-                        text = stringResource(id = R.string.text_add_photos),
-                        textAlign = TextAlign.Start,
-                        fontFamily = AppFont.Grandstander,
-                        color = Color.White,
-                        style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 24.sp),
-                        modifier = Modifier
-                            .weight(1f)
-                            .offset(x = (-12).dp),
-                    )
-
-
-                    SafeClick(onClick = { viewModel.clearSelection() }) { enabled, onClick ->
-                        Button(
-                            onClick = onClick,
-                            enabled = enabled,
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = Color.Transparent,
-                                disabledContainerColor = Color.Transparent,
-                                disabledContentColor = Color.Transparent,
-                            ),
-                            contentPadding = PaddingValues(vertical = 8.dp),
-                            modifier = Modifier.wrapContentSize()
-                        ) {
-                            Text(
-                                text = stringResource(id = R.string.text_clear),
-                                fontFamily = AppFont.Grandstander,
-                                color = Color.White,
-                                style = TextStyle(fontWeight = FontWeight.Medium, fontSize = 16.sp),
-                            )
-                        }
-                    }
-
+                    ImagePickerHeader(isChanged, viewModel, selectedMedia, sharedViewModel, navController)
                 }
+                BannerAd(banner_all)
                 Spacer(modifier = Modifier.height(16.dp))
-
-                SafeClickable(
-                    onClick = {
-                        pickMediaLauncher.launch(
-                            arrayOf(
-                                "image/*"
+                Column(modifier = Modifier.padding(horizontal = 16.dp)) {
+                    SafeClickable(
+                        onClick = {
+                            pickMediaLauncher.launch(
+                                arrayOf(
+                                    "image/*"
+                                )
                             )
-                        )
-                    },
-                    content = {
-                        Box(
-                            contentAlignment = Alignment.Center,
-                        ) {
+                        },
+                        content = {
+                            Box(
+                                contentAlignment = Alignment.Center,
+                            ) {
 
-                            Image(
-                                painter = painterResource(R.drawable.img_add_media),
-                                contentDescription = null,
-                                contentScale = ContentScale.FillWidth
-                            )
-
-                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
                                 Image(
-                                    painter = painterResource(R.drawable.ic_add_icon),
-                                    contentDescription = "Add Icon",
-                                    modifier = Modifier.size(24.dp)
+                                    painter = painterResource(R.drawable.img_add_media),
+                                    contentDescription = null,
+                                    contentScale = ContentScale.FillWidth
                                 )
-                                Spacer(modifier = Modifier.height(8.dp))
-                                Text(
-                                    text = stringResource(id = R.string.text_add_photos),
-                                    fontFamily = AppFont.Grandstander,
-                                    fontSize = 20.sp,
-                                    fontWeight = FontWeight.Bold,
-                                    color = Color.White
-                                )
+
+                                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                    Image(
+                                        painter = painterResource(R.drawable.ic_add_icon),
+                                        contentDescription = "Add Icon",
+                                        modifier = Modifier.size(24.dp)
+                                    )
+                                    Spacer(modifier = Modifier.height(8.dp))
+                                    Text(
+                                        text = stringResource(id = R.string.text_add_photos),
+                                        fontFamily = AppFont.Grandstander,
+                                        fontSize = 20.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        color = Color.White
+                                    )
+                                }
                             }
                         }
-                    }
-                )
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
 
+                    if (selectedMedia?.isEmpty() == true) {
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Spacer(modifier = Modifier.weight(1f))
+                            Text(
+                                text = stringResource(id = R.string.text_your_list_is_empty),
+                                fontSize = 24.sp,
+                                color = clr_C2D8FF,
+                                fontFamily = AppFont.Grandstander,
+                                fontWeight = FontWeight.Bold
+                            )
 
-                Spacer(modifier = Modifier.height(16.dp))
+                            Image(
+                                painter = painterResource(id = R.drawable.img_no_content),
+                                modifier = Modifier.fillMaxWidth(),
+                                contentDescription = null
+                            )
+                        }
+                    } else {
+                        LazyVerticalGrid(
+                            columns = GridCells.Fixed(4), // 4 columns in the grid
+                            verticalArrangement = Arrangement.spacedBy(8.dp),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(vertical = 12.dp)
+                                .dragAndDropTarget(
+                                    shouldStartDragAndDrop = { event ->
+                                        event
+                                            .mimeTypes()
+                                            .contains(ClipDescription.MIMETYPE_TEXT_PLAIN)
+                                    },
+                                    target = remember {
+                                        object : DragAndDropTarget {
+                                            override fun onDrop(event: DragAndDropEvent) = true
 
-                if (selectedMedia?.isEmpty() == true) {
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Spacer(modifier = Modifier.weight(1f))
-                        Text(
-                            text = stringResource(id = R.string.text_your_list_is_empty),
-                            fontSize = 24.sp,
-                            color = clr_C2D8FF,
-                            fontFamily = AppFont.Grandstander,
-                            fontWeight = FontWeight.Bold
-                        )
+                                            override fun onEnded(event: DragAndDropEvent) {
+                                                // When the drag event stops
+                                                val text = event.toAndroidDragEvent().clipData
+                                                    ?.getItemAt(0)?.text.toString()
 
-                        Image(
-                            painter = painterResource(id = R.drawable.img_no_content),
-                            modifier = Modifier.fillMaxWidth(),
-                            contentDescription = null
-                        )
-                    }
-                } else {
-                    LazyVerticalGrid(
-                        columns = GridCells.Fixed(4), // 4 columns in the grid
-                        verticalArrangement = Arrangement.spacedBy(8.dp),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(12.dp)
-                            .dragAndDropTarget(
-                                shouldStartDragAndDrop = { event ->
-                                    event
-                                        .mimeTypes()
-                                        .contains(ClipDescription.MIMETYPE_TEXT_PLAIN)
-                                },
-                                target = remember {
-                                    object : DragAndDropTarget {
-                                        override fun onDrop(event: DragAndDropEvent) = true
+                                                println("Drag data was $text")
+                                                // If dragged to bottom, handle the drop (e.g., remove item)
+                                                val targetPosition =
+                                                    event.toAndroidDragEvent().y // You can check the Y position here
+                                                println("Item dropped at the bottom of the screen - removing it. $targetPosition")
+                                                println("Item dropped at the bottom of the screen - removing it. ${screenHeightPx * 0.8f}")
 
-                                        override fun onEnded(event: DragAndDropEvent) {
-                                            // When the drag event stops
-                                            val text = event.toAndroidDragEvent().clipData
-                                                ?.getItemAt(0)?.text.toString()
-
-                                            println("Drag data was $text")
-                                            // If dragged to bottom, handle the drop (e.g., remove item)
-                                            val targetPosition =
-                                                event.toAndroidDragEvent().y // You can check the Y position here
-                                            println("Item dropped at the bottom of the screen - removing it. $targetPosition")
-                                            println("Item dropped at the bottom of the screen - removing it. ${screenHeightPx * 0.8f}")
-
-                                            isDragging = false
-                                            isDraggingOverDeleteZone = false
-                                        }
-
-                                        override fun onMoved(event: DragAndDropEvent) {
-                                            val targetPosition = event.toAndroidDragEvent().y
-                                            isDraggingOverDeleteZone =
-                                                targetPosition > screenHeightPx * 0.8f
-                                            println("onChanged $targetPosition")
-                                            if (isDraggingOverDeleteZone && dragBoxIndex != -1) {
-                                                println("Item dropped at the bottom of the screen - removing it. $dragBoxIndex")
-                                                // You can remove the item here if the target is at the bottom
                                                 isDragging = false
                                                 isDraggingOverDeleteZone = false
-                                                viewModel.deleteItem(dragBoxIndex)
-                                                dragBoxIndex = -1
                                             }
-                                        }
 
-                                        override fun onStarted(event: DragAndDropEvent) {
-
-                                        }
-
-                                    }
-                                }
-                            ),
-                    ) {
-                        selectedMedia?.let { list ->
-                            items(list.size) { index ->
-                                val appIcon = list[index]
-                                // Use remember to avoid recalculating the bitmap on recomposition
-                                val appIconBitmap by remember(appIcon.drawable) {
-                                    mutableStateOf(appIcon.drawable?.toBitmap() ?: context.getCompressedBitmapFromUri(Uri.parse(appIcon.filePath)))
-                                }
-
-                                Box(contentAlignment = Alignment.Center,
-                                    modifier = Modifier
-                                        .size(80.dp)
-                                        .clip(RoundedCornerShape(12.dp))
-                                        .dragAndDropSource(
-                                            drawDragDecoration = {
-                                                // Draw the bitmap or actual content of the dragged item
-                                                appIconBitmap?.let { bitmap ->
-                                                    drawImage(
-                                                        image = bitmap.asImageBitmap(),
-                                                        topLeft = Offset.Zero,
-                                                        alpha = 0.9f // Adjust transparency for the decoration
-                                                    )
+                                            override fun onMoved(event: DragAndDropEvent) {
+                                                val targetPosition = event.toAndroidDragEvent().y
+                                                isDraggingOverDeleteZone =
+                                                    targetPosition > screenHeightPx * 0.8f
+                                                println("onChanged $targetPosition")
+                                                if (isDraggingOverDeleteZone && dragBoxIndex != -1) {
+                                                    println("Item dropped at the bottom of the screen - removing it. $dragBoxIndex")
+                                                    // You can remove the item here if the target is at the bottom
+                                                    isDragging = false
+                                                    isDraggingOverDeleteZone = false
+                                                    viewModel.deleteItem(dragBoxIndex)
+                                                    dragBoxIndex = -1
                                                 }
                                             }
-                                        ) {
-                                            detectTapGestures(
-                                                onTap = {
-                                                    viewModel.toggleSelection(index)
-                                                },
-                                                onLongPress = {
-                                                    dragBoxIndex = index
-                                                    isDragging = true
-                                                    startTransfer(
-                                                        transferData = DragAndDropTransferData(
-                                                            clipData = ClipData.newPlainText(
-                                                                "text",
-                                                                "$index"
+
+                                            override fun onStarted(event: DragAndDropEvent) {
+
+                                            }
+
+                                        }
+                                    }
+                                ),
+                        ) {
+                            selectedMedia?.let { list ->
+                                items(list.size) { index ->
+                                    val appIcon = list[index]
+                                    // Use remember to avoid recalculating the bitmap on recomposition
+                                    val appIconBitmap by remember(appIcon.drawable) {
+                                        mutableStateOf(appIcon.drawable?.toBitmap() ?: context.getCompressedBitmapFromUri(Uri.parse(appIcon.filePath)))
+                                    }
+
+                                    Box(contentAlignment = Alignment.Center,
+                                        modifier = Modifier
+                                            .size(80.dp)
+                                            .clip(RoundedCornerShape(12.dp))
+                                            .dragAndDropSource(
+                                                drawDragDecoration = {
+                                                    // Draw the bitmap or actual content of the dragged item
+                                                    appIconBitmap?.let { bitmap ->
+                                                        drawImage(
+                                                            image = bitmap.asImageBitmap(),
+                                                            topLeft = Offset.Zero,
+                                                            alpha = 0.9f // Adjust transparency for the decoration
+                                                        )
+                                                    }
+                                                }
+                                            ) {
+                                                detectTapGestures(
+                                                    onTap = {
+                                                        viewModel.toggleSelection(index)
+                                                    },
+                                                    onLongPress = {
+                                                        dragBoxIndex = index
+                                                        isDragging = true
+                                                        startTransfer(
+                                                            transferData = DragAndDropTransferData(
+                                                                clipData = ClipData.newPlainText(
+                                                                    "text",
+                                                                    "$index"
+                                                                )
                                                             )
                                                         )
-                                                    )
 
-                                                }
-                                            )
-                                        }
-                                ) {
-                                    when (appIcon.type) {
-                                        IconType.IMAGE.name -> {
-                                            // Display image
-                                            if (appIcon.drawable == null) {
-                                                Image(
-                                                    painter = rememberAsyncImagePainter(
-                                                        Uri.parse(
-                                                            appIcon.filePath
-                                                        )
-                                                    ),
-                                                    contentDescription = "Image",
-                                                    contentScale = ContentScale.Crop,
-                                                    modifier = Modifier
-                                                        .size(60.dp)
-                                                        .clip(RoundedCornerShape(12.dp))
+                                                    }
                                                 )
-                                            } else {
-                                                appIconBitmap?.let {
+                                            }
+                                    ) {
+                                        when (appIcon.type) {
+                                            IconType.IMAGE.name -> {
+                                                // Display image
+                                                if (appIcon.drawable == null) {
+                                                    Image(
+                                                        painter = rememberAsyncImagePainter(
+                                                            Uri.parse(
+                                                                appIcon.filePath
+                                                            )
+                                                        ),
+                                                        contentDescription = "Image",
+                                                        contentScale = ContentScale.Crop,
+                                                        modifier = Modifier
+                                                            .size(60.dp)
+                                                            .clip(RoundedCornerShape(12.dp))
+                                                    )
+                                                } else {
+                                                    appIconBitmap?.let {
 //                                                    AsyncImage(
 //                                                        model = ImageRequest.Builder(
 //                                                            LocalContext.current
@@ -408,38 +356,40 @@ fun ImagePickerScreen(
 //                                                            .clip(RoundedCornerShape(12.dp)),
 //                                                        contentScale = ContentScale.Crop
 //                                                    )
-                                                    Image(
-                                                        bitmap = it.asImageBitmap(),
-                                                        contentDescription = "App Icon",
-                                                        modifier = Modifier
-                                                            .size(60.dp)
-                                                            .clip(RoundedCornerShape(12.dp)) // Apply rounded corners
-                                                        ,// Debugging layout
-                                                        contentScale = ContentScale.Crop
-                                                    )
+                                                        Image(
+                                                            bitmap = it.asImageBitmap(),
+                                                            contentDescription = "App Icon",
+                                                            modifier = Modifier
+                                                                .size(60.dp)
+                                                                .clip(RoundedCornerShape(12.dp)) // Apply rounded corners
+                                                            ,// Debugging layout
+                                                            contentScale = ContentScale.Crop
+                                                        )
+                                                    }
+
                                                 }
 
                                             }
+                                        }
 
+                                        // Checkmark overlay
+                                        if (appIcon.selected) {
+                                            Image(
+                                                painter = painterResource(R.drawable.ic_check),
+                                                contentDescription = "Selected",
+                                                modifier = Modifier
+                                                    .align(Alignment.TopEnd)
+                                                    .size(24.dp) // Icon size for the checkmark
+                                            )
                                         }
                                     }
-
-                                    // Checkmark overlay
-                                    if (appIcon.selected) {
-                                        Image(
-                                            painter = painterResource(R.drawable.ic_check),
-                                            contentDescription = "Selected",
-                                            modifier = Modifier
-                                                .align(Alignment.TopEnd)
-                                                .size(24.dp) // Icon size for the checkmark
-                                        )
-                                    }
                                 }
-                            }
 
+                            }
                         }
                     }
                 }
+
 
             }
 
@@ -484,6 +434,77 @@ fun ImagePickerScreen(
         }
     }
 
+}
+
+@Composable
+private fun ImagePickerHeader(
+    isChanged: Boolean,
+    viewModel: ImagePickerViewModel,
+    selectedMedia: MutableList<AppIcon>?,
+    sharedViewModel: SharedViewModel,
+    navController: NavController
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        SafeClick(onClick = {
+            onBack(
+                isChanged,
+                viewModel,
+                selectedMedia ?: mutableListOf(),
+                sharedViewModel,
+                navController
+            )
+        }) { enabled, onClick ->
+            IconButton(
+                onClick = onClick,
+                enabled = enabled,
+                modifier = Modifier
+                    .offset(x = (-16).dp),
+            ) {
+                Image(
+                    modifier = Modifier
+                        .size(24.dp),
+                    painter = painterResource(R.drawable.ic_arrow_left),
+                    contentDescription = "ic_arrow_left"
+                )
+            }
+        }
+        Text(
+            text = stringResource(id = R.string.text_add_photos),
+            textAlign = TextAlign.Start,
+            fontFamily = AppFont.Grandstander,
+            color = Color.White,
+            style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 24.sp),
+            modifier = Modifier
+                .weight(1f)
+                .offset(x = (-12).dp),
+        )
+
+
+        SafeClick(onClick = { viewModel.clearSelection() }) { enabled, onClick ->
+            Button(
+                onClick = onClick,
+                enabled = enabled,
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.Transparent,
+                    disabledContainerColor = Color.Transparent,
+                    disabledContentColor = Color.Transparent,
+                ),
+                contentPadding = PaddingValues(vertical = 8.dp),
+                modifier = Modifier.wrapContentSize()
+            ) {
+                Text(
+                    text = stringResource(id = R.string.text_clear),
+                    fontFamily = AppFont.Grandstander,
+                    color = Color.White,
+                    style = TextStyle(fontWeight = FontWeight.Medium, fontSize = 16.sp),
+                )
+            }
+        }
+
+    }
 }
 
 private fun onBack(

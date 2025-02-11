@@ -34,4 +34,12 @@
     <string name="text_your_wallpaper_has_been_changed">आपका वॉलपेपर बदल दिया गया है</string>
     <string name="text_confirm">पुष्टि करें</string>
     <string name="text_no_icons_selected">आपने अभी तक कोई आइकन नहीं चुना है।</string>
+    <string name="text_next">आगे</string>
+    <string name="text_start">शुरू करें</string>
+    <string name="onboarding_title_1">अद्वितीय और इंटरएक्टिव अनुभव</string>
+    <string name="onboarding_desc_1">एक अनोखे और इंटरएक्टिव इंटरफेस का आनंद लें जो आपकी होम स्क्रीन को रचनात्मक बनाता है।</string>
+    <string name="onboarding_title_2">एनिमेटेड होम स्क्रीन आइकन</string>
+    <string name="onboarding_desc_2">एनिमेटेड आइकन के साथ अधिक गतिशील होम स्क्रीन का आनंद लें।</string>
+    <string name="onboarding_title_3">आइकन की उपस्थिति और प्रभावों को अनुकूलित करें</string>
+    <string name="onboarding_desc_3">इंटरएक्टिव और कस्टमाइज़्ड आइकन एनीमेशन बनाएं।</string>
 </resources>

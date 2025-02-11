@@ -33,4 +33,12 @@
     <string name="text_your_wallpaper_has_been_changed">Your wallpaper has been changed</string>
     <string name="text_confirm">Confirm</string>
     <string name="text_no_icons_selected">You haven\'t selected any icons yet.</string>
+    <string name="text_next">Next</string>
+    <string name="text_start">Start</string>
+    <string name="onboarding_title_1">Unique and interactive experiences</string>
+    <string name="onboarding_desc_1">Enjoy a unique and interactive interface that brings creativity to your home screen.</string>
+    <string name="onboarding_title_2">Animated home screen icon</string>
+    <string name="onboarding_desc_2">Enjoy a more dynamic home screen with animated icons.</string>
+    <string name="onboarding_title_3">Customize icon appearance and effects</string>
+    <string name="onboarding_desc_3">Create interactive and customized icon animations.</string>
 </resources>

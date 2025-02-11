@@ -69,6 +69,8 @@ import com.example.rollingicon.routes.AppRoutes
 import com.example.rollingicon.theme.AppFont
 import com.example.rollingicon.theme.clr_4664FF
 import com.example.rollingicon.theme.clr_C2D8FF
+import com.example.rollingicon.ui.ads.BannerAd
+import com.example.rollingicon.ui.ads.banner_all
 import com.example.rollingicon.ui.dialog.SuccessDialog
 import com.example.rollingicon.ui.loading.LoadingScreen
 import com.example.rollingicon.ui.share_view_model.SharedViewModel
@@ -210,15 +212,23 @@ fun RollingIconScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .safeDrawingPadding()
-                .padding(horizontal = 16.dp)
         ) {
             // Header with title and toggle
-            HomeHeader(navController, liveWallpaperLauncher, appIcons)
-            // Add Icon Section
-            AddIconSection(showCreateDialog, appIcons)
-            Spacer(modifier = Modifier.height(4.dp))
-            // Grid of AppIcons
-            AppIconsGrid(appIcons)
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+            ) {
+                HomeHeader(navController, liveWallpaperLauncher, appIcons)
+            }
+            BannerAd(banner_all)
+
+            Spacer(modifier = Modifier.height(16.dp))
+            Column(modifier = Modifier.padding(horizontal = 16.dp)) {
+                AddIconSection(showCreateDialog, appIcons)
+                Spacer(modifier = Modifier.height(4.dp))
+                AppIconsGrid(appIcons)
+            }
         }
 
         // Bottom sheet dialog for adding options
@@ -277,7 +287,7 @@ private fun AppIconsGrid(appIcons: List<AppIcon>?) {
             verticalArrangement = Arrangement.spacedBy(8.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier
-                .padding(12.dp)
+                .padding(vertical = 12.dp)
 
         ) {
             appIcons?.let {

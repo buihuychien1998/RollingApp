@@ -34,4 +34,12 @@
     <string name="text_your_wallpaper_has_been_changed">Ihr Hintergrund wurde geändert</string>
     <string name="text_confirm">Bestätigen</string>
     <string name="text_no_icons_selected">Sie haben noch keine Symbole ausgewählt.</string>
+    <string name="text_next">Weiter</string>
+    <string name="text_start">Starten</string>
+    <string name="onboarding_title_1">Einzigartige und interaktive Erlebnisse</string>
+    <string name="onboarding_desc_1">Genieße eine einzigartige und interaktive Benutzeroberfläche, die Kreativität auf deinen Startbildschirm bringt.</string>
+    <string name="onboarding_title_2">Animiertes Startbildschirm-Symbol</string>
+    <string name="onboarding_desc_2">Erlebe einen dynamischeren Startbildschirm mit animierten Symbolen.</string>
+    <string name="onboarding_title_3">Anpassen von Symbolaussehen und Effekten</string>
+    <string name="onboarding_desc_3">Erstelle interaktive und individuell gestaltete Symbolanimationen.</string>
 </resources>

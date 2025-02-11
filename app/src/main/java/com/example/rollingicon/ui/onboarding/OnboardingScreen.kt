@@ -1,5 +1,6 @@
 package com.example.rollingicon.ui.onboarding
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -16,7 +17,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,13 +28,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.rollingicon.R
 import com.example.rollingicon.models.OnboardingItem
 import com.example.rollingicon.routes.AppRoutes
+import com.example.rollingicon.theme.AppFont
+import com.example.rollingicon.theme.clr_2C323F
 import kotlinx.coroutines.launch
 
 @Composable
@@ -39,18 +47,18 @@ fun OnboardingScreen(navController: NavController) {
     val onboardingItems = listOf(
         OnboardingItem(
             R.drawable.onboarding_image1,
-            "Unique and interactive experiences",
-            "Enjoy a unique and interactive interface that brings creativity to your home screen."
+            stringResource(R.string.onboarding_title_1),
+            stringResource(R.string.onboarding_desc_1)
         ),
         OnboardingItem(
             R.drawable.onboarding_image2,
-            "Animated home screen icon",
-            "Enjoy a more dynamic home screen with animated icons."
+            stringResource(R.string.onboarding_title_2),
+            stringResource(R.string.onboarding_desc_2)
         ),
         OnboardingItem(
             R.drawable.onboarding_image3,
-            "Customize icon appearance and effects",
-            "Create interactive and customized icon animations."
+            stringResource(R.string.onboarding_title_3),
+            stringResource(R.string.onboarding_desc_3)
         )
     )
 
@@ -64,8 +72,7 @@ fun OnboardingScreen(navController: NavController) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         HorizontalPager(
-            state = pagerState,
-            modifier = Modifier.weight(1f)
+            state = pagerState, modifier = Modifier.weight(1f)
         ) { page ->
             val item = onboardingItems[page]
             OnboardingSlide(item)
@@ -80,8 +87,7 @@ fun OnboardingScreen(navController: NavController) {
         ) {
             // Indicators (dot progress)
             Row(
-                Modifier
-                    .wrapContentSize(),
+                Modifier.wrapContentSize(),
                 horizontalArrangement = Arrangement.Center,
             ) {
                 repeat(onboardingItems.size) { index ->
@@ -103,8 +109,25 @@ fun OnboardingScreen(navController: NavController) {
                         }
                     }
                 },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = if (pagerState.currentPage < onboardingItems.size - 1) Color.White else Color(0xFF4664FF),
+                    contentColor = if (pagerState.currentPage < onboardingItems.size - 1) Color(0xFF4664FF) else Color.White
+                ),
+                border = if (pagerState.currentPage < onboardingItems.size - 1) {
+                    BorderStroke(1.dp, Color(0xFF4664FF))
+                } else {
+                    null
+                },
+                shape = RoundedCornerShape(16.dp),
+                modifier = Modifier.wrapContentSize()
             ) {
-                Text(if (pagerState.currentPage < onboardingItems.size - 1) "Next" else "Start")
+                Text(
+                    text = stringResource(
+                        if (pagerState.currentPage < onboardingItems.size - 1) R.string.text_next else R.string.text_start
+                    ),
+                    fontFamily = AppFont.Grandstander,
+                    style = TextStyle(fontWeight = FontWeight.Medium, fontSize = 14.sp),
+                )
             }
         }
 
@@ -127,9 +150,20 @@ fun OnboardingSlide(item: OnboardingItem) {
                 .height(300.dp)
         )
         Spacer(modifier = Modifier.height(24.dp))
-        Text(text = item.title, fontSize = 20.sp, fontWeight = FontWeight.Bold)
+        Text(
+            text = item.title,
+            textAlign = TextAlign.Center,
+            fontFamily = AppFont.Grandstander,
+            color = clr_2C323F,
+            style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 24.sp),
+        )
         Spacer(modifier = Modifier.height(8.dp))
-        Text(text = item.description, fontSize = 16.sp, color = Color.Gray)
+        Text(
+            text = item.description, textAlign = TextAlign.Center,
+            fontFamily = AppFont.Grandstander,
+            color = clr_2C323F,
+            style = TextStyle(fontWeight = FontWeight.Normal, fontSize = 16.sp),
+        )
     }
 }
 
@@ -140,8 +174,7 @@ fun Indicator(isSelected: Boolean) {
             .padding(4.dp)
             .size(if (isSelected) 10.dp else 8.dp)
             .background(
-                if (isSelected) Color.Blue else Color.Gray,
-                shape = MaterialTheme.shapes.small
+                if (isSelected) Color.Blue else Color.Gray, shape = MaterialTheme.shapes.small
             )
     )
 }
