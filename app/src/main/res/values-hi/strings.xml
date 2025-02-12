@@ -42,4 +42,5 @@
     <string name="onboarding_desc_2">एनिमेटेड आइकन के साथ अधिक गतिशील होम स्क्रीन का आनंद लें।</string>
     <string name="onboarding_title_3">आइकन की उपस्थिति और प्रभावों को अनुकूलित करें</string>
     <string name="onboarding_desc_3">इंटरएक्टिव और कस्टमाइज़्ड आइकन एनीमेशन बनाएं।</string>
+    <string name="ad_warning">इस क्रिया में विज्ञापन हो सकते हैं</string>
 </resources>

@@ -35,6 +35,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -42,12 +43,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil3.compose.rememberAsyncImagePainter
 import com.example.rollingicon.R
 import com.example.rollingicon.models.Language
 import com.example.rollingicon.theme.AppFont
 import com.example.rollingicon.theme.clr_2C323F
 import com.example.rollingicon.theme.clr_4664FF
+import com.example.rollingicon.ui.ads.NativeAdViewCompose
+import com.example.rollingicon.ui.ads.native_language
 import com.example.rollingicon.utils.custom.SafeClick
 
 @Composable
@@ -59,6 +61,7 @@ fun LanguageScreen(
     showBackButton: Boolean, // New parameter to control the back button
     onBackPressed: (() -> Unit)? = null // Callback for back button action
 ) {
+    val context = LocalContext.current
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -69,75 +72,84 @@ fun LanguageScreen(
             contentDescription = "background_image",
             contentScale = ContentScale.FillBounds
         )
-        Column(
+        Column (
             modifier = Modifier
                 .fillMaxSize()
                 .safeDrawingPadding()
-                .padding(horizontal = 16.dp)
-        ) {
-            // Top bar with title and confirm icon
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
+        ){
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .safeDrawingPadding()
+                    .padding(horizontal = 16.dp)
             ) {
-                // Show back button if required
-                if (showBackButton) {
-                    SafeClick(onClick = { onBackPressed?.invoke() }) { enabled, onClick ->
+                // Top bar with title and confirm icon
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    // Show back button if required
+                    if (showBackButton) {
+                        SafeClick(onClick = { onBackPressed?.invoke() }) { enabled, onClick ->
+                            IconButton(
+                                onClick = onClick,
+                                enabled = enabled,
+                                modifier = Modifier
+                                    .offset(x = (-16).dp)
+                            ) {
+                                Image(
+                                    modifier = Modifier
+                                        .size(24.dp),
+                                    painter = painterResource(R.drawable.ic_arrow_left),
+                                    contentDescription = "ic_arrow_left"
+                                )
+                            }
+                        }
+                    }
+
+                    Text(
+                        modifier = Modifier
+                            .weight(1f)
+                            .offset(x = if (showBackButton) (-12).dp else 0.dp),
+                        text = stringResource(id = R.string.text_language),
+                        textAlign = TextAlign.Start,
+                        color = Color.White,
+                        fontFamily = AppFont.Grandstander,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 24.sp
+                    )
+
+                    SafeClick(onClick = onConfirm) { enabled, onClick ->
                         IconButton(
                             onClick = onClick,
                             enabled = enabled,
-                            modifier = Modifier
-                                .offset(x = (-16).dp)
                         ) {
                             Image(
                                 modifier = Modifier
                                     .size(24.dp),
-                                painter = painterResource(R.drawable.ic_arrow_left),
+                                painter = painterResource(R.drawable.ic_done),
                                 contentDescription = "ic_arrow_left"
                             )
                         }
                     }
                 }
+                Spacer(modifier = Modifier.height(16.dp))
 
-                Text(
-                    modifier = Modifier
-                        .weight(1f)
-                        .offset(x = if (showBackButton) (-12).dp else 0.dp),
-                    text = stringResource(id = R.string.text_language),
-                    textAlign = TextAlign.Start,
-                    color = Color.White,
-                    fontFamily = AppFont.Grandstander,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 24.sp
-                )
-
-                SafeClick(onClick = onConfirm) { enabled, onClick ->
-                    IconButton(
-                        onClick = onClick,
-                        enabled = enabled,
-                    ) {
-                        Image(
-                            modifier = Modifier
-                                .size(24.dp),
-                            painter = painterResource(R.drawable.ic_done),
-                            contentDescription = "ic_arrow_left"
+                // Language list
+                LazyColumn(modifier = Modifier.fillMaxSize()) {
+                    items(languages) { language ->
+                        LanguageItem(
+                            language = language,
+                            isSelected = language == selectedLanguage,
+                            onSelect = { onLanguageSelected(language) }
                         )
                     }
                 }
             }
             Spacer(modifier = Modifier.height(16.dp))
-
-            // Language list
-            LazyColumn(modifier = Modifier.fillMaxSize()) {
-                items(languages) { language ->
-                    LanguageItem(
-                        language = language,
-                        isSelected = language == selectedLanguage,
-                        onSelect = { onLanguageSelected(language) }
-                    )
-                }
-            }
+            NativeAdViewCompose(context, native_language)
         }
+
     }
 }
 

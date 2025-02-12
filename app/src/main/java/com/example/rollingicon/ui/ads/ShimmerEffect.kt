@@ -19,7 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun ShimmerEffect() {
+fun BannerShimmerEffect() {
     val shimmerColors = listOf(
         Color.White.copy(alpha = 0.9f),
         Color.White.copy(alpha = 0.5f),
@@ -41,6 +41,37 @@ fun ShimmerEffect() {
             .fillMaxWidth()
             .height(50.dp) // Approximate height of banner ad
 //            .clip(RoundedCornerShape(4.dp)) // Smooth rounded corners
+            .background(
+                brush = Brush.linearGradient(
+                    colors = shimmerColors,
+                    start = Offset(shimmerX, 0f),
+                    end = Offset(shimmerX + 500f, 0f) // Moves the shimmer effect
+                )
+            )
+    )
+}
+
+@Composable
+fun NativeShimmerEffect(modifier: Modifier = Modifier) {
+    val shimmerColors = listOf(
+        Color.White.copy(alpha = 0.9f),
+        Color.White.copy(alpha = 0.5f),
+        Color.White.copy(alpha = 0.9f)
+    )
+
+    val transition = rememberInfiniteTransition()
+    val shimmerX by transition.animateFloat(
+        initialValue = 0f,
+        targetValue = 1000f, // Large enough to create smooth animation
+        animationSpec = infiniteRepeatable(
+            animation = tween(durationMillis = 1000, easing = FastOutSlowInEasing),
+            repeatMode = RepeatMode.Restart
+        )
+    )
+
+    Box(
+        modifier =modifier
+            .fillMaxWidth()
             .background(
                 brush = Brush.linearGradient(
                     colors = shimmerColors,

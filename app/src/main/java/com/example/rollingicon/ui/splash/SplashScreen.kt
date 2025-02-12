@@ -1,7 +1,9 @@
 package com.example.rollingicon.ui.splash
 
+import android.app.Activity
 import androidx.compose.animation.core.Animatable
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -15,6 +17,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -32,13 +35,18 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.navigation.NavController
 import com.example.rollingicon.R
 import com.example.rollingicon.routes.AppRoutes
 import com.example.rollingicon.theme.AppFont
 import com.example.rollingicon.theme.clr_96ACC4
 import com.example.rollingicon.ui.ads.BannerAd
+import com.example.rollingicon.ui.ads.InterstitialAdManager
 import com.example.rollingicon.ui.ads.banner_splash
+import com.example.rollingicon.ui.ads.inter_splash
 import com.example.rollingicon.utils.PreferencesHelper
 import kotlinx.coroutines.delay
 
@@ -49,13 +57,48 @@ fun SplashScreen(navController: NavController) {
 
     val context = LocalContext.current
     var isAdFinished by remember { mutableStateOf(false) }
-    var startDelay by remember { mutableStateOf(false) }
+    var isResumed by remember { mutableStateOf(true) } // Track if app is in foreground
+    val lifecycleOwner = LocalLifecycleOwner.current
 
-    // Start delay only when the ad finishes loading
-    LaunchedEffect(isAdFinished) {
-        if (isAdFinished) {
+    // Observe lifecycle changes
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            when (event) {
+                Lifecycle.Event.ON_RESUME -> isResumed = true
+                Lifecycle.Event.ON_PAUSE -> isResumed = false
+                else -> {}
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
+    }
+
+    LaunchedEffect(Unit) {
+        InterstitialAdManager.loadAd(context, inter_splash)
+    }
+
+    // Start delay only when the ad finishes loading and app is in foreground
+    LaunchedEffect(isAdFinished, isResumed) {
+        if (isAdFinished && isResumed) {
             delay(2000) // Wait 2000ms after ad loads
-            startDelay = true
+            val activity = context as? Activity
+
+            if (activity != null) {
+                InterstitialAdManager.showAd(activity, inter_splash) {
+                    val isLanguageDone = PreferencesHelper.isLFODone(context)
+                    val isOnboardingDone = PreferencesHelper.isOnboardingDone(context)
+
+                    val nextRoute = when {
+                        !isLanguageDone -> AppRoutes.Language.route
+                        !isOnboardingDone -> AppRoutes.Onboarding.route
+                        else -> AppRoutes.Home.route
+                    }
+
+                    navController.navigate(nextRoute) {
+                        popUpTo(AppRoutes.Splash.route) { inclusive = true }
+                    }
+                }
+            }
         }
     }
     // Animate the logo popping in
@@ -81,17 +124,7 @@ fun SplashScreen(navController: NavController) {
 //        }
 //    }
 
-
-
-    // Navigate only after the delay
-    LaunchedEffect(startDelay) {
-        if (startDelay) {
-            val isLFO = PreferencesHelper.isLFO(context)
-            navController.navigate(if (isLFO) AppRoutes.Language.route else AppRoutes.Home.route) {
-                popUpTo(AppRoutes.Splash.route) { inclusive = true }
-            }
-        }
-    }
+    val isAdShowing by InterstitialAdManager.isAdShowing // Observe Ad State
 
     Box(
         modifier = Modifier
@@ -136,6 +169,14 @@ fun SplashScreen(navController: NavController) {
                 .align(Alignment.BottomCenter),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            Text(
+                text = stringResource(id = R.string.ad_warning),
+                color = Color.White.copy(alpha = 0.7f),
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Medium
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+
             LinearProgressIndicator(
 //                progress = progress.value,
                 modifier = Modifier
@@ -153,5 +194,14 @@ fun SplashScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(16.dp))
         }
 
+        if(isAdShowing){
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.Black), // Set Black Background When Ad Shows
+            )
+        }
     }
+
+
 }

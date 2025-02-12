@@ -15,6 +15,7 @@ object PreferencesHelper {
     private const val FIRST_LOAD_APP_ICON_KEY = "FIRST_LOAD_APP_ICON_KEY"
     private const val LANGUAGE_KEY = "selected_language"
     private const val LFO_KEY = "LFO_KEY"
+    private const val ONBOARDING_DONE_KEY = "ONBOARDING_DONE_KEY"
     const val ICON_SIZE_KEY = "icon_size"
     const val ICON_SPEED_KEY = "icon_speed"
     const val CAN_TOUCH_KEY = "can_touch"
@@ -119,12 +120,20 @@ object PreferencesHelper {
         return get(context, LANGUAGE_KEY, "en") // Default size 75f
     }
 
-    fun isLFO(context: Context): Boolean {
-        return get(context, LFO_KEY, true)
+    fun isLFODone(context: Context): Boolean {
+        return get(context, LFO_KEY, false)
     }
 
-    fun saveLFO(context: Context, value: Boolean) {
+    fun setLFODone(context: Context, value: Boolean) {
         put(context, LFO_KEY, value)
+    }
+
+    fun isOnboardingDone(context: Context): Boolean {
+        return get(context, ONBOARDING_DONE_KEY, false)
+    }
+
+    fun setOnboardingDone(context: Context, value: Boolean) {
+        put(context, ONBOARDING_DONE_KEY, value)
     }
 
     fun isFirstLoadIcon(context: Context): Boolean {

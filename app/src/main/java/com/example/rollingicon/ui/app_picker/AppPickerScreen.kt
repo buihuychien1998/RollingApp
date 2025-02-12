@@ -125,8 +125,10 @@ fun AppIconList(
         ) {
             AppPickerHeader(isChanged, viewModel, selectedApps, shareViewModel, navController)
         }
-        BannerAd(banner_all)
-        Spacer(modifier = Modifier.height(16.dp))
+        if(!filteredApps.isNullOrEmpty()){
+            BannerAd(banner_all)
+            Spacer(modifier = Modifier.height(16.dp))
+        }
         // Search Bar
         Column(modifier = Modifier.padding(horizontal = 16.dp)) {
             TextField(

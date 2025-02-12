@@ -27,6 +27,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -40,10 +41,14 @@ import com.example.rollingicon.models.OnboardingItem
 import com.example.rollingicon.routes.AppRoutes
 import com.example.rollingicon.theme.AppFont
 import com.example.rollingicon.theme.clr_2C323F
+import com.example.rollingicon.ui.ads.NativeAdViewCompose
+import com.example.rollingicon.ui.ads.native_onboarding
+import com.example.rollingicon.utils.PreferencesHelper
 import kotlinx.coroutines.launch
 
 @Composable
 fun OnboardingScreen(navController: NavController) {
+    val context = LocalContext.current
     val onboardingItems = listOf(
         OnboardingItem(
             R.drawable.onboarding_image1,
@@ -81,7 +86,7 @@ fun OnboardingScreen(navController: NavController) {
         Row(
             Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(horizontal = 16.dp, vertical = 8.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
@@ -102,6 +107,7 @@ fun OnboardingScreen(navController: NavController) {
                         if (pagerState.currentPage < onboardingItems.size - 1) {
                             pagerState.animateScrollToPage(pagerState.currentPage + 1)
                         } else {
+                            PreferencesHelper.setOnboardingDone(context = context, value = true)
                             // Navigate to Home Screen
                             navController.navigate(AppRoutes.Home.route) {
                                 popUpTo(AppRoutes.Onboarding.route) { inclusive = true }
@@ -131,6 +137,10 @@ fun OnboardingScreen(navController: NavController) {
             }
         }
 
+        NativeAdViewCompose(
+            context = LocalContext.current,
+            nativeID = native_onboarding,
+        )
     }
 }
 

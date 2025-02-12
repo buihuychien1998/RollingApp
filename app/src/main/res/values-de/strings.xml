@@ -42,4 +42,5 @@
     <string name="onboarding_desc_2">Erlebe einen dynamischeren Startbildschirm mit animierten Symbolen.</string>
     <string name="onboarding_title_3">Anpassen von Symbolaussehen und Effekten</string>
     <string name="onboarding_desc_3">Erstelle interaktive und individuell gestaltete Symbolanimationen.</string>
+    <string name="ad_warning">Diese Aktion kann Werbung enthalten</string>
 </resources>

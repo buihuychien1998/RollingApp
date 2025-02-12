@@ -164,8 +164,12 @@ fun ImagePickerScreen(
                 ) {
                     ImagePickerHeader(isChanged, viewModel, selectedMedia, sharedViewModel, navController)
                 }
-                BannerAd(banner_all)
+
+                if(!selectedMedia.isNullOrEmpty()){
+                    BannerAd(banner_all)
+                }
                 Spacer(modifier = Modifier.height(16.dp))
+
                 Column(modifier = Modifier.padding(horizontal = 16.dp)) {
                     SafeClickable(
                         onClick = {

@@ -42,4 +42,5 @@
     <string name="onboarding_desc_2">استمتع بشاشة رئيسية أكثر ديناميكية مع أيقونات متحركة.</string>
     <string name="onboarding_title_3">تخصيص مظهر الأيقونة والتأثيرات</string>
     <string name="onboarding_desc_3">قم بإنشاء رسوم متحركة تفاعلية ومخصصة للأيقونات.</string>
+    <string name="ad_warning">قد تحتوي هذه العملية على إعلانات</string>
 </resources>

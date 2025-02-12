@@ -37,7 +37,7 @@ fun BannerAd(bannerId: String, onAdFinished: (() -> Unit)? = null) { // Make it 
     ) {
         // Show shimmer while loading
         if (isAdLoading) {
-            ShimmerEffect()
+            BannerShimmerEffect()
         }
 
         if (!isAdFailed) {

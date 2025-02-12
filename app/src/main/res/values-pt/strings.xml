@@ -42,4 +42,5 @@
     <string name="onboarding_desc_2">Desfrute de uma tela inicial mais dinâmica com ícones animados.</string>
     <string name="onboarding_title_3">Personalize a aparência e os efeitos do ícone</string>
     <string name="onboarding_desc_3">Crie animações interativas e personalizadas para os ícones.</string>
+    <string name="ad_warning">Esta ação pode conter anúncios</string>
 </resources>

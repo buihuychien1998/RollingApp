@@ -221,9 +221,12 @@ fun RollingIconScreen(
             ) {
                 HomeHeader(navController, liveWallpaperLauncher, appIcons)
             }
-            BannerAd(banner_all)
 
-            Spacer(modifier = Modifier.height(16.dp))
+            if (!appIcons.isNullOrEmpty()) {
+                BannerAd(banner_all)
+                Spacer(modifier = Modifier.height(16.dp))
+            }
+
             Column(modifier = Modifier.padding(horizontal = 16.dp)) {
                 AddIconSection(showCreateDialog, appIcons)
                 Spacer(modifier = Modifier.height(4.dp))

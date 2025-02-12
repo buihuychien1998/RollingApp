@@ -1,2 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <color name="colorPrimary">#FDB812</color>
+    <color name="clr_545454">#545454</color>
+    <color name="clr_333333">#333333</color>
+    <color name="clr_4664FF">#4664FF</color>
+    <color name="colorAds">#FDB812</color>
+</resources>

@@ -12,6 +12,7 @@ import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
@@ -62,9 +63,13 @@ class HomeActivity : ComponentActivity() {
                 popEnterTransition = { slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.End, tween(TWEEN_DURATION)) },
                 popExitTransition = { slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.End, tween(TWEEN_DURATION)) }
                 ) {
-                composable(AppRoutes.Splash.route) {
-                    SplashScreen(navController)
-                }
+                composable(
+                    route = AppRoutes.Splash.route,
+                    exitTransition = {
+                        fadeOut(animationSpec = tween(100))
+                    }
+                ) { SplashScreen(navController) }
+
                 composable(AppRoutes.Onboarding.route) {
                     OnboardingScreen(navController)
                 }
@@ -72,8 +77,8 @@ class HomeActivity : ComponentActivity() {
                     HomeScreen(navController, sharedViewModel)
                 }
                 composable(AppRoutes.Language.route) {
-                    val checkLFO = remember {
-                        PreferencesHelper.isLFO(this@HomeActivity)
+                    val isLFO = remember {
+                        PreferencesHelper.isLFODone(this@HomeActivity)
                     }
 
                     // Get the current language from shared preferences
@@ -92,24 +97,23 @@ class HomeActivity : ComponentActivity() {
                         onConfirm = {
                             // Handle confirm action, e.g., save the selected language to SharedPreferences
                             PreferencesHelper.saveSelectedLanguage(this@HomeActivity, selectedLanguage.value)
-                            PreferencesHelper.saveLFO(this@HomeActivity, false)
+                            PreferencesHelper.setLFODone(this@HomeActivity, true)
 
                             // Update app language
                             changeLanguage(selectedLanguage.value.code)
 
                             // Navigate to Home if it's the first open, or pop back if opened from settings
-                            if (checkLFO) {
-                                // If it's the first time, navigate to Home screen
-                                navController.navigate(AppRoutes.Home.route) {
-                                    popUpTo(AppRoutes.Language.route) { inclusive = true }
-                                }
-                            } else {
+                            if (isLFO) {
                                 // If coming from settings, pop the current screen
                                 navController.popBackStack()
-
+                            } else {
+                                // If it's the first time, navigate to Home screen
+                                navController.navigate(AppRoutes.Onboarding.route) {
+                                    popUpTo(AppRoutes.Language.route) { inclusive = true }
+                                }
                             }
                         },
-                        showBackButton = !checkLFO,
+                        showBackButton = isLFO,
                         // Show back button if we are navigating from another screen
                         onBackPressed = {
                             // Handle back press action
