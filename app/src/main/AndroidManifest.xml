@@ -27,6 +27,11 @@
         android:enableOnBackInvokedCallback="true"
         android:requestLegacyExternalStorage="true"
         tools:targetApi="tiramisu">
+        <activity
+            android:name="com.google.android.gms.ads.AdActivity"
+            android:theme="@style/AdTheme"
+            tools:replace="android:theme"
+            />
 
         <activity
             android:name=".ui.home.HomeActivity"

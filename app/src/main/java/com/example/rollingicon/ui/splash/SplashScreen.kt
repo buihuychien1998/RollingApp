@@ -3,7 +3,6 @@ package com.example.rollingicon.ui.splash
 import android.app.Activity
 import androidx.compose.animation.core.Animatable
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -124,8 +123,6 @@ fun SplashScreen(navController: NavController) {
 //        }
 //    }
 
-    val isAdShowing by InterstitialAdManager.isAdShowing // Observe Ad State
-
     Box(
         modifier = Modifier
             .fillMaxSize(), // Background color
@@ -192,14 +189,6 @@ fun SplashScreen(navController: NavController) {
                 isAdFinished = true
             }
             Spacer(modifier = Modifier.height(16.dp))
-        }
-
-        if(isAdShowing){
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color.Black), // Set Black Background When Ad Shows
-            )
         }
     }
 

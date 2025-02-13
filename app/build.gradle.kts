@@ -42,8 +42,8 @@ android {
     productFlavors {
         create("dev") {
             dimension = "env"  // Specify the dimension for this flavor
-            applicationIdSuffix = ".dev"  // Append '.dev' for development
-            versionNameSuffix = "-dev"  // Append '-dev' for development version
+            applicationIdSuffix = ".dev"
+            versionNameSuffix = "-dev"
             manifestPlaceholders["ad_app_id"] = "ca-app-pub-3940256099942544~3347511713"
             buildConfigField("String", "banner_all", "\"ca-app-pub-3940256099942544/9214589741\"")
             buildConfigField("String", "banner_splash", "\"ca-app-pub-3940256099942544/9214589741\"")
@@ -58,6 +58,8 @@ android {
         }
         create("prod") {
             dimension = "env"  // Specify the dimension for this flavor
+            applicationIdSuffix = ".prod"
+            versionNameSuffix = "-prod"
             manifestPlaceholders["ad_app_id"] = "ca-app-pub-3940256099942544~3347511713"
             buildConfigField("String", "banner_all", "\"ca-app-pub-3940256099942544/9214589741\"")  
             buildConfigField("String", "banner_splash", "\"ca-app-pub-3940256099942544/9214589741\"")  
@@ -95,7 +97,8 @@ android {
         this.outputs.forEach { output ->
             if (output is com.android.build.gradle.internal.api.ApkVariantOutputImpl) {
                 val formattedDate = SimpleDateFormat("dd-MM-yyyy HH:mm").format(Date())
-                val newName = "RollingIcon_v${versionName}(${versionCode})_${buildType.name}_$formattedDate"
+//                val newName = "RollingIcon_v${versionName}(${versionCode})_${buildType.name}_$formattedDate"
+                val newName = "RollingIcon_v${versionName}(${versionCode})_$formattedDate"
                 var outputFileName = "$newName.apk"
 
                 outputFileName = if (outputFileName.endsWith(".aab")) {
