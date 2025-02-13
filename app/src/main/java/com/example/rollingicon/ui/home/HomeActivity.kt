@@ -9,9 +9,8 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.animation.AnimatedContentTransitionScope
-import androidx.compose.animation.EnterTransition
-import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -24,6 +23,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.rollingicon.routes.AppRoutes
 import com.example.rollingicon.ui.ads.AppOpenAdController
 import com.example.rollingicon.ui.ads.AppOpenAdManager
+import com.example.rollingicon.ui.ads.ConsentHelper
 import com.example.rollingicon.ui.app_picker.AppPickerScreen
 import com.example.rollingicon.ui.image_picker.ImagePickerScreen
 import com.example.rollingicon.ui.language.LanguageScreen
@@ -39,12 +39,17 @@ import java.util.Locale
 
 
 class HomeActivity : ComponentActivity() {
-    private lateinit var appOpenAdManager: AppOpenAdManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        appOpenAdManager = AppOpenAdManager(application)
+        // Initialize ConsentHelper
+        ConsentHelper.initializeConsent(this) { isConsentGiven ->
+            if (isConsentGiven) {
+                // Load Ads (Only after user consent)
+                AppOpenAdManager(application)
+            }
+        }
 
         // Set the Compose content for this activity
         setContent {
@@ -60,10 +65,12 @@ class HomeActivity : ComponentActivity() {
             NavHost(navController = navController,
                 startDestination = AppRoutes.Splash.route,
                 enterTransition = {
-                    EnterTransition.None
+//                    EnterTransition.None
+                    fadeIn(animationSpec = tween(100))
                 },
                 exitTransition = {
-                    ExitTransition.None
+//                    ExitTransition.None
+                    fadeOut(animationSpec = tween(100))
                 },
                 popEnterTransition = {
                     slideIntoContainer(

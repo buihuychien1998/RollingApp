@@ -69,6 +69,7 @@ import com.example.rollingicon.routes.AppRoutes
 import com.example.rollingicon.theme.AppFont
 import com.example.rollingicon.theme.clr_4664FF
 import com.example.rollingicon.theme.clr_C2D8FF
+import com.example.rollingicon.ui.ads.AppOpenAdController
 import com.example.rollingicon.ui.ads.BannerAd
 import com.example.rollingicon.ui.ads.banner_all
 import com.example.rollingicon.ui.dialog.SuccessDialog
@@ -489,6 +490,7 @@ private fun HomeHeader(
                         .show()
                     return@SafeClick
                 }
+                AppOpenAdController.disableByClickAction = true
                 context.startWallpaperService(launcher = launcher)
             } catch (e: Exception) {
                 e.printStackTrace()

@@ -22,6 +22,7 @@ class AppOpenAdManager(private val application: Application) :
     }
 
     private fun loadAd() {
+        if(!ConsentHelper.canRequestAds()) return
         val adRequest = AdRequest.Builder().build()
         AppOpenAd.load(application, appopen_resume, adRequest, object :
             AppOpenAd.AppOpenAdLoadCallback() {
@@ -38,7 +39,7 @@ class AppOpenAdManager(private val application: Application) :
     }
 
     fun showAdIfAvailable(activity: Activity, onAdDismissed: () -> Unit) {
-        if (!AppOpenAdController.shouldShowAd || isShowingAd || appOpenAd == null) {
+        if (!AppOpenAdController.shouldShowAd || AppOpenAdController.disableByClickAction || isShowingAd || appOpenAd == null || !ConsentHelper.canRequestAds()) {
             onAdDismissed()
             return
         }
@@ -67,6 +68,7 @@ class AppOpenAdManager(private val application: Application) :
     override fun onActivityResumed(activity: Activity) {
         if (AppOpenAdController.shouldShowAd) {
             showAdIfAvailable(activity) {
+                AppOpenAdController.disableByClickAction = false
                 Log.d("AppOpenAdManager", "App Open Ad completed or not available")
             }
         } else {

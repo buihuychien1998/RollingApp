@@ -63,35 +63,38 @@ fun NativeAdViewCompose(
         }
     }
 
-    Box(modifier = modifier.padding(8.dp)) {
-        if (isAdLoading) {
-            NativeShimmerEffect(modifier.height((adLayoutSize ?: 268).dp) .clip(RoundedCornerShape(8.dp)))
-        } else {
-            nativeAd?.let {
-                AndroidView(
-                    factory = { context ->
-                        val nativeAdView = NativeAdView(context)
-                        val view = adLayout(nativeAdView, nativeAd)
-                        view?.let {
-                            it.post {
-                                adLayoutSize = it.height // ✅ Capture height dynamically
+    if(ConsentHelper.canRequestAds()){
+        Box(modifier = modifier.padding(8.dp)) {
+            if (isAdLoading) {
+                NativeShimmerEffect(modifier.height((adLayoutSize ?: 268).dp) .clip(RoundedCornerShape(8.dp)))
+            } else {
+                nativeAd?.let {
+                    AndroidView(
+                        factory = { context ->
+                            val nativeAdView = NativeAdView(context)
+                            val view = adLayout(nativeAdView, nativeAd)
+                            view?.let {
+                                it.post {
+                                    adLayoutSize = it.height // ✅ Capture height dynamically
+                                }
+                            }
+                            nativeAdView.apply {
+                                removeAllViews()
+                                addView(view)
+                            }
+                        },
+                        update = { nativeAdView ->
+                            nativeAdView.apply {
+                                removeAllViews()
+                                addView(adLayout(this, nativeAd))
                             }
                         }
-                        nativeAdView.apply {
-                            removeAllViews()
-                            addView(view)
-                        }
-                    },
-                    update = { nativeAdView ->
-                        nativeAdView.apply {
-                            removeAllViews()
-                            addView(adLayout(this, nativeAd))
-                        }
-                    }
-                )
+                    )
+                }
             }
         }
     }
+
 }
 
 fun createAdLayout(context: Context, nativeAdView: NativeAdView, nativeAd: NativeAd?): View? {

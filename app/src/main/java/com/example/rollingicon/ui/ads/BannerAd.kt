@@ -40,57 +40,56 @@ fun BannerAd(bannerId: String, onAdFinished: (() -> Unit)? = null) { // Make it 
             BannerShimmerEffect()
         }
 
-        if (!isAdFailed) {
-            if (adWidth > 0) { // Ensure width is available before creating AdView
-                AndroidView(
-                    factory = { ctx ->
-                        val displayMetrics = ctx.resources.displayMetrics
-                        val availableWidthInDp = (adWidth / displayMetrics.density).toInt()
+        if (!isAdFailed && adWidth > 0) {
+            AndroidView(
+                factory = { ctx ->
+                    val displayMetrics = ctx.resources.displayMetrics
+                    val availableWidthInDp = (adWidth / displayMetrics.density).toInt()
 
-                        val adaptiveAdSize = AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
-                            ctx, availableWidthInDp
-                        )
+                    val adaptiveAdSize = AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
+                        ctx, availableWidthInDp
+                    )
 
-                        AdView(context).apply {
-                            setAdSize(adaptiveAdSize)
-                            adUnitId = bannerId  // Replace with your AdMob banner ID
-                            loadAd(AdRequest.Builder().build())
+                    AdView(context).apply {
+                        setAdSize(adaptiveAdSize)
+                        adUnitId = bannerId  // Replace with your AdMob banner ID
+                        loadAd(AdRequest.Builder().build())
 
-                            this.adListener = object : AdListener() {
-                                override fun onAdClicked() {
-                                    Log.d("BannerAd", "Ad clicked")
-                                }
+                        this.adListener = object : AdListener() {
+                            override fun onAdClicked() {
+                                Log.d("BannerAd", "Ad clicked")
+                            }
 
-                                override fun onAdClosed() {
-                                    Log.d("BannerAd", "Ad closed")
-                                }
+                            override fun onAdClosed() {
+                                Log.d("BannerAd", "Ad closed")
+                            }
 
-                                override fun onAdFailedToLoad(adError: LoadAdError) {
-                                    isAdLoading = false
-                                    isAdFailed = true // Hide ad on failure
-                                    Log.e("BannerAd", "Ad failed to load: ${adError.message}")
-                                }
+                            override fun onAdFailedToLoad(adError: LoadAdError) {
+                                isAdLoading = false
+                                isAdFailed = true // Hide ad on failure
+                                Log.e("BannerAd", "Ad failed to load: ${adError.message}")
+                            }
 
-                                override fun onAdImpression() {
-                                    Log.d("BannerAd", "Ad impression recorded")
-                                }
+                            override fun onAdImpression() {
+                                Log.d("BannerAd", "Ad impression recorded")
+                            }
 
-                                override fun onAdLoaded() {
-                                    isAdLoading = false
-                                    isAdLoaded = true // Ad successfully loaded
-                                    Log.d("BannerAd", "Ad loaded successfully")
-                                }
+                            override fun onAdLoaded() {
+                                isAdLoading = false
+                                isAdLoaded = true // Ad successfully loaded
+                                Log.d("BannerAd", "Ad loaded successfully")
+                            }
 
-                                override fun onAdOpened() {
-                                    Log.d("BannerAd", "Ad opened")
-                                }
+                            override fun onAdOpened() {
+                                Log.d("BannerAd", "Ad opened")
                             }
                         }
-                    }, modifier = Modifier.fillMaxWidth()
-                )
-            }
+                    }
+                }, modifier = Modifier.fillMaxWidth()
+            )
         }
     }
+
 
     // Automatically trigger navigation when ad is loaded or failed (if onAdFinished is provided)
     LaunchedEffect(isAdLoaded, isAdFailed) {

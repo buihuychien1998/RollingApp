@@ -149,5 +149,5 @@ dependencies {
     implementation("io.coil-kt.coil3:coil-compose:3.0.4")
     implementation("io.coil-kt.coil3:coil-svg:3.0.4")
     implementation("com.google.android.gms:play-services-ads:23.6.0")
-
+    implementation("com.google.android.ump:user-messaging-platform:3.1.0")
 }

@@ -18,7 +18,7 @@ object InterstitialAdManager {
 
     // Load Ad with Dynamic adUnitId
     fun loadAd(context: Context, adUnitId: String) {
-        if (isAdLoading || (interstitialAd != null && currentAdUnitId == adUnitId)) return // Avoid redundant loads
+        if (isAdLoading || (interstitialAd != null && currentAdUnitId == adUnitId) || !ConsentHelper.canRequestAds()) return // Avoid redundant loads
 
         isAdLoading = true
         currentAdUnitId = adUnitId
@@ -41,7 +41,7 @@ object InterstitialAdManager {
 
     // Show Ad with Dynamic adUnitId
     fun showAd(activity: Activity, adUnitId: String, onAdClosed: () -> Unit) {
-        if (interstitialAd != null && currentAdUnitId == adUnitId) {
+        if (interstitialAd != null && currentAdUnitId == adUnitId && ConsentHelper.canRequestAds()) {
             isAdShowing.value = true // Hide UI Before Ad
 
             interstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
