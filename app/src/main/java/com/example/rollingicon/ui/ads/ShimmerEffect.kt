@@ -39,7 +39,7 @@ fun BannerShimmerEffect() {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(50.dp) // Approximate height of banner ad
+            .height(60.dp) // Approximate height of banner ad
 //            .clip(RoundedCornerShape(4.dp)) // Smooth rounded corners
             .background(
                 brush = Brush.linearGradient(

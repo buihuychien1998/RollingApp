@@ -48,6 +48,7 @@ android {
             buildConfigField("String", "banner_all", "\"ca-app-pub-3940256099942544/9214589741\"")
             buildConfigField("String", "banner_splash", "\"ca-app-pub-3940256099942544/9214589741\"")
             buildConfigField("String", "inter_splash", "\"ca-app-pub-3940256099942544/1033173712\"")
+            buildConfigField("String", "inter_splash_high", "\"ca-app-pub-3940256099942544/1033173712\"")
             buildConfigField("String", "inter_home", "\"ca-app-pub-3940256099942544/1033173712\"")
             buildConfigField("String", "inter_all", "\"ca-app-pub-3940256099942544/1033173712\"")
             buildConfigField("String", "native_language", "\"ca-app-pub-3940256099942544/2247696110\"")
@@ -63,7 +64,8 @@ android {
             manifestPlaceholders["ad_app_id"] = "ca-app-pub-3940256099942544~3347511713"
             buildConfigField("String", "banner_all", "\"ca-app-pub-3940256099942544/9214589741\"")  
             buildConfigField("String", "banner_splash", "\"ca-app-pub-3940256099942544/9214589741\"")  
-            buildConfigField("String", "inter_splash", "\"ca-app-pub-3940256099942544/1033173712\"")  
+            buildConfigField("String", "inter_splash", "\"ca-app-pub-3940256099942544/1033173712\"")
+            buildConfigField("String", "inter_splash_high", "\"ca-app-pub-3940256099942544/1033173712\"")
             buildConfigField("String", "inter_home", "\"ca-app-pub-3940256099942544/1033173712\"")  
             buildConfigField("String", "inter_all", "\"ca-app-pub-3940256099942544/1033173712\"")  
             buildConfigField("String", "native_language", "\"ca-app-pub-3940256099942544/2247696110\"")  

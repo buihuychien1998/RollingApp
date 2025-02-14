@@ -73,6 +73,7 @@ fun OnboardingScreen(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .background(Color.White)
             .safeDrawingPadding(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {

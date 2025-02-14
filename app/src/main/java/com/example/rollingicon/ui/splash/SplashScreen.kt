@@ -46,6 +46,7 @@ import com.example.rollingicon.ui.ads.BannerAd
 import com.example.rollingicon.ui.ads.InterstitialAdManager
 import com.example.rollingicon.ui.ads.banner_splash
 import com.example.rollingicon.ui.ads.inter_splash
+import com.example.rollingicon.ui.ads.inter_splash_high
 import com.example.rollingicon.utils.PreferencesHelper
 import kotlinx.coroutines.delay
 
@@ -73,7 +74,7 @@ fun SplashScreen(navController: NavController) {
     }
 
     LaunchedEffect(Unit) {
-        InterstitialAdManager.loadAd(context, inter_splash)
+        InterstitialAdManager.loadAds(context, inter_splash_high, inter_splash)
     }
 
     // Start delay only when the ad finishes loading and app is in foreground
@@ -83,7 +84,7 @@ fun SplashScreen(navController: NavController) {
             val activity = context as? Activity
 
             if (activity != null) {
-                InterstitialAdManager.showAd(activity, inter_splash) {
+                InterstitialAdManager.showAdIfAvailable(activity) {
                     val isLanguageDone = PreferencesHelper.isLFODone(context)
                     val isOnboardingDone = PreferencesHelper.isOnboardingDone(context)
 
@@ -172,7 +173,7 @@ fun SplashScreen(navController: NavController) {
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Medium
             )
-            Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(8.dp))
 
             LinearProgressIndicator(
 //                progress = progress.value,
@@ -185,7 +186,7 @@ fun SplashScreen(navController: NavController) {
                 color = Color.White,
                 trackColor = clr_96ACC4
             )
-            BannerAd(banner_splash){
+            BannerAd(banner_splash, false){
                 isAdFinished = true
             }
             Spacer(modifier = Modifier.height(16.dp))

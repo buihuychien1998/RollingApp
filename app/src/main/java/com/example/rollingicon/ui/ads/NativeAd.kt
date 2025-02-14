@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -22,11 +23,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.example.rollingicon.R
-import com.google.android.gms.ads.AdListener
-import com.google.android.gms.ads.AdLoader
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.nativead.MediaView
 import com.google.android.gms.ads.nativead.NativeAd
 import com.google.android.gms.ads.nativead.NativeAdView
@@ -38,50 +38,57 @@ fun NativeAdViewCompose(
     modifier: Modifier = Modifier.fillMaxWidth(),
     adLayout: (NativeAdView, NativeAd?) -> View? = { adView, ad -> createAdLayout(context, adView, ad) } // ✅ Custom layout support
 ) {
-    var nativeAd by remember { mutableStateOf<NativeAd?>(null) }
+    var nativeAd by remember { mutableStateOf(NativeAdManager.getPreloadedAd()) }
     var isAdLoading by remember { mutableStateOf(true) }
-    var adLayoutSize by remember { mutableStateOf<Int?>(null) } // ✅ Store size of ad layout
 
-    DisposableEffect(Unit) {
-        val adLoader = AdLoader.Builder(context, nativeID)
-            .forNativeAd { ad: NativeAd ->
-                nativeAd = ad
-                isAdLoading = false
-            }
-            .withAdListener(object : AdListener() {
-                override fun onAdFailedToLoad(error: LoadAdError) {
-                    Log.e("NativeAd", "Ad failed: ${error.message}")
-                    isAdLoading = false
+    fun reloadAd() {
+        isAdLoading = true
+        NativeAdManager.reloadNativeAd(context, nativeID) { newAd ->
+            nativeAd = newAd
+            isAdLoading = false
+        }
+    }
+
+    LaunchedEffect(Unit){
+        reloadAd()
+    }
+
+    val lifecycleOwner = LocalLifecycleOwner.current
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME) {
+                Log.d("NativeAd", "🔥 App Resumed -> Reloading Ad")
+                if(!AppOpenAdController.shouldShowAd){
+                    AppOpenAdController.shouldShowAd = true
+                    reloadAd()
                 }
-            })
-            .build()
+            }
+        }
 
-        adLoader.loadAd(AdRequest.Builder().build())
-
+        lifecycleOwner.lifecycle.addObserver(observer)
         onDispose {
-            nativeAd?.destroy()
+            lifecycleOwner.lifecycle.removeObserver(observer)
+            NativeAdManager.destroyAd()
         }
     }
 
     if(ConsentHelper.canRequestAds()){
         Box(modifier = modifier.padding(8.dp)) {
             if (isAdLoading) {
-                NativeShimmerEffect(modifier.height((adLayoutSize ?: 268).dp) .clip(RoundedCornerShape(8.dp)))
+                NativeShimmerEffect(
+                    modifier
+                        .height(268.dp)
+                        .clip(RoundedCornerShape(8.dp)))
             } else {
                 nativeAd?.let {
                     AndroidView(
                         factory = { context ->
                             val nativeAdView = NativeAdView(context)
-                            val view = adLayout(nativeAdView, nativeAd)
-                            view?.let {
-                                it.post {
-                                    adLayoutSize = it.height // ✅ Capture height dynamically
-                                }
-                            }
                             nativeAdView.apply {
                                 removeAllViews()
-                                addView(view)
+                                addView(adLayout(this, nativeAd))
                             }
+
                         },
                         update = { nativeAdView ->
                             nativeAdView.apply {
@@ -94,7 +101,6 @@ fun NativeAdViewCompose(
             }
         }
     }
-
 }
 
 fun createAdLayout(context: Context, nativeAdView: NativeAdView, nativeAd: NativeAd?): View? {
@@ -136,7 +142,7 @@ fun createAdLayout(context: Context, nativeAdView: NativeAdView, nativeAd: Nativ
         } ?: run { iconView.visibility = View.GONE }
 
         // ✅ Set MediaView (handles video/image ads)
-        mediaView.setMediaContent(nativeAd.mediaContent)
+        mediaView.mediaContent = nativeAd.mediaContent
 
         // ✅ Register Ad after setting all views
         setNativeAd(nativeAd)

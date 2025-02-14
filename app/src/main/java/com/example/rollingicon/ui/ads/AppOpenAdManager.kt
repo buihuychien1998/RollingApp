@@ -15,6 +15,8 @@ class AppOpenAdManager(private val application: Application) :
 
     private var appOpenAd: AppOpenAd? = null
     private var isShowingAd = false
+    private var lastAdShownTime: Long = 0 // 🕒 Thời điểm hiển thị quảng cáo gần nhất
+    private val adCooldownMillis = 25_000L // ⏳ Giãn cách 25 giây
 
     init {
         application.registerActivityLifecycleCallbacks(this)
@@ -22,23 +24,32 @@ class AppOpenAdManager(private val application: Application) :
     }
 
     private fun loadAd() {
-        if(!ConsentHelper.canRequestAds()) return
+        if (!ConsentHelper.canRequestAds()) return
+
         val adRequest = AdRequest.Builder().build()
         AppOpenAd.load(application, appopen_resume, adRequest, object :
             AppOpenAd.AppOpenAdLoadCallback() {
             override fun onAdLoaded(ad: AppOpenAd) {
                 appOpenAd = ad
-                Log.d("AppOpenAdManager", "Ad Loaded Successfully")
+                Log.d("AppOpenAdManager", "✅ Ad Loaded Successfully")
             }
 
             override fun onAdFailedToLoad(error: LoadAdError) {
-                Log.e("AppOpenAdManager", "Ad Failed to Load: ${error.message}")
+                Log.e("AppOpenAdManager", "❌ Ad Failed to Load: ${error.message}")
                 appOpenAd = null
             }
         })
     }
 
+
     fun showAdIfAvailable(activity: Activity, onAdDismissed: () -> Unit) {
+        val currentTime = System.currentTimeMillis()
+
+        if (currentTime - lastAdShownTime < adCooldownMillis) {
+            onAdDismissed()
+            return
+        }
+
         if (!AppOpenAdController.shouldShowAd || AppOpenAdController.disableByClickAction || isShowingAd || appOpenAd == null || !ConsentHelper.canRequestAds()) {
             onAdDismissed()
             return
@@ -49,6 +60,7 @@ class AppOpenAdManager(private val application: Application) :
             override fun onAdDismissedFullScreenContent() {
                 isShowingAd = false
                 appOpenAd = null
+                lastAdShownTime = System.currentTimeMillis() // 🕒 Cập nhật thời gian hiển thị
                 loadAd() // Reload Ad after showing
                 onAdDismissed()
             }
@@ -60,6 +72,7 @@ class AppOpenAdManager(private val application: Application) :
 
             override fun onAdShowedFullScreenContent() {
                 isShowingAd = true
+                lastAdShownTime = System.currentTimeMillis() // 🕒 Lưu thời gian hiển thị
             }
         }
         appOpenAd?.show(activity)
@@ -69,10 +82,10 @@ class AppOpenAdManager(private val application: Application) :
         if (AppOpenAdController.shouldShowAd) {
             showAdIfAvailable(activity) {
                 AppOpenAdController.disableByClickAction = false
-                Log.d("AppOpenAdManager", "App Open Ad completed or not available")
+                Log.d("AppOpenAdManager", "✅ App Open Ad completed or not available")
             }
         } else {
-            Log.d("AppOpenAdManager", "App Open Ad disabled for this screen")
+            Log.d("AppOpenAdManager", "🚫 App Open Ad disabled for this screen")
         }
     }
 
