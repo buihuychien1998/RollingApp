@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">रोलिंग आइकन</string>
+    <string name="text_rolling_icon">रोलिंग आइकन</string>
     <string name="text_language">भाषा</string>
     <string name="text_add_icon">आइकन जोड़ें</string>
     <string name="text_preview">पूर्वावलोकन</string>
@@ -24,7 +24,7 @@
     <string name="text_sound">ध्वनि</string>
     <string name="text_gravity_box">गुरुत्वाकर्षण बॉक्स</string>
     <string name="text_privacy_policy">गोपनीयता नीति</string>
-    <string name="text_about_ads">विज्ञापनों के बारे में</string>
+    <string name="text_rate_us">हमें रेट करें</string>
     <string name="text_size_setting">आकार (10–70)</string>
     <string name="text_size">आकार</string>
     <string name="text_information">जानकारी</string>

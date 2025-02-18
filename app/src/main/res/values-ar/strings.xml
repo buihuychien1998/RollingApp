@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">الأيقونة المتدحرجة</string>
+    <string name="text_rolling_icon">الأيقونة المتدحرجة</string>
     <string name="text_language">اللغة</string>
     <string name="text_add_icon">إضافة أيقونة</string>
     <string name="text_preview">معاينة</string>
@@ -24,7 +24,7 @@
     <string name="text_sound">صوت</string>
     <string name="text_gravity_box">صندوق الجاذبية</string>
     <string name="text_privacy_policy">سياسة الخصوصية</string>
-    <string name="text_about_ads">حول الإعلانات</string>
+    <string name="text_rate_us">قيمنا</string>
     <string name="text_size_setting">الحجم (10–70)</string>
     <string name="text_size">الحجم</string>
     <string name="text_information">معلومات</string>

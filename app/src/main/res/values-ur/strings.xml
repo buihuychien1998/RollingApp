@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">رولنگ آئیکن</string>
+    <string name="text_rolling_icon">رولنگ آئیکن</string>
     <string name="text_language">زبان</string>
     <string name="text_add_icon">آئیکن شامل کریں</string>
     <string name="text_preview">پیش منظر</string>
@@ -24,7 +24,7 @@
     <string name="text_sound">آواز</string>
     <string name="text_gravity_box">جاذبیت خانہ</string>
     <string name="text_privacy_policy">رازداری کی پالیسی</string>
-    <string name="text_about_ads">اشتہارات کے بارے میں</string>
+    <string name="text_rate_us">ہمیں درجہ دیں</string>
     <string name="text_size_setting">سائز (10–70)</string>
     <string name="text_size">سائز</string>
     <string name="text_information">معلومات</string>

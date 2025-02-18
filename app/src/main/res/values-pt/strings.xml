@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Ícone Rolante</string>
+    <string name="text_rolling_icon">Ícone Rolante</string>
     <string name="text_language">Idioma</string>
     <string name="text_add_icon">Adicionar ícone</string>
     <string name="text_preview">Prévia</string>
@@ -24,7 +24,7 @@
     <string name="text_sound">Som</string>
     <string name="text_gravity_box">Caixa de gravidade</string>
     <string name="text_privacy_policy">Política de Privacidade</string>
-    <string name="text_about_ads">Sobre os anúncios</string>
+    <string name="text_rate_us">Avalie-nos</string>
     <string name="text_size_setting">Tamanho (10–70)</string>
     <string name="text_size">Tamanho</string>
     <string name="text_information">Informações</string>

@@ -9,14 +9,14 @@ plugins {
 }
 
 android {
-    namespace = "com.example.rollingicon"
+    namespace = "com.buffalo.software.rolling.icon.live.wallpaper"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.rollingicon"
+        applicationId = "com.buffalo.software.rolling.icon.live.wallpaper"
         minSdk = 24
         targetSdk = 34
-        versionCode = 1
+        versionCode = 2
         versionName = "1.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -43,7 +43,7 @@ android {
         create("dev") {
             dimension = "env"  // Specify the dimension for this flavor
             applicationIdSuffix = ".dev"
-            versionNameSuffix = "-dev"
+//            versionNameSuffix = "-dev"
             manifestPlaceholders["ad_app_id"] = "ca-app-pub-3940256099942544~3347511713"
             buildConfigField("String", "banner_all", "\"ca-app-pub-3940256099942544/9214589741\"")
             buildConfigField("String", "banner_splash", "\"ca-app-pub-3940256099942544/9214589741\"")
@@ -60,7 +60,7 @@ android {
         create("prod") {
             dimension = "env"  // Specify the dimension for this flavor
             applicationIdSuffix = ".prod"
-            versionNameSuffix = "-prod"
+//            versionNameSuffix = "-prod"
             manifestPlaceholders["ad_app_id"] = "ca-app-pub-3940256099942544~3347511713"
             buildConfigField("String", "banner_all", "\"ca-app-pub-3940256099942544/9214589741\"")  
             buildConfigField("String", "banner_splash", "\"ca-app-pub-3940256099942544/9214589741\"")  
@@ -99,8 +99,8 @@ android {
         this.outputs.forEach { output ->
             if (output is com.android.build.gradle.internal.api.ApkVariantOutputImpl) {
                 val formattedDate = SimpleDateFormat("dd-MM-yyyy HH:mm").format(Date())
-//                val newName = "RollingIcon_v${versionName}(${versionCode})_${buildType.name}_$formattedDate"
-                val newName = "RollingIcon_v${versionName}(${versionCode})_$formattedDate"
+                val newName = "RollingIcon_v${versionName}(${versionCode})_${buildType.name}_$formattedDate"
+//                val newName = "RollingIcon_v${versionName}(${versionCode})_$formattedDate"
                 var outputFileName = "$newName.apk"
 
                 outputFileName = if (outputFileName.endsWith(".aab")) {

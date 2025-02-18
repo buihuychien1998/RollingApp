@@ -1,5 +1,6 @@
 <resources>
-    <string name="app_name">Rolling Icon</string>
+    <string name="app_name" translatable="false">Rolling Icon: Live Wallpaper</string>
+    <string name="text_rolling_icon">Rolling Icon</string>
     <string name="text_language">Language</string>
     <string name="text_add_icon">Add icon</string>
     <string name="text_preview">Preview</string>
@@ -23,7 +24,7 @@
     <string name="text_sound">Sound</string>
     <string name="text_gravity_box">Gravity Box</string>
     <string name="text_privacy_policy">Privacy Policy</string>
-    <string name="text_about_ads">About Ads</string>
+    <string name="text_rate_us">Rate us</string>
     <string name="text_size_setting">Size (10–70)</string>
     <string name="text_size">Size</string>
     <string name="text_information">Information</string>
@@ -42,5 +43,4 @@
     <string name="onboarding_title_3">Customize icon appearance and effects</string>
     <string name="onboarding_desc_3">Create interactive and customized icon animations.</string>
     <string name="ad_warning">This action may contain ads</string>
-
 </resources>
