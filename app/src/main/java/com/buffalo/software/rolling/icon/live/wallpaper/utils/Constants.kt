@@ -24,4 +24,4 @@ const val TWEEN_DURATION = 300
 const val TIME_DELAY = 300L
 const val LAUNCH_COUNT = 2
 const val PRIVACY_POLICY = "https://docs.google.com/document/d/1Hhy-PetB3kUe8FrHMR8Ci5OltASdNc1bpSf_tk4l4xg/edit?tab=t.0"
-const val SHOW_AD = false
+const val SHOW_AD = true

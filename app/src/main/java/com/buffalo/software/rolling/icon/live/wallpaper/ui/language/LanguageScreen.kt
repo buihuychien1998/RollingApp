@@ -49,8 +49,11 @@ import com.buffalo.software.rolling.icon.live.wallpaper.theme.AppFont
 import com.buffalo.software.rolling.icon.live.wallpaper.theme.clr_2C323F
 import com.buffalo.software.rolling.icon.live.wallpaper.theme.clr_4664FF
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.NativeAdViewCompose
-import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.native_language
-import com.buffalo.software.rolling.icon.live.wallpaper.utils.SHOW_AD
+import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.native_language_1_1
+import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.native_language_1_2
+import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.native_language_2_1
+import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.native_language_2_2
+import com.buffalo.software.rolling.icon.live.wallpaper.utils.PreferencesHelper
 import com.buffalo.software.rolling.icon.live.wallpaper.utils.custom.SafeClick
 
 @Composable
@@ -63,6 +66,21 @@ fun LanguageScreen(
     onBackPressed: (() -> Unit)? = null // Callback for back button action
 ) {
     val context = LocalContext.current
+    val reloadTrigger = remember { mutableStateOf(true) } // ✅ Track reload state
+
+    val launchCount = remember { PreferencesHelper.getLaunchCount(context) }
+    val hasSelectedLanguage = remember { mutableStateOf(false) }
+
+    val (nativeAdId, nativeAdLayout) = remember(launchCount, hasSelectedLanguage.value) {
+        when {
+            launchCount == 0 && !hasSelectedLanguage.value -> native_language_1_1 to R.layout.native_ad_layout
+            launchCount == 0 && hasSelectedLanguage.value -> native_language_1_2 to R.layout.native_ad_layout
+            launchCount >= 1 && !hasSelectedLanguage.value -> native_language_2_1 to R.layout.native_language
+            launchCount >= 1 && hasSelectedLanguage.value -> native_language_2_2 to R.layout.native_language
+            else -> native_language_2_1 to R.layout.native_language
+        }
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -142,15 +160,18 @@ fun LanguageScreen(
                         LanguageItem(
                             language = language,
                             isSelected = language == selectedLanguage,
-                            onSelect = { onLanguageSelected(language) }
+                            onSelect = {
+                                onLanguageSelected(language)
+                                hasSelectedLanguage.value = true
+                                reloadTrigger.value = true // ✅ Reload Ad when clicked
+                            }
                         )
                     }
                 }
             }
             Spacer(modifier = Modifier.height(16.dp))
-            if(SHOW_AD){
-                NativeAdViewCompose(context, native_language)
-            }
+
+            NativeAdViewCompose(context, nativeAdId, layoutResId = nativeAdLayout, reloadTrigger = reloadTrigger)
         }
 
     }

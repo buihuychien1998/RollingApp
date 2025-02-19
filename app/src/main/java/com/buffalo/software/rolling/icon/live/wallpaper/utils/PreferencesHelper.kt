@@ -135,6 +135,7 @@ object PreferencesHelper {
 
     fun increaseLaunchCount(context: Context) {
         val newCount = getLaunchCount(context) + 1
+        println("increaseLaunchCount $newCount")
         put(context, PREF_LAUNCH_COUNT, newCount)
     }
 

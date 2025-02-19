@@ -3,7 +3,6 @@ package com.buffalo.software.rolling.icon.live.wallpaper.ui.ads
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
@@ -17,6 +16,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -30,9 +30,14 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.buffalo.software.rolling.icon.live.wallpaper.R
+import com.buffalo.software.rolling.icon.live.wallpaper.utils.SHOW_AD
 import com.google.android.gms.ads.nativead.MediaView
 import com.google.android.gms.ads.nativead.NativeAd
 import com.google.android.gms.ads.nativead.NativeAdView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 
 @Composable
@@ -40,7 +45,7 @@ fun NativeAdViewCompose(
     context: Context,
     nativeID: String,
     modifier: Modifier = Modifier.fillMaxWidth(),
-    layoutResId: Int = R.layout.native_ad_layout, // ✅ Cho phép truyền layout khác
+    layoutResId: Int = R.layout.native_ad_layout,
     adLayout: (NativeAdView, NativeAd?) -> View? = { adView, ad ->
         createAdLayout(
             context,
@@ -48,28 +53,37 @@ fun NativeAdViewCompose(
             ad,
             layoutResId
         )
-    }
+    },
+    reloadTrigger: MutableState<Boolean> = mutableStateOf(true)
 ) {
     var nativeAd by remember { mutableStateOf(NativeAdManager.getPreloadedAd()) }
     var isAdLoading by remember { mutableStateOf(true) }
 
+    var reloadJob by remember { mutableStateOf<Job?>(null) } // Track ongoing reload job
+
     fun reloadAd() {
-        isAdLoading = true
-        NativeAdManager.reloadNativeAd(context, nativeID) { newAd ->
-            nativeAd = newAd
-            isAdLoading = false
+        reloadJob?.cancel() // ✅ Cancel any ongoing reload
+        reloadJob = CoroutineScope(Dispatchers.Main).launch {
+            isAdLoading = true
+            NativeAdManager.reloadNativeAd(context, nativeID) { newAd ->
+                nativeAd = newAd
+                isAdLoading = false
+                reloadTrigger.value = false // ✅ Reset trigger after load completes
+            }
         }
     }
 
-    LaunchedEffect(Unit) {
-        reloadAd()
+    // 🔥 Reload when `reloadTrigger` changes, canceling any ongoing reload
+    LaunchedEffect(reloadTrigger.value) {
+        if (reloadTrigger.value) {
+            reloadAd()
+        }
     }
 
     val lifecycleOwner = LocalLifecycleOwner.current
     DisposableEffect(lifecycleOwner) {
         val observer = LifecycleEventObserver { _, event ->
             if (event == Lifecycle.Event.ON_RESUME) {
-                Log.d("NativeAd", "🔥 App Resumed -> Reloading Ad")
                 if (!AppOpenAdController.shouldShowAd) {
                     AppOpenAdController.shouldShowAd = true
                     reloadAd()
@@ -81,10 +95,11 @@ fun NativeAdViewCompose(
         onDispose {
             lifecycleOwner.lifecycle.removeObserver(observer)
             NativeAdManager.destroyAd()
+            reloadJob?.cancel() // ✅ Cancel reload when disposed
         }
     }
 
-    if (ConsentHelper.canRequestAds()) {
+    if (SHOW_AD && ConsentHelper.canRequestAds()) {
         Box(modifier = modifier.padding(8.dp)) {
             if (isAdLoading) {
                 NativeShimmerEffect(
@@ -115,6 +130,7 @@ fun NativeAdViewCompose(
         }
     }
 }
+
 
 fun createAdLayout(
     context: Context, nativeAdView: NativeAdView, nativeAd: NativeAd?, layoutResId: Int,

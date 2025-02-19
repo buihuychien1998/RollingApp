@@ -44,7 +44,6 @@ import com.buffalo.software.rolling.icon.live.wallpaper.theme.clr_2C323F
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.NativeAdViewCompose
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.native_onboarding
 import com.buffalo.software.rolling.icon.live.wallpaper.utils.PreferencesHelper
-import com.buffalo.software.rolling.icon.live.wallpaper.utils.SHOW_AD
 import kotlinx.coroutines.launch
 
 @Composable
@@ -138,13 +137,10 @@ fun OnboardingScreen(navController: NavController) {
                 )
             }
         }
-        if(SHOW_AD){
-            NativeAdViewCompose(
-                context = LocalContext.current,
-                nativeID = native_onboarding,
-            )
-        }
-
+        NativeAdViewCompose(
+            context = LocalContext.current,
+            nativeID = native_onboarding,
+        )
     }
 }
 

@@ -5,7 +5,10 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("kotlin-parcelize")
-    id("io.sentry.android.gradle") version "4.14.1"
+//    id("io.sentry.android.gradle") version "4.14.1"
+    id("com.google.gms.google-services")
+    // Add the Crashlytics Gradle plugin
+    id("com.google.firebase.crashlytics")
 }
 
 android {
@@ -42,7 +45,7 @@ android {
     productFlavors {
         create("dev") {
             dimension = "env"  // Specify the dimension for this flavor
-            applicationIdSuffix = ".dev"
+//            applicationIdSuffix = ".dev"
 //            versionNameSuffix = "-dev"
             manifestPlaceholders["ad_app_id"] = "ca-app-pub-3940256099942544~3347511713"
             buildConfigField("String", "banner_all", "\"ca-app-pub-3940256099942544/9214589741\"")
@@ -51,27 +54,33 @@ android {
             buildConfigField("String", "inter_splash_high", "\"ca-app-pub-3940256099942544/1033173712\"")
             buildConfigField("String", "inter_home", "\"ca-app-pub-3940256099942544/1033173712\"")
             buildConfigField("String", "inter_all", "\"ca-app-pub-3940256099942544/1033173712\"")
-            buildConfigField("String", "native_language", "\"ca-app-pub-3940256099942544/2247696110\"")
-            buildConfigField("String", "native_language_alt", "\"ca-app-pub-3940256099942544/2247696110\"")
+            buildConfigField("String", "native_language_1_1", "\"ca-app-pub-3940256099942544/2247696110\"")
+            buildConfigField("String", "native_language_1_2", "\"ca-app-pub-3940256099942544/2247696110\"")
+            buildConfigField("String", "native_language_2_1", "\"ca-app-pub-3940256099942544/2247696110\"")
+            buildConfigField("String", "native_language_2_2", "\"ca-app-pub-3940256099942544/2247696110\"")
             buildConfigField("String", "native_onboarding", "\"ca-app-pub-3940256099942544/2247696110\"")
+            buildConfigField("String", "native_full_screen", "\"ca-app-pub-3940256099942544/2247696110\"")
             buildConfigField("String", "appopen_resume", "\"ca-app-pub-3940256099942544/9257395921\"")
             // Add other dev-specific configurations here
         }
         create("prod") {
             dimension = "env"  // Specify the dimension for this flavor
-            applicationIdSuffix = ".prod"
+//            applicationIdSuffix = ".prod"
 //            versionNameSuffix = "-prod"
             manifestPlaceholders["ad_app_id"] = "ca-app-pub-3940256099942544~3347511713"
-            buildConfigField("String", "banner_all", "\"ca-app-pub-3940256099942544/9214589741\"")  
-            buildConfigField("String", "banner_splash", "\"ca-app-pub-3940256099942544/9214589741\"")  
+            buildConfigField("String", "banner_all", "\"ca-app-pub-3940256099942544/9214589741\"")
+            buildConfigField("String", "banner_splash", "\"ca-app-pub-3940256099942544/9214589741\"")
             buildConfigField("String", "inter_splash", "\"ca-app-pub-3940256099942544/1033173712\"")
             buildConfigField("String", "inter_splash_high", "\"ca-app-pub-3940256099942544/1033173712\"")
-            buildConfigField("String", "inter_home", "\"ca-app-pub-3940256099942544/1033173712\"")  
-            buildConfigField("String", "inter_all", "\"ca-app-pub-3940256099942544/1033173712\"")  
-            buildConfigField("String", "native_language", "\"ca-app-pub-3940256099942544/2247696110\"")  
-            buildConfigField("String", "native_language_alt", "\"ca-app-pub-3940256099942544/2247696110\"")  
-            buildConfigField("String", "native_onboarding", "\"ca-app-pub-3940256099942544/2247696110\"")  
-            buildConfigField("String", "appopen_resume", "\"ca-app-pub-3940256099942544/9257395921\"")  
+            buildConfigField("String", "inter_home", "\"ca-app-pub-3940256099942544/1033173712\"")
+            buildConfigField("String", "inter_all", "\"ca-app-pub-3940256099942544/1033173712\"")
+            buildConfigField("String", "native_language_1_1", "\"ca-app-pub-3940256099942544/2247696110\"")
+            buildConfigField("String", "native_language_1_2", "\"ca-app-pub-3940256099942544/2247696110\"")
+            buildConfigField("String", "native_language_2_1", "\"ca-app-pub-3940256099942544/2247696110\"")
+            buildConfigField("String", "native_language_2_2", "\"ca-app-pub-3940256099942544/2247696110\"")
+            buildConfigField("String", "native_onboarding", "\"ca-app-pub-3940256099942544/2247696110\"")
+            buildConfigField("String", "native_full_screen", "\"ca-app-pub-3940256099942544/2247696110\"")
+            buildConfigField("String", "appopen_resume", "\"ca-app-pub-3940256099942544/9257395921\"")
             // Add production-specific configurations here
         }
     }
@@ -152,4 +161,13 @@ dependencies {
     implementation("io.coil-kt.coil3:coil-svg:3.0.4")
     implementation("com.google.android.gms:play-services-ads:23.6.0")
     implementation("com.google.android.ump:user-messaging-platform:3.1.0")
+
+    // Import the BoM for the Firebase platform
+    implementation(platform("com.google.firebase:firebase-bom:32.5.0"))
+
+    // Add the dependencies for the Crashlytics and Analytics libraries
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation("com.google.firebase:firebase-crashlytics")
+    implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-config")
 }

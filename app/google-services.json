@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "50184335246",
+    "project_id": "rolling-icons",
+    "storage_bucket": "rolling-icons.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:50184335246:android:6676900978cb7b4a9dfedf",
+        "android_client_info": {
+          "package_name": "com.buffalo.software.rolling.icon.live.wallpaper"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAuJuPtOc3T8F61EB3zc8WU5A3qGXrIMsk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

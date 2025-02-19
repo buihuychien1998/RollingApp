@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<defaultsMap>
+    <entry key="welcome_message" value="Hello, User!" />
+    <entry key="feature_enabled" value="false" />
+</defaultsMap>

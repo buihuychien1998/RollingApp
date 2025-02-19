@@ -1,6 +1,7 @@
 package com.buffalo.software.rolling.icon.live.wallpaper.ui.splash
 
 import android.app.Activity
+import android.content.Context
 import androidx.compose.animation.core.Animatable
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
@@ -80,19 +81,7 @@ fun SplashScreen(navController: NavController) {
             InterstitialAdManager.loadAds(context, inter_splash_high, inter_splash)
         } else {
             delay(2000) // Wait 2000ms after ad loads
-            val launchCount = PreferencesHelper.getLaunchCount(context)
-            val isOnboardingDone = PreferencesHelper.isOnboardingDone(context)
-            PreferencesHelper.setLFODone(context = context, false)
-
-            val nextRoute = when {
-                launchCount < LAUNCH_COUNT -> AppRoutes.Language.route
-                !isOnboardingDone -> AppRoutes.Onboarding.route
-                else -> AppRoutes.Home.route
-            }
-
-            navController.navigate(nextRoute) {
-                popUpTo(AppRoutes.Splash.route) { inclusive = true }
-            }
+            openNextScreen(context, navController)
         }
     }
 
@@ -104,19 +93,7 @@ fun SplashScreen(navController: NavController) {
 
             if (activity != null) {
                 InterstitialAdManager.showAdIfAvailable(activity) {
-                    val launchCount = PreferencesHelper.getLaunchCount(context)
-                    val isOnboardingDone = PreferencesHelper.isOnboardingDone(context)
-                    PreferencesHelper.setLFODone(activity, false)
-
-                    val nextRoute = when {
-                        launchCount < 1 -> AppRoutes.Language.route
-                        !isOnboardingDone -> AppRoutes.Onboarding.route
-                        else -> AppRoutes.Home.route
-                    }
-
-                    navController.navigate(nextRoute) {
-                        popUpTo(AppRoutes.Splash.route) { inclusive = true }
-                    }
+                    openNextScreen(context, navController)
                 }
             }
         }
@@ -217,4 +194,23 @@ fun SplashScreen(navController: NavController) {
     }
 
 
+}
+
+private fun openNextScreen(
+    context: Context,
+    navController: NavController
+) {
+    val launchCount = PreferencesHelper.getLaunchCount(context)
+    val isOnboardingDone = PreferencesHelper.isOnboardingDone(context)
+    PreferencesHelper.setLFODone(context = context, false)
+    println("SplashScreen: launchCount $launchCount")
+    val nextRoute = when {
+        launchCount < LAUNCH_COUNT -> AppRoutes.Language.route
+        !isOnboardingDone -> AppRoutes.Onboarding.route
+        else -> AppRoutes.Home.route
+    }
+
+    navController.navigate(nextRoute) {
+        popUpTo(AppRoutes.Splash.route) { inclusive = true }
+    }
 }
