@@ -80,6 +80,8 @@ import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.BannerAd
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.InterstitialAdManager
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.banner_all
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.inter_done
+import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.tracking.FirebaseAnalyticsEvents
+import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.tracking.FirebaseEventLogger
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.loading.LoadingScreen
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.share_view_model.SharedViewModel
 import com.buffalo.software.rolling.icon.live.wallpaper.utils.IconType
@@ -116,6 +118,10 @@ fun ImagePickerScreen(
         LocalDensity.current.run { LocalConfiguration.current.screenHeightDp.dp.toPx() }
 
     LaunchedEffect(Unit) {
+        FirebaseEventLogger.trackScreenView(
+            context,
+            FirebaseAnalyticsEvents.SCREEN_ADD_PHOTO_VIEW
+        )
         activity?.let { act ->
             InterstitialAdManager.loadAd(act, inter_done)
         }
@@ -190,6 +196,10 @@ fun ImagePickerScreen(
                 Column(modifier = Modifier.padding(horizontal = 16.dp)) {
                     SafeClickable(
                         onClick = {
+                            FirebaseEventLogger.trackButtonClick(
+                                context,
+                                FirebaseAnalyticsEvents.CLICK_ADD_PHOTO_ICON
+                            )
                             pickMediaLauncher.launch(
                                 PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
                             )
@@ -507,7 +517,12 @@ private fun ImagePickerHeader(
         )
 
 
-        SafeClick(onClick = { viewModel.clearSelection() }) { enabled, onClick ->
+        SafeClick(onClick = {
+            FirebaseEventLogger.trackButtonClick(
+                context,
+                FirebaseAnalyticsEvents.CLICK_CLEAR_PHOTO
+            )
+            viewModel.clearSelection() }) { enabled, onClick ->
             Button(
                 onClick = onClick,
                 enabled = enabled,

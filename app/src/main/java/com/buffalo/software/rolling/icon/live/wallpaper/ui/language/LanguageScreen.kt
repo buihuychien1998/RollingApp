@@ -25,6 +25,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -53,6 +54,8 @@ import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.native_language_1
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.native_language_1_2
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.native_language_2_1
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.native_language_2_2
+import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.tracking.FirebaseAnalyticsEvents
+import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.tracking.FirebaseEventLogger
 import com.buffalo.software.rolling.icon.live.wallpaper.utils.PreferencesHelper
 import com.buffalo.software.rolling.icon.live.wallpaper.utils.custom.SafeClick
 
@@ -79,6 +82,10 @@ fun LanguageScreen(
             launchCount >= 1 && hasSelectedLanguage.value -> native_language_2_2 to R.layout.native_language
             else -> native_language_2_1 to R.layout.native_language
         }
+    }
+
+    LaunchedEffect(Unit) {
+        FirebaseEventLogger.trackScreenView(context, FirebaseAnalyticsEvents.SCREEN_LANGUAGE_VIEW)
     }
 
     Box(

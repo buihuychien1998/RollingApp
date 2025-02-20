@@ -48,6 +48,8 @@ import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.InterstitialAdMan
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.banner_splash
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.inter_splash
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.inter_splash_high
+import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.tracking.FirebaseAnalyticsEvents
+import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.tracking.FirebaseEventLogger
 import com.buffalo.software.rolling.icon.live.wallpaper.utils.LAUNCH_COUNT
 import com.buffalo.software.rolling.icon.live.wallpaper.utils.PreferencesHelper
 import com.buffalo.software.rolling.icon.live.wallpaper.utils.SHOW_AD
@@ -77,6 +79,7 @@ fun SplashScreen(navController: NavController) {
     }
 
     LaunchedEffect(Unit) {
+        FirebaseEventLogger.trackScreenView(context, FirebaseAnalyticsEvents.SCREEN_SPLASH_VIEW)
         if (SHOW_AD) {
             InterstitialAdManager.loadAds(context, inter_splash_high, inter_splash)
         } else {

@@ -25,6 +25,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
@@ -57,6 +58,8 @@ import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.native_full_scree
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.native_onboarding_2
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.native_onboarding_2_1
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.native_onboarding_2_2
+import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.tracking.FirebaseAnalyticsEvents
+import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.tracking.FirebaseEventLogger
 import com.buffalo.software.rolling.icon.live.wallpaper.utils.LAUNCH_COUNT
 import com.buffalo.software.rolling.icon.live.wallpaper.utils.PreferencesHelper
 import com.google.android.gms.ads.nativead.NativeAd
@@ -120,13 +123,24 @@ fun OnboardingScreen(navController: NavController) {
         reloadTriggers.putIfAbsent(page, mutableStateOf(true))
     }
 
-    // ✅ Khi người dùng đổi trang, nếu quảng cáo chưa có, yêu cầu tải quảng cáo mới
-//    LaunchedEffect(pagerState.currentPage) {
-//        val currentPage = pagerState.currentPage
-//        if (adStates[currentPage] == null) {
-//            reloadTriggers[currentPage]?.value = true
-//        }
-//    }
+    LaunchedEffect(pagerState.currentPage) {
+        when (pagerState.currentPage) {
+            0 -> FirebaseEventLogger.trackScreenView(
+                context,
+                FirebaseAnalyticsEvents.SCREEN_ONBOARDING_1_VIEW
+            )
+
+            1 -> FirebaseEventLogger.trackScreenView(
+                context,
+                FirebaseAnalyticsEvents.SCREEN_ONBOARDING_2_VIEW
+            )
+
+            3 -> FirebaseEventLogger.trackScreenView(
+                context,
+                FirebaseAnalyticsEvents.SCREEN_ONBOARDING_3_VIEW
+            )
+        }
+    }
 
     Column(
         modifier = Modifier

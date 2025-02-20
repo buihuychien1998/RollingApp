@@ -31,6 +31,7 @@ import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -57,6 +58,8 @@ import com.buffalo.software.rolling.icon.live.wallpaper.theme.clr_4664FF
 import com.buffalo.software.rolling.icon.live.wallpaper.theme.clr_96ACC4
 import com.buffalo.software.rolling.icon.live.wallpaper.theme.clr_D5DEE8
 import com.buffalo.software.rolling.icon.live.wallpaper.theme.clr_ECF4FF
+import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.tracking.FirebaseAnalyticsEvents
+import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.tracking.FirebaseEventLogger
 import com.buffalo.software.rolling.icon.live.wallpaper.utils.PRIVACY_POLICY
 import com.buffalo.software.rolling.icon.live.wallpaper.utils.PreferencesHelper
 import com.buffalo.software.rolling.icon.live.wallpaper.utils.custom.CustomSwitch
@@ -68,7 +71,14 @@ import com.buffalo.software.rolling.icon.live.wallpaper.utils.openLink
 @Composable
 fun SettingsScreen(navController: NavController) {
     val settingsViewModel: SettingsViewModel = viewModel()
+    val context = LocalContext.current
 
+    LaunchedEffect(Unit) {
+        FirebaseEventLogger.trackScreenView(
+            context,
+            FirebaseAnalyticsEvents.SCREEN_SETTINGS_VIEW
+        )
+    }
 
     Box {
         Image(
@@ -261,6 +271,8 @@ fun LanguageSection(navController: NavController) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun IconSettings(settingsViewModel: SettingsViewModel) {
+    val context = LocalContext.current
+
     // State variables
     val iconSize by settingsViewModel.iconSize
     val selectedSpeed by settingsViewModel.selectedSpeed
@@ -318,7 +330,12 @@ fun IconSettings(settingsViewModel: SettingsViewModel) {
                     painter = painterResource(R.drawable.img_icon_size),
                     contentDescription = null,
                     modifier = Modifier
-                        .size((iconSize.coerceIn(10f, 70f)).dp) // Adjust size based on slider (min 40, max 100)
+                        .size(
+                            (iconSize.coerceIn(
+                                10f,
+                                70f
+                            )).dp
+                        ) // Adjust size based on slider (min 40, max 100)
                         .align(Alignment.BottomEnd) // Align image to the right
                 )
             }
@@ -326,7 +343,15 @@ fun IconSettings(settingsViewModel: SettingsViewModel) {
 
         Slider(
             value = iconSize,
-            onValueChange = { settingsViewModel.setIconSize(it) },
+            onValueChange = {
+                FirebaseEventLogger.trackUserAction(
+                    context,
+                    FirebaseAnalyticsEvents.USER_ADJUST_SIZE,
+                    FirebaseAnalyticsEvents.PARAM_SIZE_VALUE,
+                    it.toString()
+                )
+                settingsViewModel.setIconSize(it)
+            },
             valueRange = 10f..70f,
             colors = SliderDefaults.colors(
                 thumbColor = Color.White,
@@ -373,9 +398,48 @@ fun IconSettings(settingsViewModel: SettingsViewModel) {
                             if (selectedSpeed == resId) R.drawable.ic_language_selected else R.drawable.ic_language_unselected
                         ),
                         contentDescription = if (selectedSpeed == resId) "Selected" else "Not Selected",
-                        modifier = Modifier.size(24.dp).clickable{
-                            settingsViewModel.setSelectedSpeed(resId)
-                        } // Adjust size as needed
+                        modifier = Modifier
+                            .size(24.dp)
+                            .clickable {
+                                when (resId) {
+                                    R.string.text_speed_slow -> {
+                                        FirebaseEventLogger.trackUserAction(
+                                            context,
+                                            FirebaseAnalyticsEvents.USER_SELECT_SPEED,
+                                            FirebaseAnalyticsEvents.PARAM_SPEED_VALUE,
+                                            FirebaseAnalyticsEvents.SPEED_SLOW
+                                        )
+                                    }
+
+                                    R.string.text_speed_normal -> {
+                                        FirebaseEventLogger.trackUserAction(
+                                            context,
+                                            FirebaseAnalyticsEvents.USER_SELECT_SPEED,
+                                            FirebaseAnalyticsEvents.PARAM_SPEED_VALUE,
+                                            FirebaseAnalyticsEvents.SPEED_NORMAL
+                                        )
+                                    }
+
+                                    R.string.text_speed_fast -> {
+                                        FirebaseEventLogger.trackUserAction(
+                                            context,
+                                            FirebaseAnalyticsEvents.USER_SELECT_SPEED,
+                                            FirebaseAnalyticsEvents.PARAM_SPEED_VALUE,
+                                            FirebaseAnalyticsEvents.SPEED_FAST
+                                        )
+                                    }
+
+                                    else -> {
+                                        FirebaseEventLogger.trackUserAction(
+                                            context,
+                                            FirebaseAnalyticsEvents.USER_SELECT_SPEED,
+                                            FirebaseAnalyticsEvents.PARAM_SPEED_VALUE,
+                                            FirebaseAnalyticsEvents.SPEED_CRAZY
+                                        )
+                                    }
+                                }
+                                settingsViewModel.setSelectedSpeed(resId)
+                            } // Adjust size as needed
                     )
                     Spacer(modifier = Modifier.width(6.dp))
                     Text(

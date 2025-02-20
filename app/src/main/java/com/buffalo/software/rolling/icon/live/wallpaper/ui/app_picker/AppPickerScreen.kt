@@ -67,6 +67,8 @@ import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.BannerAd
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.InterstitialAdManager
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.banner_all
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.inter_done
+import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.tracking.FirebaseAnalyticsEvents
+import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.tracking.FirebaseEventLogger
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.loading.LoadingScreen
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.share_view_model.SharedViewModel
 import com.buffalo.software.rolling.icon.live.wallpaper.utils.SHOW_AD
@@ -82,6 +84,11 @@ fun AppPickerScreen(
     val activity = context as? Activity
 
     LaunchedEffect(Unit) {
+        FirebaseEventLogger.trackScreenView(
+            context,
+            FirebaseAnalyticsEvents.SCREEN_ADD_APPLICATION_VIEW
+        )
+
         activity?.let { act ->
             InterstitialAdManager.loadAd(act, inter_done)
         }
@@ -142,7 +149,7 @@ fun AppIconList(
         ) {
             AppPickerHeader(isChanged, viewModel, selectedApps, shareViewModel, navController)
         }
-        if(SHOW_AD && !filteredApps.isNullOrEmpty()){
+        if (SHOW_AD && !filteredApps.isNullOrEmpty()) {
             BannerAd(banner_all)
             Spacer(modifier = Modifier.height(16.dp))
         }
@@ -150,7 +157,16 @@ fun AppIconList(
         Column(modifier = Modifier.padding(horizontal = 16.dp)) {
             TextField(
                 value = searchQuery,
-                onValueChange = { query -> viewModel.updateSearchQuery(query) },
+                onValueChange = { query ->
+                    if (query.isNotEmpty() && searchQuery.isEmpty()) {
+                        // Track only when user starts typing
+                        FirebaseEventLogger.trackButtonClick(
+                            context,
+                            FirebaseAnalyticsEvents.CLICK_SEARCH
+                        )
+                    }
+                    viewModel.updateSearchQuery(query)
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 16.dp)
@@ -269,7 +285,13 @@ private fun AppPickerHeader(
         )
 
 
-        SafeClick(onClick = { viewModel.clearSelectedIcons() }) { enabled, onClick ->
+        SafeClick(onClick = {
+            FirebaseEventLogger.trackButtonClick(
+                context,
+                FirebaseAnalyticsEvents.CLICK_CLEAR_APPLICATION
+            )
+            viewModel.clearSelectedIcons()
+        }) { enabled, onClick ->
             Button(
                 onClick = onClick,
                 enabled = enabled,
