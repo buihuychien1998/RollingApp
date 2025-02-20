@@ -17,8 +17,8 @@ class AppOpenAdManager(private val application: Application) :
     private var appOpenAd: AppOpenAd? = null
     private var isShowingAd = false
     private var lastAdShownTime: Long = 0 // 🕒 Thời điểm hiển thị quảng cáo gần nhất
-//    private val adCooldownMillis = 25_000L // ⏳ Giãn cách 25 giây
-    private val adCooldownMillis = 0L // ⏳ Giãn cách 25 giây
+    private val adCooldownMillis = 25_000L // ⏳ Giãn cách 25 giây
+//    private val adCooldownMillis = 0L // ⏳ Giãn cách 25 giây
 
     init {
         application.registerActivityLifecycleCallbacks(this)

@@ -33,6 +33,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.input.pointer.positionChange
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -48,9 +50,14 @@ import com.buffalo.software.rolling.icon.live.wallpaper.routes.AppRoutes
 import com.buffalo.software.rolling.icon.live.wallpaper.theme.AppFont
 import com.buffalo.software.rolling.icon.live.wallpaper.theme.clr_2C323F
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.NativeAdViewCompose
+import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.native_full_screen
+import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.native_full_screen2
+import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.native_full_screen2_2f
+import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.native_full_screen_2f
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.native_onboarding_2
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.native_onboarding_2_1
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.native_onboarding_2_2
+import com.buffalo.software.rolling.icon.live.wallpaper.utils.LAUNCH_COUNT
 import com.buffalo.software.rolling.icon.live.wallpaper.utils.PreferencesHelper
 import com.google.android.gms.ads.nativead.NativeAd
 import kotlinx.coroutines.launch
@@ -58,7 +65,17 @@ import kotlinx.coroutines.launch
 @Composable
 fun OnboardingScreen(navController: NavController) {
     val context = LocalContext.current
-    val onboardingItems = listOf(
+
+    val launchCount = remember { PreferencesHelper.getLaunchCount(context) }
+
+    val (nativeAdId, fallbackNativeID) = remember(launchCount) {
+        when {
+            launchCount == 1 -> native_full_screen_2f to native_full_screen
+            launchCount >= LAUNCH_COUNT -> native_full_screen2_2f to native_full_screen2
+            else -> native_full_screen2_2f to native_full_screen2
+        }
+    }
+    val fullOnboardingItems = listOf(
         OnboardingItem(
             R.drawable.onboarding_image1,
             stringResource(R.string.onboarding_title_1),
@@ -72,12 +89,22 @@ fun OnboardingScreen(navController: NavController) {
             native_onboarding_2
         ),
         OnboardingItem(
+            R.drawable.onboarding_image2,
+            stringResource(R.string.onboarding_title_2),
+            stringResource(R.string.onboarding_desc_2),
+            nativeAdId
+        ),
+        OnboardingItem(
             R.drawable.onboarding_image3,
             stringResource(R.string.onboarding_title_3),
             stringResource(R.string.onboarding_desc_3),
             native_onboarding_2_2
         )
     )
+
+    val onboardingItems = remember(launchCount) {
+        if (launchCount >= LAUNCH_COUNT) fullOnboardingItems.dropLast(1) else fullOnboardingItems
+    }
 
     val pagerState = rememberPagerState(pageCount = { onboardingItems.size })
     val scope = rememberCoroutineScope()
@@ -108,12 +135,10 @@ fun OnboardingScreen(navController: NavController) {
             .safeDrawingPadding(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // ✅ Layout chứa nội dung & Navigation Row cố định
         Box(
             modifier = Modifier.weight(1f),
             contentAlignment = Alignment.BottomCenter
         ) {
-            // ✅ Pager chứa nội dung thay đổi (OnboardingSlide + NativeAdViewCompose)
             HorizontalPager(
                 state = pagerState,
                 modifier = Modifier.fillMaxSize()
@@ -121,91 +146,153 @@ fun OnboardingScreen(navController: NavController) {
                 val item = onboardingItems[page]
                 val reloadTrigger = reloadTriggers[page] ?: mutableStateOf(false)
 
-                Column(
-                    modifier = Modifier.fillMaxSize(),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
+                if (page == 2) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(Color.White)
+                            .then(
+                                if (launchCount >= LAUNCH_COUNT) {
+                                    Modifier.pointerInput(Unit) {
+                                        awaitPointerEventScope {
+                                            while (true) {
+                                                val event = awaitPointerEvent()
+                                                val dragAmount =
+                                                    event.changes
+                                                        .firstOrNull()
+                                                        ?.positionChange()?.x
+                                                        ?: 0f
+
+                                                if (dragAmount < -50) { // Swipe left detected
+                                                    com.buffalo.software.rolling.icon.live.wallpaper.utils.PreferencesHelper.setOnboardingDone(
+                                                        context = context,
+                                                        value = launchCount >= com.buffalo.software.rolling.icon.live.wallpaper.utils.LAUNCH_COUNT
+                                                    )
+                                                    navController.navigate(com.buffalo.software.rolling.icon.live.wallpaper.routes.AppRoutes.Home.route) {
+                                                        popUpTo(com.buffalo.software.rolling.icon.live.wallpaper.routes.AppRoutes.Onboarding.route) {
+                                                            inclusive = true
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                } else Modifier
+
+                            ),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        NativeAdViewCompose(
+                            context = context,
+                            nativeID = item.nativeAdId,
+                            fallbackNativeID = fallbackNativeID,
+                            existingAd = adStates[page],
+                            reloadTrigger = reloadTrigger,
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(8.dp),
+                            layoutResId = R.layout.native_full_screen,
+                            onAdLoaded = {
+                                adStates[page] = it
+                                reloadTriggers[page]?.value = false
+                            },
+                        )
+                    }
+                } else {
                     Column(
-                        modifier = Modifier.weight(1f),
+                        modifier = Modifier.fillMaxSize(),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        OnboardingSlide(item)
-                    }
+                        Column(
+                            modifier = Modifier.weight(1f),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            OnboardingSlide(item)
+                        }
 
-                    // ✅ Nếu đã có quảng cáo, hiển thị ngay
-                    NativeAdViewCompose(
-                        context = context,
-                        nativeID = item.nativeAdId,
-                        existingAd = adStates[page],
-                        reloadTrigger = reloadTrigger,
-                        onAdLoaded = {
-                            adStates[page] = it // ✅ Lưu ad để không tải lại
-                            reloadTriggers[page]?.value = false // ✅ Không cần reload nữa
-                        },
-                        backgroundTint = parseColor("#E7ECF2")
-                    )
+                        // ✅ Nếu đã có quảng cáo, hiển thị ngay
+                        NativeAdViewCompose(
+                            context = context,
+                            nativeID = item.nativeAdId,
+                            existingAd = adStates[page],
+                            reloadTrigger = reloadTrigger,
+                            onAdLoaded = {
+                                adStates[page] = it // ✅ Lưu ad để không tải lại
+                                reloadTriggers[page]?.value = false // ✅ Không cần reload nữa
+                            },
+                            backgroundTint = parseColor("#E7ECF2")
+                        )
+                    }
                 }
+
             }
 
-            // ✅ Row này luôn cố định
-            Row(
-                Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 8.dp)
-                    .offset(y = (-272).dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                // Indicators (dot progress)
+            if (pagerState.currentPage != 2) {
                 Row(
-                    Modifier.wrapContentSize(),
-                    horizontalArrangement = Arrangement.Center,
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 8.dp)
+                        .offset(y = (-272).dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    repeat(onboardingItems.size) { index ->
-                        Indicator(isSelected = pagerState.currentPage == index)
+                    // Indicators (dot progress)
+                    Row(
+                        Modifier.wrapContentSize(),
+                        horizontalArrangement = Arrangement.Center,
+                    ) {
+                        repeat(onboardingItems.size) { index ->
+                            Indicator(isSelected = pagerState.currentPage == index)
+                        }
                     }
-                }
 
-                // ✅ Nút điều hướng cố định
-                Button(
-                    onClick = {
-                        scope.launch {
-                            if (pagerState.currentPage < onboardingItems.size - 1) {
-                                pagerState.animateScrollToPage(pagerState.currentPage + 1)
-                            } else {
-                                PreferencesHelper.setOnboardingDone(context = context, value = true)
-                                navController.navigate(AppRoutes.Home.route) {
-                                    popUpTo(AppRoutes.Onboarding.route) { inclusive = true }
+                    // ✅ Nút điều hướng cố định
+                    Button(
+                        onClick = {
+                            scope.launch {
+                                if (pagerState.currentPage < onboardingItems.size - 1) {
+                                    pagerState.animateScrollToPage(pagerState.currentPage + 1)
+                                } else {
+                                    PreferencesHelper.setOnboardingDone(
+                                        context = context,
+                                        value = launchCount >= LAUNCH_COUNT
+                                    )
+                                    navController.navigate(AppRoutes.Home.route) {
+                                        popUpTo(AppRoutes.Onboarding.route) { inclusive = true }
+                                    }
                                 }
                             }
-                        }
-                    },
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = if (pagerState.currentPage < onboardingItems.size - 1) Color.White else Color(0xFF4664FF),
-                        contentColor = if (pagerState.currentPage < onboardingItems.size - 1) Color(0xFF4664FF) else Color.White
-                    ),
-                    border = if (pagerState.currentPage < onboardingItems.size - 1) {
-                        BorderStroke(1.dp, Color(0xFF4664FF))
-                    } else {
-                        null
-                    },
-                    shape = RoundedCornerShape(16.dp),
-                    modifier = Modifier.wrapContentSize()
-                ) {
-                    Text(
-                        text = stringResource(
-                            if (pagerState.currentPage < onboardingItems.size - 1) R.string.text_next else R.string.text_start
+                        },
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = if (pagerState.currentPage < onboardingItems.size - 1) Color.White else Color(
+                                0xFF4664FF
+                            ),
+                            contentColor = if (pagerState.currentPage < onboardingItems.size - 1) Color(
+                                0xFF4664FF
+                            ) else Color.White
                         ),
-                        fontFamily = AppFont.Grandstander,
-                        style = TextStyle(fontWeight = FontWeight.Medium, fontSize = 14.sp),
-                    )
+                        border = if (pagerState.currentPage < onboardingItems.size - 1) {
+                            BorderStroke(1.dp, Color(0xFF4664FF))
+                        } else {
+                            null
+                        },
+                        shape = RoundedCornerShape(16.dp),
+                        modifier = Modifier.wrapContentSize()
+                    ) {
+                        Text(
+                            text = stringResource(
+                                if (pagerState.currentPage < onboardingItems.size - 1) R.string.text_next else R.string.text_start
+                            ),
+                            fontFamily = AppFont.Grandstander,
+                            style = TextStyle(fontWeight = FontWeight.Medium, fontSize = 14.sp),
+                        )
+                    }
                 }
             }
+
         }
     }
 }
-
-
 
 @Composable
 fun OnboardingSlide(item: OnboardingItem) {
