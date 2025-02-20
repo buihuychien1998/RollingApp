@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">Rolling Icon: Live Wallpaper</string>
+
+    <!-- Turkish (tr) -->
+    <string name="text_rolling_icon">Dönen Simge</string>
+    <string name="text_language">Dil</string>
+    <string name="text_add_icon">Simge Ekle</string>
+    <string name="text_preview">Önizleme</string>
+    <string name="text_add_application">Uygulama Ekle</string>
+    <string name="text_add_photos">Fotoğraf Ekle</string>
+    <string name="text_add_videos">Video Ekle</string>
+    <string name="text_clear">Temizle</string>
+    <string name="text_search">Ara</string>
+    <string name="text_settings">Ayarlar</string>
+    <string name="text_permission">İzin</string>
+    <string name="text_grant_write_setting_permission">Ayarları yazma izni ver</string>
+    <string name="text_icon">Simge</string>
+    <string name="text_speed">Hız</string>
+    <string name="text_speed_slow">Yavaş</string>
+    <string name="text_speed_normal">Normal</string>
+    <string name="text_speed_fast">Hızlı</string>
+    <string name="text_speed_crazy">Çılgın</string>
+    <string name="text_touch">Dokun</string>
+    <string name="text_drag">Sürükle</string>
+    <string name="text_explosion">Patlama</string>
+    <string name="text_sound">Ses</string>
+    <string name="text_gravity_box">Yerçekimi Kutusu</string>
+    <string name="text_privacy_policy">Gizlilik Politikası</string>
+    <string name="text_rate_us">Bizi değerlendir</string>
+    <string name="text_size_setting">Boyut (10–70)</string>
+    <string name="text_size">Boyut</string>
+    <string name="text_information">Bilgi</string>
+    <string name="text_your_list_is_empty">Listeniz boş</string>
+    <string name="text_delete">Sil</string>
+    <string name="text_complete">Tamamlandı</string>
+    <string name="text_your_wallpaper_has_been_changed">Duvar kağıdınız değiştirildi</string>
+    <string name="text_confirm">Onayla</string>
+    <string name="text_no_icons_selected">Henüz herhangi bir simge seçmediniz.</string>
+    <string name="text_next">Sonraki</string>
+    <string name="text_start">Başlat</string>
+    <string name="onboarding_title_1">Benzersiz ve Etkileşimli Deneyimler</string>
+    <string name="onboarding_desc_1">Ana ekranınıza yaratıcılık getiren benzersiz ve etkileşimli bir arayüzün keyfini çıkarın.</string>
+    <string name="onboarding_title_2">Animasyonlu Ana Ekran Simgesi</string>
+    <string name="onboarding_desc_2">Animasyonlu simgelerle daha dinamik bir ana ekranın keyfini çıkarın.</string>
+    <string name="onboarding_title_3">Simge Görünümünü ve Efektlerini Özelleştirin</string>
+    <string name="onboarding_desc_3">Etkileşimli ve kişiselleştirilmiş simge animasyonları oluşturun.</string>
+    <string name="ad_warning">Bu işlem reklam içerebilir</string>
+</resources>

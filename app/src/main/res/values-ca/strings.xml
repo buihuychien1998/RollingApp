@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">Rolling Icon: Live Wallpaper</string>
+
+    <!-- Catalan (ca) -->
+    <string name="text_rolling_icon">Icona rodant</string>
+    <string name="text_language">Idioma</string>
+    <string name="text_add_icon">Afegeix icona</string>
+    <string name="text_preview">Vista prèvia</string>
+    <string name="text_add_application">Afegeix aplicació</string>
+    <string name="text_add_photos">Afegeix fotos</string>
+    <string name="text_add_videos">Afegeix vídeos</string>
+    <string name="text_clear">Esborra</string>
+    <string name="text_search">Cerca</string>
+    <string name="text_settings">Configuració</string>
+    <string name="text_permission">Permís</string>
+    <string name="text_grant_write_setting_permission">Concedir permís per escriure la configuració</string>
+    <string name="text_icon">Icona</string>
+    <string name="text_speed">Velocitat</string>
+    <string name="text_speed_slow">Lent</string>
+    <string name="text_speed_normal">Normal</string>
+    <string name="text_speed_fast">Ràpid</string>
+    <string name="text_speed_crazy">Boig</string>
+    <string name="text_touch">Tocar</string>
+    <string name="text_drag">Arrossegar</string>
+    <string name="text_explosion">Explosió</string>
+    <string name="text_sound">So</string>
+    <string name="text_gravity_box">Caixa de gravetat</string>
+    <string name="text_privacy_policy">Política de privacitat</string>
+    <string name="text_rate_us">Valora\'ns</string>
+    <string name="text_size_setting">Mida (10–70)</string>
+    <string name="text_size">Mida</string>
+    <string name="text_information">Informació</string>
+    <string name="text_your_list_is_empty">La teva llista està buida</string>
+    <string name="text_delete">Esborrar</string>
+    <string name="text_complete">Complet</string>
+    <string name="text_your_wallpaper_has_been_changed">El teu fons de pantalla ha estat canviat</string>
+    <string name="text_confirm">Confirma</string>
+    <string name="text_no_icons_selected">Encara no has seleccionat cap icona.</string>
+    <string name="text_next">Següent</string>
+    <string name="text_start">Inicia</string>
+    <string name="onboarding_title_1">Experiències úniques i interactives</string>
+    <string name="onboarding_desc_1">Gaudeix d\'una interfície única i interactiva que porta creativitat a la teva pantalla d\'inici.</string>
+    <string name="onboarding_title_2">Icona d\'inici animada</string>
+    <string name="onboarding_desc_2">Gaudeix d\'una pantalla d\'inici més dinàmica amb icones animades.</string>
+    <string name="onboarding_title_3">Personalitza l\'aparença i els efectes de la icona</string>
+    <string name="onboarding_desc_3">Crea animacions d\'icones interactives i personalitzades.</string>
+    <string name="ad_warning">Aquesta acció pot contenir anuncis</string>
+</resources>

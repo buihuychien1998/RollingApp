@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">Rolling Icon: Live Wallpaper</string>
+
+    <!-- Ukrainian (uk) -->
+    <string name="text_rolling_icon">Котяча іконка</string>
+    <string name="text_language">Мова</string>
+    <string name="text_add_icon">Додати іконку</string>
+    <string name="text_preview">Попередній перегляд</string>
+    <string name="text_add_application">Додати додаток</string>
+    <string name="text_add_photos">Додати фото</string>
+    <string name="text_add_videos">Додати відео</string>
+    <string name="text_clear">Очистити</string>
+    <string name="text_search">Пошук</string>
+    <string name="text_settings">Налаштування</string>
+    <string name="text_permission">Дозвіл</string>
+    <string name="text_grant_write_setting_permission">Надати дозвіл на запис налаштувань</string>
+    <string name="text_icon">Іконка</string>
+    <string name="text_speed">Швидкість</string>
+    <string name="text_speed_slow">Повільно</string>
+    <string name="text_speed_normal">Нормально</string>
+    <string name="text_speed_fast">Швидко</string>
+    <string name="text_speed_crazy">Дуже швидко</string>
+    <string name="text_touch">Дотик</string>
+    <string name="text_drag">Перетягування</string>
+    <string name="text_explosion">Вибух</string>
+    <string name="text_sound">Звук</string>
+    <string name="text_gravity_box">Гравітаційна коробка</string>
+    <string name="text_privacy_policy">Політика конфіденційності</string>
+    <string name="text_rate_us">Оцініть нас</string>
+    <string name="text_size_setting">Розмір (10–70)</string>
+    <string name="text_size">Розмір</string>
+    <string name="text_information">Інформація</string>
+    <string name="text_your_list_is_empty">Ваш список порожній</string>
+    <string name="text_delete">Видалити</string>
+    <string name="text_complete">Завершено</string>
+    <string name="text_your_wallpaper_has_been_changed">Ваш шпалери змінено</string>
+    <string name="text_confirm">Підтвердити</string>
+    <string name="text_no_icons_selected">Ви ще не вибрали жодної іконки.</string>
+    <string name="text_next">Далі</string>
+    <string name="text_start">Почати</string>
+    <string name="onboarding_title_1">Унікальні та інтерактивні враження</string>
+    <string name="onboarding_desc_1">Насолоджуйтеся унікальним та інтерактивним інтерфейсом, який приносить креативність на головний екран.</string>
+    <string name="onboarding_title_2">Анімована іконка головного екрана</string>
+    <string name="onboarding_desc_2">Насолоджуйтеся більш динамічним головним екраном з анімованими іконками.</string>
+    <string name="onboarding_title_3">Налаштуйте зовнішній вигляд і ефекти іконок</string>
+    <string name="onboarding_desc_3">Створюйте інтерактивні та персоналізовані анімації іконок.</string>
+    <string name="ad_warning">Ця дія може містити рекламу</string>
+</resources>

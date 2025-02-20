@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">Rolling Icon: Live Wallpaper</string>
+
+    <!-- Lithuanian (lt) -->
+    <string name="text_rolling_icon">Riedantis piktograma</string>
+    <string name="text_language">Kalba</string>
+    <string name="text_add_icon">Pridėti piktogramą</string>
+    <string name="text_preview">Peržiūra</string>
+    <string name="text_add_application">Pridėti programą</string>
+    <string name="text_add_photos">Pridėti nuotraukas</string>
+    <string name="text_add_videos">Pridėti vaizdo įrašus</string>
+    <string name="text_clear">Išvalyti</string>
+    <string name="text_search">Paieška</string>
+    <string name="text_settings">Nustatymai</string>
+    <string name="text_permission">Leidimas</string>
+    <string name="text_grant_write_setting_permission">Suteikti leidimą rašyti nustatymus</string>
+    <string name="text_icon">Piktograma</string>
+    <string name="text_speed">Greitis</string>
+    <string name="text_speed_slow">Lėtas</string>
+    <string name="text_speed_normal">Normalus</string>
+    <string name="text_speed_fast">Greitas</string>
+    <string name="text_speed_crazy">Labai greitas</string>
+    <string name="text_touch">Palietimas</string>
+    <string name="text_drag">Vilkimas</string>
+    <string name="text_explosion">Sprogimas</string>
+    <string name="text_sound">Garsas</string>
+    <string name="text_gravity_box">Gravitacijos dėžė</string>
+    <string name="text_privacy_policy">Privatumo politika</string>
+    <string name="text_rate_us">Įvertinkite mus</string>
+    <string name="text_size_setting">Dydis (10–70)</string>
+    <string name="text_size">Dydis</string>
+    <string name="text_information">Informacija</string>
+    <string name="text_your_list_is_empty">Jūsų sąrašas tuščias</string>
+    <string name="text_delete">Ištrinti</string>
+    <string name="text_complete">Užbaigta</string>
+    <string name="text_your_wallpaper_has_been_changed">Jūsų ekrano fonas buvo pakeistas</string>
+    <string name="text_confirm">Patvirtinti</string>
+    <string name="text_no_icons_selected">Jūs dar nepasirinkote jokių piktogramų.</string>
+    <string name="text_next">Kitas</string>
+    <string name="text_start">Pradėti</string>
+    <string name="onboarding_title_1">Unikalios ir interaktyvios patirtys</string>
+    <string name="onboarding_desc_1">Mėgaukitės unikalia ir interaktyvia sąsaja, kuri suteikia kūrybiškumo jūsų pagrindiniam ekranui.</string>
+    <string name="onboarding_title_2">Animuota pagrindinio ekrano piktograma</string>
+    <string name="onboarding_desc_2">Mėgaukitės dinamiškesniu pagrindiniu ekranu su animuotomis piktogramomis.</string>
+    <string name="onboarding_title_3">Tinkinkite piktogramų išvaizdą ir efektus</string>
+    <string name="onboarding_desc_3">Kurti interaktyvias ir pritaikytas piktogramų animacijas.</string>
+    <string name="ad_warning">Šis veiksmas gali apimti reklamas</string>
+</resources>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">Rolling Icon: Live Wallpaper</string>
+
+    <!-- Czech (cs) -->
+    <string name="text_rolling_icon">Rolovací ikona</string>
+    <string name="text_language">Jazyk</string>
+    <string name="text_add_icon">Přidat ikonu</string>
+    <string name="text_preview">Náhled</string>
+    <string name="text_add_application">Přidat aplikaci</string>
+    <string name="text_add_photos">Přidat fotografie</string>
+    <string name="text_add_videos">Přidat videa</string>
+    <string name="text_clear">Vymazat</string>
+    <string name="text_search">Hledat</string>
+    <string name="text_settings">Nastavení</string>
+    <string name="text_permission">Povolení</string>
+    <string name="text_grant_write_setting_permission">Udělit oprávnění k zápisu do nastavení</string>
+    <string name="text_icon">Ikona</string>
+    <string name="text_speed">Rychlost</string>
+    <string name="text_speed_slow">Pomalý</string>
+    <string name="text_speed_normal">Normální</string>
+    <string name="text_speed_fast">Rychlý</string>
+    <string name="text_speed_crazy">Šílený</string>
+    <string name="text_touch">Dotek</string>
+    <string name="text_drag">Přetáhnout</string>
+    <string name="text_explosion">Exploze</string>
+    <string name="text_sound">Zvuk</string>
+    <string name="text_gravity_box">Gravitační box</string>
+    <string name="text_privacy_policy">Zásady ochrany osobních údajů</string>
+    <string name="text_rate_us">Ohodnoťte nás</string>
+    <string name="text_size_setting">Velikost (10–70)</string>
+    <string name="text_size">Velikost</string>
+    <string name="text_information">Informace</string>
+    <string name="text_your_list_is_empty">Váš seznam je prázdný</string>
+    <string name="text_delete">Smazat</string>
+    <string name="text_complete">Dokončeno</string>
+    <string name="text_your_wallpaper_has_been_changed">Vaše tapeta byla změněna</string>
+    <string name="text_confirm">Potvrdit</string>
+    <string name="text_no_icons_selected">Zatím jste nevybrali žádné ikony.</string>
+    <string name="text_next">Další</string>
+    <string name="text_start">Start</string>
+    <string name="onboarding_title_1">Unikátní a interaktivní zážitky</string>
+    <string name="onboarding_desc_1">Užijte si jedinečné a interaktivní rozhraní, které přináší kreativitu na domovskou obrazovku.</string>
+    <string name="onboarding_title_2">Animovaná ikona domovské obrazovky</string>
+    <string name="onboarding_desc_2">Užijte si dynamičtější domovskou obrazovku s animovanými ikonami.</string>
+    <string name="onboarding_title_3">Přizpůsobení vzhledu a efektů ikon</string>
+    <string name="onboarding_desc_3">Vytvářejte interaktivní a přizpůsobené animace ikon.</string>
+    <string name="ad_warning">Tato akce může obsahovat reklamy</string>
+</resources>

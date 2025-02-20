@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">Rolling Icon: Live Wallpaper</string>
+
+    <!-- Italian (it) -->
+    <string name="text_rolling_icon">Icona rotante</string>
+    <string name="text_language">Lingua</string>
+    <string name="text_add_icon">Aggiungi icona</string>
+    <string name="text_preview">Anteprima</string>
+    <string name="text_add_application">Aggiungi applicazione</string>
+    <string name="text_add_photos">Aggiungi foto</string>
+    <string name="text_add_videos">Aggiungi video</string>
+    <string name="text_clear">Cancella</string>
+    <string name="text_search">Cerca</string>
+    <string name="text_settings">Impostazioni</string>
+    <string name="text_permission">Autorizzazione</string>
+    <string name="text_grant_write_setting_permission">Concedi autorizzazione per scrivere nelle impostazioni</string>
+    <string name="text_icon">Icona</string>
+    <string name="text_speed">Velocità</string>
+    <string name="text_speed_slow">Lento</string>
+    <string name="text_speed_normal">Normale</string>
+    <string name="text_speed_fast">Veloce</string>
+    <string name="text_speed_crazy">Folle</string>
+    <string name="text_touch">Tocco</string>
+    <string name="text_drag">Trascina</string>
+    <string name="text_explosion">Esplosione</string>
+    <string name="text_sound">Suono</string>
+    <string name="text_gravity_box">Scatola gravitazionale</string>
+    <string name="text_privacy_policy">Informativa sulla privacy</string>
+    <string name="text_rate_us">Valutaci</string>
+    <string name="text_size_setting">Dimensione (10–70)</string>
+    <string name="text_size">Dimensione</string>
+    <string name="text_information">Informazioni</string>
+    <string name="text_your_list_is_empty">La tua lista è vuota</string>
+    <string name="text_delete">Elimina</string>
+    <string name="text_complete">Completato</string>
+    <string name="text_your_wallpaper_has_been_changed">Il tuo sfondo è stato cambiato</string>
+    <string name="text_confirm">Conferma</string>
+    <string name="text_no_icons_selected">Non hai ancora selezionato alcuna icona.</string>
+    <string name="text_next">Avanti</string>
+    <string name="text_start">Inizia</string>
+    <string name="onboarding_title_1">Esperienze uniche e interattive</string>
+    <string name="onboarding_desc_1">Goditi un\'interfaccia unica e interattiva che porta creatività alla tua schermata principale.</string>
+    <string name="onboarding_title_2">Icona animata della schermata principale</string>
+    <string name="onboarding_desc_2">Goditi una schermata principale più dinamica con icone animate.</string>
+    <string name="onboarding_title_3">Personalizza l\'aspetto e gli effetti dell\'icona</string>
+    <string name="onboarding_desc_3">Crea animazioni di icone interattive e personalizzate.</string>
+    <string name="ad_warning">Questa azione potrebbe contenere annunci</string>
+</resources>

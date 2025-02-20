@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="text_rolling_icon">የሚሽከረከሩ አዶዎች</string>
+    <string name="text_language">ቋንቋ</string>
+    <string name="text_add_icon">አዶ አክል</string>
+    <string name="text_preview">ቅድመ እይታ</string>
+    <string name="text_add_application">መተግበሪያ አክል</string>
+    <string name="text_add_photos">ፎቶዎች አክል</string>
+    <string name="text_add_videos">ቪዲዮዎች አክል</string>
+    <string name="text_clear">አጽዳ</string>
+    <string name="text_search">ፈልግ</string>
+    <string name="text_settings">ማሰናጃዎች</string>
+    <string name="text_permission">ፈቃድ</string>
+    <string name="text_grant_write_setting_permission">የማሰናጃ መረጃ መጻፍ ፈቃድ ይስጡ</string>
+    <string name="text_icon">አዶ</string>
+    <string name="text_speed">ፍጥነት</string>
+    <string name="text_speed_slow">ዝርዝር</string>
+    <string name="text_speed_normal">መደበኛ</string>
+    <string name="text_speed_fast">ፈጣን</string>
+    <string name="text_speed_crazy">እብዶ</string>
+    <string name="text_touch">እጅ አንከባል</string>
+    <string name="text_drag">ስቀስቅ</string>
+    <string name="text_explosion">ፍንዳታ</string>
+    <string name="text_sound">ድምፅ</string>
+    <string name="text_gravity_box">የማዛጋት ሳጥን</string>
+    <string name="text_privacy_policy">የግል የሆነ ፖሊሲ</string>
+    <string name="text_rate_us">ደረጃ ይስጡን</string>
+    <string name="text_size_setting">መጠን (10–70)</string>
+    <string name="text_size">መጠን</string>
+    <string name="text_information">መረጃ</string>
+    <string name="text_your_list_is_empty">ዝርዝሩ ባዶ ነው</string>
+    <string name="text_delete">ሰርዝ</string>
+    <string name="text_complete">ተጠናቅቋል</string>
+    <string name="text_your_wallpaper_has_been_changed">የእርስዎ ወረቀት ቀይሯል</string>
+    <string name="text_confirm">ያረጋግጡ</string>
+    <string name="text_no_icons_selected">ምንም አዶ አልተመረጠም።</string>
+    <string name="text_next">ቀጣይ</string>
+    <string name="text_start">ጀምር</string>
+    <string name="onboarding_title_1">ልዩ እና የሚቀላቀሉ ልምዶች</string>
+    <string name="onboarding_desc_1">የተስፋ የሆነ እና የሚያደርጉ የትዕዛዝ ገፅ ይቀበሉ።</string>
+    <string name="onboarding_title_2">ተንቀሳቃሽ የመገኛ ገፅ አዶ</string>
+    <string name="onboarding_desc_2">ተንቀሳቃሽ አዶዎች ጋር የተዛረገ የመገኛ ገፅ ይደሰቱ።</string>
+    <string name="onboarding_title_3">የአዶ መልክና ተጽዕኖ ይስሩ</string>
+    <string name="onboarding_desc_3">የተዛረገ እና የሚሽከረከሩ የአዶ አንቀሳቃሽነቶች ይፍጠሩ።</string>
+    <string name="ad_warning">ይህ ተግባር ማስታወቂያዎችን ሊያካትት ይችላል።</string>
+</resources>

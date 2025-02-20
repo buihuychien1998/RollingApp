@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">Rolling Icon: Live Wallpaper</string>
+
+    <!-- Hungarian (hu) -->
+    <string name="text_rolling_icon">Gördülő ikon</string>
+    <string name="text_language">Nyelv</string>
+    <string name="text_add_icon">Ikon hozzáadása</string>
+    <string name="text_preview">Előnézet</string>
+    <string name="text_add_application">Alkalmazás hozzáadása</string>
+    <string name="text_add_photos">Fényképek hozzáadása</string>
+    <string name="text_add_videos">Videók hozzáadása</string>
+    <string name="text_clear">Törlés</string>
+    <string name="text_search">Keresés</string>
+    <string name="text_settings">Beállítások</string>
+    <string name="text_permission">Engedély</string>
+    <string name="text_grant_write_setting_permission">Adja meg az írási engedélyt a beállításokhoz</string>
+    <string name="text_icon">Ikon</string>
+    <string name="text_speed">Sebesség</string>
+    <string name="text_speed_slow">Lassú</string>
+    <string name="text_speed_normal">Normál</string>
+    <string name="text_speed_fast">Gyors</string>
+    <string name="text_speed_crazy">Őrült</string>
+    <string name="text_touch">Érintés</string>
+    <string name="text_drag">Húzás</string>
+    <string name="text_explosion">Robbanás</string>
+    <string name="text_sound">Hang</string>
+    <string name="text_gravity_box">Gravitációs doboz</string>
+    <string name="text_privacy_policy">Adatvédelmi irányelvek</string>
+    <string name="text_rate_us">Értékeljen minket</string>
+    <string name="text_size_setting">Méret (10–70)</string>
+    <string name="text_size">Méret</string>
+    <string name="text_information">Információ</string>
+    <string name="text_your_list_is_empty">A listád üres</string>
+    <string name="text_delete">Törlés</string>
+    <string name="text_complete">Befejezett</string>
+    <string name="text_your_wallpaper_has_been_changed">A háttérképed megváltozott</string>
+    <string name="text_confirm">Megerősítés</string>
+    <string name="text_no_icons_selected">Még nem választottál ki ikont.</string>
+    <string name="text_next">Következő</string>
+    <string name="text_start">Indítás</string>
+    <string name="onboarding_title_1">Egyedi és interaktív élmények</string>
+    <string name="onboarding_desc_1">Élvezze az egyedi és interaktív felületet, amely kreativitást hoz a kezdőképernyőre.</string>
+    <string name="onboarding_title_2">Animált kezdőképernyő ikon</string>
+    <string name="onboarding_desc_2">Élvezze a dinamikusabb kezdőképernyőt animált ikonokkal.</string>
+    <string name="onboarding_title_3">Ikonok megjelenésének és hatásainak testreszabása</string>
+    <string name="onboarding_desc_3">Hozzon létre interaktív és testreszabott ikonanimációkat.</string>
+    <string name="ad_warning">Ez a művelet hirdetéseket tartalmazhat</string>
+</resources>

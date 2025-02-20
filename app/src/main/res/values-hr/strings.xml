@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">Rolling Icon: Live Wallpaper</string>
+
+    <!-- Croatian (hr) -->
+    <string name="text_rolling_icon">Rotirajuća ikona</string>
+    <string name="text_language">Jezik</string>
+    <string name="text_add_icon">Dodaj ikonu</string>
+    <string name="text_preview">Pregled</string>
+    <string name="text_add_application">Dodaj aplikaciju</string>
+    <string name="text_add_photos">Dodaj fotografije</string>
+    <string name="text_add_videos">Dodaj videozapise</string>
+    <string name="text_clear">Očisti</string>
+    <string name="text_search">Pretraži</string>
+    <string name="text_settings">Postavke</string>
+    <string name="text_permission">Dopuštenje</string>
+    <string name="text_grant_write_setting_permission">Dodijeli dopuštenje za pisanje postavki</string>
+    <string name="text_icon">Ikona</string>
+    <string name="text_speed">Brzina</string>
+    <string name="text_speed_slow">Sporo</string>
+    <string name="text_speed_normal">Normalno</string>
+    <string name="text_speed_fast">Brzo</string>
+    <string name="text_speed_crazy">Ludo</string>
+    <string name="text_touch">Dodir</string>
+    <string name="text_drag">Povuci</string>
+    <string name="text_explosion">Eksplozija</string>
+    <string name="text_sound">Zvuk</string>
+    <string name="text_gravity_box">Gravitacijska kutija</string>
+    <string name="text_privacy_policy">Pravila privatnosti</string>
+    <string name="text_rate_us">Ocijeni nas</string>
+    <string name="text_size_setting">Veličina (10–70)</string>
+    <string name="text_size">Veličina</string>
+    <string name="text_information">Informacije</string>
+    <string name="text_your_list_is_empty">Vaš popis je prazan</string>
+    <string name="text_delete">Izbriši</string>
+    <string name="text_complete">Završeno</string>
+    <string name="text_your_wallpaper_has_been_changed">Vaša pozadina je promijenjena</string>
+    <string name="text_confirm">Potvrdi</string>
+    <string name="text_no_icons_selected">Još niste odabrali nijednu ikonu.</string>
+    <string name="text_next">Dalje</string>
+    <string name="text_start">Početak</string>
+    <string name="onboarding_title_1">Jedinstvena i interaktivna iskustva</string>
+    <string name="onboarding_desc_1">Uživajte u jedinstvenom i interaktivnom sučelju koje donosi kreativnost na vaš početni zaslon.</string>
+    <string name="onboarding_title_2">Animirana ikona početnog zaslona</string>
+    <string name="onboarding_desc_2">Uživajte u dinamičnijem početnom zaslonu s animiranim ikonama.</string>
+    <string name="onboarding_title_3">Prilagodite izgled i efekte ikona</string>
+    <string name="onboarding_desc_3">Kreirajte interaktivne i prilagođene animacije ikona.</string>
+    <string name="ad_warning">Ova radnja može sadržavati oglase</string>
+</resources>

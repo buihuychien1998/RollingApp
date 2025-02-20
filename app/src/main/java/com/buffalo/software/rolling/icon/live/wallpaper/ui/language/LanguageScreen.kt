@@ -58,6 +58,7 @@ import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.tracking.Firebase
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.tracking.FirebaseEventLogger
 import com.buffalo.software.rolling.icon.live.wallpaper.utils.PreferencesHelper
 import com.buffalo.software.rolling.icon.live.wallpaper.utils.custom.SafeClick
+import com.buffalo.software.rolling.icon.live.wallpaper.utils.languages
 
 @Composable
 fun LanguageScreen(
@@ -243,14 +244,6 @@ fun LanguageItem(
 @Preview(showBackground = true)
 @Composable
 fun PreviewLanguageSelectionScreen() {
-    val languages = listOf(
-        Language("English", R.drawable.flag_us, "en"),
-        Language("Hindi", R.drawable.flag_in, "hi"),
-        Language("Urdu", R.drawable.flag_pk, "ur"),
-        Language("Arabic", R.drawable.flag_ae, "ar"),
-        Language("Portuguese", R.drawable.flag_br, "pt"),
-        Language("German", R.drawable.flag_de, "de")
-    )
     var selectedLanguage by remember { mutableStateOf(languages.first()) }
 
     LanguageScreen(

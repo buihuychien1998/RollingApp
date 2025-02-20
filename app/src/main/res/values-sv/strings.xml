@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">Rolling Icon: Live Wallpaper</string>
+
+    <!-- Swedish (sv) -->
+    <string name="text_rolling_icon">Rullande ikon</string>
+    <string name="text_language">Språk</string>
+    <string name="text_add_icon">Lägg till ikon</string>
+    <string name="text_preview">Förhandsgranskning</string>
+    <string name="text_add_application">Lägg till applikation</string>
+    <string name="text_add_photos">Lägg till foton</string>
+    <string name="text_add_videos">Lägg till videor</string>
+    <string name="text_clear">Rensa</string>
+    <string name="text_search">Sök</string>
+    <string name="text_settings">Inställningar</string>
+    <string name="text_permission">Behörighet</string>
+    <string name="text_grant_write_setting_permission">Bevilja skrivbehörighet för inställningar</string>
+    <string name="text_icon">Ikon</string>
+    <string name="text_speed">Hastighet</string>
+    <string name="text_speed_slow">Långsam</string>
+    <string name="text_speed_normal">Normal</string>
+    <string name="text_speed_fast">Snabb</string>
+    <string name="text_speed_crazy">Galet</string>
+    <string name="text_touch">Tryck</string>
+    <string name="text_drag">Dra</string>
+    <string name="text_explosion">Explosion</string>
+    <string name="text_sound">Ljud</string>
+    <string name="text_gravity_box">Gravitationslåda</string>
+    <string name="text_privacy_policy">Integritetspolicy</string>
+    <string name="text_rate_us">Betygsätt oss</string>
+    <string name="text_size_setting">Storlek (10–70)</string>
+    <string name="text_size">Storlek</string>
+    <string name="text_information">Information</string>
+    <string name="text_your_list_is_empty">Din lista är tom</string>
+    <string name="text_delete">Radera</string>
+    <string name="text_complete">Slutförd</string>
+    <string name="text_your_wallpaper_has_been_changed">Din bakgrund har ändrats</string>
+    <string name="text_confirm">Bekräfta</string>
+    <string name="text_no_icons_selected">Du har inte valt några ikoner än.</string>
+    <string name="text_next">Nästa</string>
+    <string name="text_start">Starta</string>
+    <string name="onboarding_title_1">Unika och interaktiva upplevelser</string>
+    <string name="onboarding_desc_1">Njut av ett unikt och interaktivt gränssnitt som ger kreativitet till din startskärm.</string>
+    <string name="onboarding_title_2">Animerad ikon på startskärmen</string>
+    <string name="onboarding_desc_2">Njut av en mer dynamisk startskärm med animerade ikoner.</string>
+    <string name="onboarding_title_3">Anpassa ikonens utseende och effekter</string>
+    <string name="onboarding_desc_3">Skapa interaktiva och anpassade ikonanimationer.</string>
+    <string name="ad_warning">Denna åtgärd kan innehålla annonser</string>
+</resources>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">Rolling Icon: Live Wallpaper</string>
+
+    <!-- Latvian (lv) -->
+    <string name="text_rolling_icon">Ripojoša ikona</string>
+    <string name="text_language">Valoda</string>
+    <string name="text_add_icon">Pievienot ikonu</string>
+    <string name="text_preview">Priekšskatījums</string>
+    <string name="text_add_application">Pievienot lietotni</string>
+    <string name="text_add_photos">Pievienot fotogrāfijas</string>
+    <string name="text_add_videos">Pievienot video</string>
+    <string name="text_clear">Notīrīt</string>
+    <string name="text_search">Meklēt</string>
+    <string name="text_settings">Iestatījumi</string>
+    <string name="text_permission">Atļauja</string>
+    <string name="text_grant_write_setting_permission">Piešķirt rakstīšanas atļauju iestatījumiem</string>
+    <string name="text_icon">Ikona</string>
+    <string name="text_speed">Ātrums</string>
+    <string name="text_speed_slow">Lēns</string>
+    <string name="text_speed_normal">Normāls</string>
+    <string name="text_speed_fast">Ātrs</string>
+    <string name="text_speed_crazy">Traks</string>
+    <string name="text_touch">Pieskāriens</string>
+    <string name="text_drag">Vilkt</string>
+    <string name="text_explosion">Sprādziens</string>
+    <string name="text_sound">Skaņa</string>
+    <string name="text_gravity_box">Gravitācijas kaste</string>
+    <string name="text_privacy_policy">Privātuma politika</string>
+    <string name="text_rate_us">Novērtē mūs</string>
+    <string name="text_size_setting">Izmērs (10–70)</string>
+    <string name="text_size">Izmērs</string>
+    <string name="text_information">Informācija</string>
+    <string name="text_your_list_is_empty">Jūsu saraksts ir tukšs</string>
+    <string name="text_delete">Dzēst</string>
+    <string name="text_complete">Pabeigts</string>
+    <string name="text_your_wallpaper_has_been_changed">Jūsu tapete ir nomainīta</string>
+    <string name="text_confirm">Apstiprināt</string>
+    <string name="text_no_icons_selected">Jūs vēl neesat izvēlējies nevienu ikonu.</string>
+    <string name="text_next">Nākamais</string>
+    <string name="text_start">Sākt</string>
+    <string name="onboarding_title_1">Unikāla un interaktīva pieredze</string>
+    <string name="onboarding_desc_1">Izbaudiet unikālu un interaktīvu saskarni, kas piešķir radošumu jūsu sākuma ekrānam.</string>
+    <string name="onboarding_title_2">Animēta sākuma ekrāna ikona</string>
+    <string name="onboarding_desc_2">Izbaudiet dinamiskāku sākuma ekrānu ar animētām ikonām.</string>
+    <string name="onboarding_title_3">Pielāgojiet ikonas izskatu un efektus</string>
+    <string name="onboarding_desc_3">Izveidojiet interaktīvas un pielāgotas ikonu animācijas.</string>
+    <string name="ad_warning">Šī darbība var ietvert reklāmas</string>
+</resources>

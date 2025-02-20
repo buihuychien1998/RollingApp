@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">Rolling Icon: Live Wallpaper</string>
+
+    <!-- Thai (th) -->
+    <string name="text_rolling_icon">ไอคอนกลิ้ง</string>
+    <string name="text_language">ภาษา</string>
+    <string name="text_add_icon">เพิ่มไอคอน</string>
+    <string name="text_preview">ดูตัวอย่าง</string>
+    <string name="text_add_application">เพิ่มแอปพลิเคชัน</string>
+    <string name="text_add_photos">เพิ่มรูปภาพ</string>
+    <string name="text_add_videos">เพิ่มวิดีโอ</string>
+    <string name="text_clear">ล้าง</string>
+    <string name="text_search">ค้นหา</string>
+    <string name="text_settings">การตั้งค่า</string>
+    <string name="text_permission">การอนุญาต</string>
+    <string name="text_grant_write_setting_permission">ให้สิทธิ์การเขียนการตั้งค่า</string>
+    <string name="text_icon">ไอคอน</string>
+    <string name="text_speed">ความเร็ว</string>
+    <string name="text_speed_slow">ช้า</string>
+    <string name="text_speed_normal">ปกติ</string>
+    <string name="text_speed_fast">เร็ว</string>
+    <string name="text_speed_crazy">เร็วมาก</string>
+    <string name="text_touch">สัมผัส</string>
+    <string name="text_drag">ลาก</string>
+    <string name="text_explosion">ระเบิด</string>
+    <string name="text_sound">เสียง</string>
+    <string name="text_gravity_box">กล่องแรงโน้มถ่วง</string>
+    <string name="text_privacy_policy">นโยบายความเป็นส่วนตัว</string>
+    <string name="text_rate_us">ให้คะแนนเรา</string>
+    <string name="text_size_setting">ขนาด (10–70)</string>
+    <string name="text_size">ขนาด</string>
+    <string name="text_information">ข้อมูล</string>
+    <string name="text_your_list_is_empty">รายการของคุณว่างเปล่า</string>
+    <string name="text_delete">ลบ</string>
+    <string name="text_complete">เสร็จสิ้น</string>
+    <string name="text_your_wallpaper_has_been_changed">วอลเปเปอร์ของคุณถูกเปลี่ยนแล้ว</string>
+    <string name="text_confirm">ยืนยัน</string>
+    <string name="text_no_icons_selected">คุณยังไม่ได้เลือกไอคอนใด ๆ</string>
+    <string name="text_next">ถัดไป</string>
+    <string name="text_start">เริ่มต้น</string>
+    <string name="onboarding_title_1">ประสบการณ์ที่ไม่เหมือนใครและโต้ตอบได้</string>
+    <string name="onboarding_desc_1">เพลิดเพลินกับอินเทอร์เฟซที่ไม่เหมือนใครและโต้ตอบได้ซึ่งนำความคิดสร้างสรรค์มาสู่หน้าจอหลักของคุณ</string>
+    <string name="onboarding_title_2">ไอคอนหน้าจอหลักแบบเคลื่อนไหว</string>
+    <string name="onboarding_desc_2">เพลิดเพลินกับหน้าจอหลักที่มีชีวิตชีวายิ่งขึ้นด้วยไอคอนเคลื่อนไหว</string>
+    <string name="onboarding_title_3">ปรับแต่งรูปลักษณ์และเอฟเฟกต์ของไอคอน</string>
+    <string name="onboarding_desc_3">สร้างแอนิเมชันไอคอนแบบโต้ตอบและปรับแต่งเอง</string>
+    <string name="ad_warning">การดำเนินการนี้อาจมีโฆษณา</string>
+</resources>

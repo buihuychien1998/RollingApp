@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">Rolling Icon: Live Wallpaper</string>
+
+    <!-- Dutch (nl) -->
+    <string name="text_rolling_icon">Rollend pictogram</string>
+    <string name="text_language">Taal</string>
+    <string name="text_add_icon">Pictogram toevoegen</string>
+    <string name="text_preview">Voorbeeld</string>
+    <string name="text_add_application">Applicatie toevoegen</string>
+    <string name="text_add_photos">Foto\'s toevoegen</string>
+    <string name="text_add_videos">Video\'s toevoegen</string>
+    <string name="text_clear">Wissen</string>
+    <string name="text_search">Zoeken</string>
+    <string name="text_settings">Instellingen</string>
+    <string name="text_permission">Toestemming</string>
+    <string name="text_grant_write_setting_permission">Toestemming geven om instellingen te schrijven</string>
+    <string name="text_icon">Pictogram</string>
+    <string name="text_speed">Snelheid</string>
+    <string name="text_speed_slow">Traag</string>
+    <string name="text_speed_normal">Normaal</string>
+    <string name="text_speed_fast">Snel</string>
+    <string name="text_speed_crazy">Gek</string>
+    <string name="text_touch">Aanraken</string>
+    <string name="text_drag">Slepen</string>
+    <string name="text_explosion">Explosie</string>
+    <string name="text_sound">Geluid</string>
+    <string name="text_gravity_box">Zwaartekrachtbox</string>
+    <string name="text_privacy_policy">Privacybeleid</string>
+    <string name="text_rate_us">Beoordeel ons</string>
+    <string name="text_size_setting">Grootte (10–70)</string>
+    <string name="text_size">Grootte</string>
+    <string name="text_information">Informatie</string>
+    <string name="text_your_list_is_empty">Je lijst is leeg</string>
+    <string name="text_delete">Verwijderen</string>
+    <string name="text_complete">Voltooid</string>
+    <string name="text_your_wallpaper_has_been_changed">Je achtergrond is gewijzigd</string>
+    <string name="text_confirm">Bevestigen</string>
+    <string name="text_no_icons_selected">Je hebt nog geen pictogrammen geselecteerd.</string>
+    <string name="text_next">Volgende</string>
+    <string name="text_start">Start</string>
+    <string name="onboarding_title_1">Unieke en interactieve ervaringen</string>
+    <string name="onboarding_desc_1">Geniet van een unieke en interactieve interface die creativiteit naar je startscherm brengt.</string>
+    <string name="onboarding_title_2">Geanimeerd startschermpictogram</string>
+    <string name="onboarding_desc_2">Geniet van een dynamischer startscherm met geanimeerde pictogrammen.</string>
+    <string name="onboarding_title_3">Pas het uiterlijk en de effecten van het pictogram aan</string>
+    <string name="onboarding_desc_3">Maak interactieve en aangepaste pictogramanimaties.</string>
+    <string name="ad_warning">Deze actie kan advertenties bevatten</string>
+</resources>

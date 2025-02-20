@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">Rolling Icon: Live Wallpaper</string>
+
+    <!-- Romanian (ro) -->
+    <string name="text_rolling_icon">Pictogramă rulantă</string>
+    <string name="text_language">Limbă</string>
+    <string name="text_add_icon">Adaugă pictogramă</string>
+    <string name="text_preview">Previzualizare</string>
+    <string name="text_add_application">Adaugă aplicație</string>
+    <string name="text_add_photos">Adaugă fotografii</string>
+    <string name="text_add_videos">Adaugă videoclipuri</string>
+    <string name="text_clear">Șterge</string>
+    <string name="text_search">Căutare</string>
+    <string name="text_settings">Setări</string>
+    <string name="text_permission">Permisiune</string>
+    <string name="text_grant_write_setting_permission">Acordă permisiunea de scriere a setărilor</string>
+    <string name="text_icon">Pictogramă</string>
+    <string name="text_speed">Viteză</string>
+    <string name="text_speed_slow">Încet</string>
+    <string name="text_speed_normal">Normal</string>
+    <string name="text_speed_fast">Rapid</string>
+    <string name="text_speed_crazy">Nebunesc</string>
+    <string name="text_touch">Atingere</string>
+    <string name="text_drag">Trage</string>
+    <string name="text_explosion">Explozie</string>
+    <string name="text_sound">Sunet</string>
+    <string name="text_gravity_box">Cutie gravitațională</string>
+    <string name="text_privacy_policy">Politica de confidențialitate</string>
+    <string name="text_rate_us">Evaluează-ne</string>
+    <string name="text_size_setting">Dimensiune (10–70)</string>
+    <string name="text_size">Dimensiune</string>
+    <string name="text_information">Informații</string>
+    <string name="text_your_list_is_empty">Lista ta este goală</string>
+    <string name="text_delete">Șterge</string>
+    <string name="text_complete">Complet</string>
+    <string name="text_your_wallpaper_has_been_changed">Imaginea de fundal a fost schimbată</string>
+    <string name="text_confirm">Confirmă</string>
+    <string name="text_no_icons_selected">Nu ai selectat încă nicio pictogramă.</string>
+    <string name="text_next">Următor</string>
+    <string name="text_start">Start</string>
+    <string name="onboarding_title_1">Experiențe unice și interactive</string>
+    <string name="onboarding_desc_1">Bucurați-vă de o interfață unică și interactivă care aduce creativitate pe ecranul principal.</string>
+    <string name="onboarding_title_2">Pictogramă animată a ecranului principal</string>
+    <string name="onboarding_desc_2">Bucurați-vă de un ecran principal mai dinamic cu pictograme animate.</string>
+    <string name="onboarding_title_3">Personalizați aspectul și efectele pictogramelor</string>
+    <string name="onboarding_desc_3">Creați animații interactive și personalizate pentru pictograme.</string>
+    <string name="ad_warning">Această acțiune poate conține reclame</string>
+</resources>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">Rolling Icon: Live Wallpaper</string>
+
+    <!-- Russian (ru) -->
+    <string name="text_rolling_icon">Катящийся значок</string>
+    <string name="text_language">Язык</string>
+    <string name="text_add_icon">Добавить значок</string>
+    <string name="text_preview">Предварительный просмотр</string>
+    <string name="text_add_application">Добавить приложение</string>
+    <string name="text_add_photos">Добавить фото</string>
+    <string name="text_add_videos">Добавить видео</string>
+    <string name="text_clear">Очистить</string>
+    <string name="text_search">Поиск</string>
+    <string name="text_settings">Настройки</string>
+    <string name="text_permission">Разрешение</string>
+    <string name="text_grant_write_setting_permission">Предоставить разрешение на запись настроек</string>
+    <string name="text_icon">Значок</string>
+    <string name="text_speed">Скорость</string>
+    <string name="text_speed_slow">Медленно</string>
+    <string name="text_speed_normal">Нормально</string>
+    <string name="text_speed_fast">Быстро</string>
+    <string name="text_speed_crazy">Очень быстро</string>
+    <string name="text_touch">Касание</string>
+    <string name="text_drag">Перетаскивание</string>
+    <string name="text_explosion">Взрыв</string>
+    <string name="text_sound">Звук</string>
+    <string name="text_gravity_box">Гравитационный бокс</string>
+    <string name="text_privacy_policy">Политика конфиденциальности</string>
+    <string name="text_rate_us">Оцените нас</string>
+    <string name="text_size_setting">Размер (10–70)</string>
+    <string name="text_size">Размер</string>
+    <string name="text_information">Информация</string>
+    <string name="text_your_list_is_empty">Ваш список пуст</string>
+    <string name="text_delete">Удалить</string>
+    <string name="text_complete">Завершено</string>
+    <string name="text_your_wallpaper_has_been_changed">Ваш обои были изменены</string>
+    <string name="text_confirm">Подтвердить</string>
+    <string name="text_no_icons_selected">Вы еще не выбрали значки.</string>
+    <string name="text_next">Далее</string>
+    <string name="text_start">Начать</string>
+    <string name="onboarding_title_1">Уникальный и интерактивный опыт</string>
+    <string name="onboarding_desc_1">Наслаждайтесь уникальным и интерактивным интерфейсом, который приносит креативность на ваш главный экран.</string>
+    <string name="onboarding_title_2">Анимированный значок главного экрана</string>
+    <string name="onboarding_desc_2">Наслаждайтесь более динамичным главным экраном с анимированными значками.</string>
+    <string name="onboarding_title_3">Настройка внешнего вида и эффектов значков</string>
+    <string name="onboarding_desc_3">Создавайте интерактивные и персонализированные анимации значков.</string>
+    <string name="ad_warning">Это действие может содержать рекламу</string>
+</resources>

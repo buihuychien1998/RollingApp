@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">Rolling Icon: Live Wallpaper</string>
+
+    <!-- Japanese (ja) -->
+    <string name="text_rolling_icon">ローリングアイコン</string>
+    <string name="text_language">言語</string>
+    <string name="text_add_icon">アイコンを追加</string>
+    <string name="text_preview">プレビュー</string>
+    <string name="text_add_application">アプリを追加</string>
+    <string name="text_add_photos">写真を追加</string>
+    <string name="text_add_videos">ビデオを追加</string>
+    <string name="text_clear">クリア</string>
+    <string name="text_search">検索</string>
+    <string name="text_settings">設定</string>
+    <string name="text_permission">許可</string>
+    <string name="text_grant_write_setting_permission">設定の書き込み許可を付与</string>
+    <string name="text_icon">アイコン</string>
+    <string name="text_speed">速度</string>
+    <string name="text_speed_slow">遅い</string>
+    <string name="text_speed_normal">普通</string>
+    <string name="text_speed_fast">速い</string>
+    <string name="text_speed_crazy">超速い</string>
+    <string name="text_touch">タッチ</string>
+    <string name="text_drag">ドラッグ</string>
+    <string name="text_explosion">爆発</string>
+    <string name="text_sound">サウンド</string>
+    <string name="text_gravity_box">重力ボックス</string>
+    <string name="text_privacy_policy">プライバシーポリシー</string>
+    <string name="text_rate_us">評価する</string>
+    <string name="text_size_setting">サイズ (10–70)</string>
+    <string name="text_size">サイズ</string>
+    <string name="text_information">情報</string>
+    <string name="text_your_list_is_empty">リストが空です</string>
+    <string name="text_delete">削除</string>
+    <string name="text_complete">完了</string>
+    <string name="text_your_wallpaper_has_been_changed">壁紙が変更されました</string>
+    <string name="text_confirm">確認</string>
+    <string name="text_no_icons_selected">アイコンが選択されていません。</string>
+    <string name="text_next">次へ</string>
+    <string name="text_start">開始</string>
+    <string name="onboarding_title_1">ユニークでインタラクティブな体験</string>
+    <string name="onboarding_desc_1">ホーム画面に創造性をもたらす、ユニークでインタラクティブなインターフェースをお楽しみください。</string>
+    <string name="onboarding_title_2">アニメーションのホーム画面アイコン</string>
+    <string name="onboarding_desc_2">アニメーションアイコンでよりダイナミックなホーム画面を楽しみましょう。</string>
+    <string name="onboarding_title_3">アイコンの外観と効果をカスタマイズ</string>
+    <string name="onboarding_desc_3">インタラクティブでカスタマイズされたアイコンアニメーションを作成しましょう。</string>
+    <string name="ad_warning">この操作には広告が含まれる場合があります</string>
+</resources>

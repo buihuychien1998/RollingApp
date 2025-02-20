@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">Rolling Icon: Live Wallpaper</string>
+
+    <!-- Georgian (ka) -->
+    <string name="text_rolling_icon">მბრუნავი ხატი</string>
+    <string name="text_language">ენა</string>
+    <string name="text_add_icon">ხატის დამატება</string>
+    <string name="text_preview">წინასწარი ნახვა</string>
+    <string name="text_add_application">აპლიკაციის დამატება</string>
+    <string name="text_add_photos">ფოტოების დამატება</string>
+    <string name="text_add_videos">ვიდეოების დამატება</string>
+    <string name="text_clear">გასუფთავება</string>
+    <string name="text_search">ძებნა</string>
+    <string name="text_settings">პარამეტრები</string>
+    <string name="text_permission">ნებართვა</string>
+    <string name="text_grant_write_setting_permission">პარამეტრებში ჩაწერის ნებართვის მინიჭება</string>
+    <string name="text_icon">ხატი</string>
+    <string name="text_speed">სიჩქარე</string>
+    <string name="text_speed_slow">ნელი</string>
+    <string name="text_speed_normal">ნორმალური</string>
+    <string name="text_speed_fast">სწრაფი</string>
+    <string name="text_speed_crazy">გიჟური</string>
+    <string name="text_touch">შეხება</string>
+    <string name="text_drag">გადათრევა</string>
+    <string name="text_explosion">აფეთქება</string>
+    <string name="text_sound">ხმა</string>
+    <string name="text_gravity_box">გრავიტაციის ყუთი</string>
+    <string name="text_privacy_policy">კონფიდენციალურობის პოლიტიკა</string>
+    <string name="text_rate_us">შეფასება</string>
+    <string name="text_size_setting">ზომა (10–70)</string>
+    <string name="text_size">ზომა</string>
+    <string name="text_information">ინფორმაცია</string>
+    <string name="text_your_list_is_empty">თქვენი სია ცარიელია</string>
+    <string name="text_delete">წაშლა</string>
+    <string name="text_complete">დასრულებული</string>
+    <string name="text_your_wallpaper_has_been_changed">თქვენი ფონი შეიცვალა</string>
+    <string name="text_confirm">დადასტურება</string>
+    <string name="text_no_icons_selected">თქვენ ჯერ არ აგირჩევიათ ხატები.</string>
+    <string name="text_next">შემდეგი</string>
+    <string name="text_start">დაწყება</string>
+    <string name="onboarding_title_1">უნიკალური და ინტერაქტიული გამოცდილება</string>
+    <string name="onboarding_desc_1">ისიამოვნეთ უნიკალური და ინტერაქტიული ინტერფეისით, რომელიც შემოქმედებითობას მატებს მთავარ ეკრანს.</string>
+    <string name="onboarding_title_2">ანიმაციური მთავარი ეკრანის ხატი</string>
+    <string name="onboarding_desc_2">ისიამოვნეთ უფრო დინამიური მთავარ ეკრანზე ანიმაციური ხატებით.</string>
+    <string name="onboarding_title_3">ხატების გარეგნობის და ეფექტების მორგება</string>
+    <string name="onboarding_desc_3">შექმენით ინტერაქტიული და პერსონალიზებული ხატების ანიმაციები.</string>
+    <string name="ad_warning">ეს ქმედება შეიძლება შეიცავდეს რეკლამას</string>
+</resources>

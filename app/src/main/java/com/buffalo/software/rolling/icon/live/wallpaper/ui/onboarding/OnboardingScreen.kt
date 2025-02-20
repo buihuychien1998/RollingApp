@@ -224,18 +224,18 @@ fun OnboardingScreen(navController: NavController) {
                             OnboardingSlide(item)
                         }
 
-                        // ✅ Nếu đã có quảng cáo, hiển thị ngay
-                        NativeAdViewCompose(
-                            context = context,
-                            nativeID = item.nativeAdId,
-                            existingAd = adStates[page],
-                            reloadTrigger = reloadTrigger,
-                            onAdLoaded = {
-                                adStates[page] = it // ✅ Lưu ad để không tải lại
-                                reloadTriggers[page]?.value = false // ✅ Không cần reload nữa
-                            },
-                            backgroundTint = parseColor("#E7ECF2")
-                        )
+                        if (page != 3)
+                            NativeAdViewCompose(
+                                context = context,
+                                nativeID = item.nativeAdId,
+                                existingAd = adStates[page],
+                                reloadTrigger = reloadTrigger,
+                                onAdLoaded = {
+                                    adStates[page] = it
+                                    reloadTriggers[page]?.value = false
+                                },
+                                backgroundTint = parseColor("#E7ECF2")
+                            )
                     }
                 }
 

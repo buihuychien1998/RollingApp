@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">Rolling Icon: Live Wallpaper</string>
+
+    <!-- Vietnamese (vi) -->
+    <string name="text_rolling_icon">Biểu tượng lăn</string>
+    <string name="text_language">Ngôn ngữ</string>
+    <string name="text_add_icon">Thêm biểu tượng</string>
+    <string name="text_preview">Xem trước</string>
+    <string name="text_add_application">Thêm ứng dụng</string>
+    <string name="text_add_photos">Thêm ảnh</string>
+    <string name="text_add_videos">Thêm video</string>
+    <string name="text_clear">Xóa</string>
+    <string name="text_search">Tìm kiếm</string>
+    <string name="text_settings">Cài đặt</string>
+    <string name="text_permission">Quyền</string>
+    <string name="text_grant_write_setting_permission">Cấp quyền ghi cài đặt</string>
+    <string name="text_icon">Biểu tượng</string>
+    <string name="text_speed">Tốc độ</string>
+    <string name="text_speed_slow">Chậm</string>
+    <string name="text_speed_normal">Bình thường</string>
+    <string name="text_speed_fast">Nhanh</string>
+    <string name="text_speed_crazy">Cực nhanh</string>
+    <string name="text_touch">Chạm</string>
+    <string name="text_drag">Kéo</string>
+    <string name="text_explosion">Nổ</string>
+    <string name="text_sound">Âm thanh</string>
+    <string name="text_gravity_box">Hộp trọng lực</string>
+    <string name="text_privacy_policy">Chính sách bảo mật</string>
+    <string name="text_rate_us">Đánh giá chúng tôi</string>
+    <string name="text_size_setting">Kích thước (10–70)</string>
+    <string name="text_size">Kích thước</string>
+    <string name="text_information">Thông tin</string>
+    <string name="text_your_list_is_empty">Danh sách của bạn trống</string>
+    <string name="text_delete">Xóa</string>
+    <string name="text_complete">Hoàn thành</string>
+    <string name="text_your_wallpaper_has_been_changed">Hình nền của bạn đã được thay đổi</string>
+    <string name="text_confirm">Xác nhận</string>
+    <string name="text_no_icons_selected">Bạn chưa chọn biểu tượng nào.</string>
+    <string name="text_next">Tiếp theo</string>
+    <string name="text_start">Bắt đầu</string>
+    <string name="onboarding_title_1">Trải nghiệm độc đáo và tương tác</string>
+    <string name="onboarding_desc_1">Tận hưởng giao diện độc đáo và tương tác mang đến sự sáng tạo cho màn hình chính của bạn.</string>
+    <string name="onboarding_title_2">Biểu tượng màn hình chính động</string>
+    <string name="onboarding_desc_2">Trải nghiệm màn hình chính sống động hơn với các biểu tượng động.</string>
+    <string name="onboarding_title_3">Tùy chỉnh giao diện và hiệu ứng biểu tượng</string>
+    <string name="onboarding_desc_3">Tạo hiệu ứng động biểu tượng tương tác và cá nhân hóa.</string>
+    <string name="ad_warning">Hành động này có thể chứa quảng cáo</string>
+</resources>

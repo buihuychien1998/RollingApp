@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">Rolling Icon: Live Wallpaper</string>
+
+    <!-- Danish (da) -->
+    <string name="text_rolling_icon">Rullende ikon</string>
+    <string name="text_language">Sprog</string>
+    <string name="text_add_icon">Tilføj ikon</string>
+    <string name="text_preview">Forhåndsvisning</string>
+    <string name="text_add_application">Tilføj applikation</string>
+    <string name="text_add_photos">Tilføj fotos</string>
+    <string name="text_add_videos">Tilføj videoer</string>
+    <string name="text_clear">Ryd</string>
+    <string name="text_search">Søg</string>
+    <string name="text_settings">Indstillinger</string>
+    <string name="text_permission">Tilladelse</string>
+    <string name="text_grant_write_setting_permission">Giv skrivetilladelse til indstillinger</string>
+    <string name="text_icon">Ikon</string>
+    <string name="text_speed">Hastighed</string>
+    <string name="text_speed_slow">Langsom</string>
+    <string name="text_speed_normal">Normal</string>
+    <string name="text_speed_fast">Hurtig</string>
+    <string name="text_speed_crazy">Vild</string>
+    <string name="text_touch">Berøring</string>
+    <string name="text_drag">Træk</string>
+    <string name="text_explosion">Eksplosion</string>
+    <string name="text_sound">Lyd</string>
+    <string name="text_gravity_box">Tyngdekraftsbox</string>
+    <string name="text_privacy_policy">Privatlivspolitik</string>
+    <string name="text_rate_us">Bedøm os</string>
+    <string name="text_size_setting">Størrelse (10–70)</string>
+    <string name="text_size">Størrelse</string>
+    <string name="text_information">Information</string>
+    <string name="text_your_list_is_empty">Din liste er tom</string>
+    <string name="text_delete">Slet</string>
+    <string name="text_complete">Færdig</string>
+    <string name="text_your_wallpaper_has_been_changed">Din baggrund er blevet ændret</string>
+    <string name="text_confirm">Bekræft</string>
+    <string name="text_no_icons_selected">Du har ikke valgt nogen ikoner endnu.</string>
+    <string name="text_next">Næste</string>
+    <string name="text_start">Start</string>
+    <string name="onboarding_title_1">Unikke og interaktive oplevelser</string>
+    <string name="onboarding_desc_1">Nyd en unik og interaktiv grænseflade, der bringer kreativitet til din startskærm.</string>
+    <string name="onboarding_title_2">Animeret startskærmsikon</string>
+    <string name="onboarding_desc_2">Oplev en mere dynamisk startskærm med animerede ikoner.</string>
+    <string name="onboarding_title_3">Tilpas ikonets udseende og effekter</string>
+    <string name="onboarding_desc_3">Skab interaktive og tilpassede ikonanimeringer.</string>
+    <string name="ad_warning">Denne handling kan indeholde annoncer</string>
+</resources>

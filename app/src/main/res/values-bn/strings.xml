@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">Rolling Icon: Live Wallpaper</string>
+
+    <!-- Bengali (bn) -->
+    <string name="text_rolling_icon">রোলিং আইকন</string>
+    <string name="text_language">ভাষা</string>
+    <string name="text_add_icon">আইকন যোগ করুন</string>
+    <string name="text_preview">পূর্বরূপ</string>
+    <string name="text_add_application">অ্যাপ্লিকেশন যোগ করুন</string>
+    <string name="text_add_photos">ফটো যোগ করুন</string>
+    <string name="text_add_videos">ভিডিও যোগ করুন</string>
+    <string name="text_clear">পরিষ্কার</string>
+    <string name="text_search">অনুসন্ধান</string>
+    <string name="text_settings">সেটিংস</string>
+    <string name="text_permission">অনুমতি</string>
+    <string name="text_grant_write_setting_permission">লেখার অনুমতি দিন</string>
+    <string name="text_icon">আইকন</string>
+    <string name="text_speed">গতি</string>
+    <string name="text_speed_slow">ধীর</string>
+    <string name="text_speed_normal">স্বাভাবিক</string>
+    <string name="text_speed_fast">দ্রুত</string>
+    <string name="text_speed_crazy">অত্যন্ত দ্রুত</string>
+    <string name="text_touch">স্পর্শ</string>
+    <string name="text_drag">টেনে আনুন</string>
+    <string name="text_explosion">বিস্ফোরণ</string>
+    <string name="text_sound">শব্দ</string>
+    <string name="text_gravity_box">গুরুত্ব বাক্স</string>
+    <string name="text_privacy_policy">গোপনীয়তা নীতি</string>
+    <string name="text_rate_us">আমাদের রেট দিন</string>
+    <string name="text_size_setting">আকার (10–70)</string>
+    <string name="text_size">আকার</string>
+    <string name="text_information">তথ্য</string>
+    <string name="text_your_list_is_empty">আপনার তালিকা খালি</string>
+    <string name="text_delete">মুছুন</string>
+    <string name="text_complete">সম্পূর্ণ</string>
+    <string name="text_your_wallpaper_has_been_changed">আপনার ওয়ালপেপার পরিবর্তিত হয়েছে</string>
+    <string name="text_confirm">নিশ্চিত করুন</string>
+    <string name="text_no_icons_selected">আপনি এখনও কোনও আইকন নির্বাচন করেননি।</string>
+    <string name="text_next">পরবর্তী</string>
+    <string name="text_start">শুরু করুন</string>
+    <string name="onboarding_title_1">অনন্য এবং ইন্টারেক্টিভ অভিজ্ঞতা</string>
+    <string name="onboarding_desc_1">একটি অনন্য এবং ইন্টারেক্টিভ ইন্টারফেস উপভোগ করুন যা আপনার হোম স্ক্রিনে সৃজনশীলতা নিয়ে আসে।</string>
+    <string name="onboarding_title_2">অ্যানিমেটেড হোম স্ক্রিন আইকন</string>
+    <string name="onboarding_desc_2">অ্যানিমেটেড আইকনগুলির সাথে আরও গতিশীল হোম স্ক্রিন উপভোগ করুন।</string>
+    <string name="onboarding_title_3">আইকনের চেহারা এবং প্রভাব কাস্টমাইজ করুন</string>
+    <string name="onboarding_desc_3">ইন্টারেক্টিভ এবং কাস্টমাইজড আইকন অ্যানিমেশন তৈরি করুন।</string>
+    <string name="ad_warning">এই ক্রিয়াটিতে বিজ্ঞাপন থাকতে পারে</string>
+</resources>

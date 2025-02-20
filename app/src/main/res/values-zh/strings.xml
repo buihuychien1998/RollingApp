@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">Rolling Icon: Live Wallpaper</string>
+
+    <!-- Chinese (zh) -->
+    <string name="text_rolling_icon">滚动图标</string>
+    <string name="text_language">语言</string>
+    <string name="text_add_icon">添加图标</string>
+    <string name="text_preview">预览</string>
+    <string name="text_add_application">添加应用</string>
+    <string name="text_add_photos">添加照片</string>
+    <string name="text_add_videos">添加视频</string>
+    <string name="text_clear">清除</string>
+    <string name="text_search">搜索</string>
+    <string name="text_settings">设置</string>
+    <string name="text_permission">权限</string>
+    <string name="text_grant_write_setting_permission">授予写入设置的权限</string>
+    <string name="text_icon">图标</string>
+    <string name="text_speed">速度</string>
+    <string name="text_speed_slow">慢</string>
+    <string name="text_speed_normal">正常</string>
+    <string name="text_speed_fast">快</string>
+    <string name="text_speed_crazy">极快</string>
+    <string name="text_touch">触摸</string>
+    <string name="text_drag">拖动</string>
+    <string name="text_explosion">爆炸</string>
+    <string name="text_sound">声音</string>
+    <string name="text_gravity_box">重力盒</string>
+    <string name="text_privacy_policy">隐私政策</string>
+    <string name="text_rate_us">评价我们</string>
+    <string name="text_size_setting">大小 (10–70)</string>
+    <string name="text_size">大小</string>
+    <string name="text_information">信息</string>
+    <string name="text_your_list_is_empty">您的列表为空</string>
+    <string name="text_delete">删除</string>
+    <string name="text_complete">完成</string>
+    <string name="text_your_wallpaper_has_been_changed">您的壁纸已更改</string>
+    <string name="text_confirm">确认</string>
+    <string name="text_no_icons_selected">您尚未选择任何图标。</string>
+    <string name="text_next">下一步</string>
+    <string name="text_start">开始</string>
+    <string name="onboarding_title_1">独特的互动体验</string>
+    <string name="onboarding_desc_1">享受独特的互动界面，为您的主屏幕带来创意。</string>
+    <string name="onboarding_title_2">动画主屏幕图标</string>
+    <string name="onboarding_desc_2">通过动画图标享受更具活力的主屏幕。</string>
+    <string name="onboarding_title_3">自定义图标外观和效果</string>
+    <string name="onboarding_desc_3">创建互动和个性化的图标动画。</string>
+    <string name="ad_warning">此操作可能包含广告</string>
+</resources>
