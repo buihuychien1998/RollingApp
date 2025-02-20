@@ -44,19 +44,24 @@ import kotlinx.coroutines.launch
 fun NativeAdViewCompose(
     context: Context,
     nativeID: String,
+    fallbackNativeID: String? = null,
+    existingAd: NativeAd? = null,
     modifier: Modifier = Modifier.fillMaxWidth(),
     layoutResId: Int = R.layout.native_ad_layout,
+    backgroundTint: Int = Color.WHITE,
     adLayout: (NativeAdView, NativeAd?) -> View? = { adView, ad ->
         createAdLayout(
             context,
             adView,
             ad,
-            layoutResId
+            layoutResId,
+            backgroundTint
         )
     },
-    reloadTrigger: MutableState<Boolean> = mutableStateOf(true)
+    reloadTrigger: MutableState<Boolean> = mutableStateOf(true),
+    onAdLoaded: ((NativeAd?) -> Unit)? = null
 ) {
-    var nativeAd by remember { mutableStateOf(NativeAdManager.getPreloadedAd()) }
+    var nativeAd by remember { mutableStateOf(existingAd ?: NativeAdManager.getPreloadedAd()) }
     var isAdLoading by remember { mutableStateOf(true) }
 
     var reloadJob by remember { mutableStateOf<Job?>(null) } // Track ongoing reload job
@@ -65,18 +70,28 @@ fun NativeAdViewCompose(
         reloadJob?.cancel() // ✅ Cancel any ongoing reload
         reloadJob = CoroutineScope(Dispatchers.Main).launch {
             isAdLoading = true
-            NativeAdManager.reloadNativeAd(context, nativeID) { newAd ->
+            NativeAdManager.reloadNativeAd(context, nativeID, fallbackNativeID) { newAd ->
                 nativeAd = newAd
                 isAdLoading = false
                 reloadTrigger.value = false // ✅ Reset trigger after load completes
+                onAdLoaded?.invoke(newAd)
             }
         }
     }
 
     // 🔥 Reload when `reloadTrigger` changes, canceling any ongoing reload
     LaunchedEffect(reloadTrigger.value) {
+        println("NativeAdViewCompose: reloadTrigger.value  ${reloadTrigger.value}")
+
         if (reloadTrigger.value) {
             reloadAd()
+        }
+    }
+
+    LaunchedEffect(existingAd) {
+        if (existingAd != null) {
+            nativeAd = existingAd
+            isAdLoading = false
         }
     }
 
@@ -84,6 +99,8 @@ fun NativeAdViewCompose(
     DisposableEffect(lifecycleOwner) {
         val observer = LifecycleEventObserver { _, event ->
             if (event == Lifecycle.Event.ON_RESUME) {
+                println("NativeAdViewCompose: AppOpenAdController.shouldShowAd ${AppOpenAdController.shouldShowAd}")
+
                 if (!AppOpenAdController.shouldShowAd) {
                     AppOpenAdController.shouldShowAd = true
                     reloadAd()
@@ -94,7 +111,7 @@ fun NativeAdViewCompose(
         lifecycleOwner.lifecycle.addObserver(observer)
         onDispose {
             lifecycleOwner.lifecycle.removeObserver(observer)
-            NativeAdManager.destroyAd()
+//            NativeAdManager.destroyAds()
             reloadJob?.cancel() // ✅ Cancel reload when disposed
         }
     }
@@ -105,23 +122,24 @@ fun NativeAdViewCompose(
                 NativeShimmerEffect(
                     modifier
                         .height(268.dp)
-                        .clip(RoundedCornerShape(8.dp))
+                        .clip(RoundedCornerShape(8.dp)),
+                    backgroundTint = androidx.compose.ui.graphics.Color(backgroundTint)
                 )
             } else {
-                nativeAd?.let {
+                nativeAd?.let { ad ->
                     AndroidView(
                         factory = { context ->
                             val nativeAdView = NativeAdView(context)
                             nativeAdView.apply {
                                 removeAllViews()
-                                addView(adLayout(this, nativeAd))
+                                addView(adLayout(this, ad))
                             }
 
                         },
                         update = { nativeAdView ->
                             nativeAdView.apply {
                                 removeAllViews()
-                                addView(adLayout(this, nativeAd))
+                                addView(adLayout(this, ad))
                             }
                         }
                     )

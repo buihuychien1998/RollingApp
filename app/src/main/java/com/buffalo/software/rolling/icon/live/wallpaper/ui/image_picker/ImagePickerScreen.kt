@@ -1,5 +1,6 @@
 package com.buffalo.software.rolling.icon.live.wallpaper.ui.image_picker
 
+import android.app.Activity
 import android.content.ClipData
 import android.content.ClipDescription
 import android.net.Uri
@@ -36,6 +37,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -73,8 +75,11 @@ import com.buffalo.software.rolling.icon.live.wallpaper.models.AppIcon
 import com.buffalo.software.rolling.icon.live.wallpaper.theme.AppFont
 import com.buffalo.software.rolling.icon.live.wallpaper.theme.clr_C2D8FF
 import com.buffalo.software.rolling.icon.live.wallpaper.theme.clr_FFDDDB
+import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.AppOpenAdController
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.BannerAd
+import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.InterstitialAdManager
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.banner_all
+import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.inter_done
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.loading.LoadingScreen
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.share_view_model.SharedViewModel
 import com.buffalo.software.rolling.icon.live.wallpaper.utils.IconType
@@ -93,6 +98,8 @@ fun ImagePickerScreen(
     sharedViewModel: SharedViewModel = viewModel()
 ) {
     val context = LocalContext.current
+    val activity = context as? Activity
+
     val loading = viewModel.loading.collectAsState(false)
     val selectedMedia by viewModel.selectedImage.collectAsState()
     val initialSelectedApps by viewModel.initialSelectedApps.collectAsState()
@@ -108,15 +115,18 @@ fun ImagePickerScreen(
     val screenHeightPx =
         LocalDensity.current.run { LocalConfiguration.current.screenHeightDp.dp.toPx() }
 
+    LaunchedEffect(Unit) {
+        activity?.let { act ->
+            InterstitialAdManager.loadAd(act, inter_done)
+        }
+    }
+
     // Back handler to detect back press and save changes
     BackHandler {
-        onBack(
-            isChanged,
-            viewModel,
-            selectedMedia ?: mutableListOf(),
-            sharedViewModel,
-            navController
-        ) // Navigate back
+        activity?.let {
+            AppOpenAdController.disableByClickAction = true
+            onBack(isChanged, viewModel, selectedMedia ?: mutableListOf(), sharedViewModel, navController, activity)
+        }
     }
 
     val pickMediaLauncher =
@@ -163,10 +173,16 @@ fun ImagePickerScreen(
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp)
                 ) {
-                    ImagePickerHeader(isChanged, viewModel, selectedMedia, sharedViewModel, navController)
+                    ImagePickerHeader(
+                        isChanged,
+                        viewModel,
+                        selectedMedia,
+                        sharedViewModel,
+                        navController
+                    )
                 }
 
-                if(SHOW_AD && !selectedMedia.isNullOrEmpty()){
+                if (SHOW_AD && !selectedMedia.isNullOrEmpty()) {
                     BannerAd(banner_all)
                 }
                 Spacer(modifier = Modifier.height(16.dp))
@@ -288,7 +304,14 @@ fun ImagePickerScreen(
                                     val appIcon = list[index]
                                     // Use remember to avoid recalculating the bitmap on recomposition
                                     val appIconBitmap by remember(appIcon.drawable) {
-                                        mutableStateOf(appIcon.drawable?.toBitmap() ?: context.getCompressedBitmapFromUri(Uri.parse(appIcon.filePath)))
+                                        mutableStateOf(
+                                            appIcon.drawable?.toBitmap()
+                                                ?: context.getCompressedBitmapFromUri(
+                                                    Uri.parse(
+                                                        appIcon.filePath
+                                                    )
+                                                )
+                                        )
                                     }
 
                                     Box(contentAlignment = Alignment.Center,
@@ -447,18 +470,16 @@ private fun ImagePickerHeader(
     sharedViewModel: SharedViewModel,
     navController: NavController
 ) {
+    val context = LocalContext.current
+    val activity = context as? Activity
+
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ) {
         SafeClick(onClick = {
-            onBack(
-                isChanged,
-                viewModel,
-                selectedMedia ?: mutableListOf(),
-                sharedViewModel,
-                navController
-            )
+            AppOpenAdController.disableByClickAction = true
+            onBack(isChanged, viewModel, selectedMedia ?: mutableListOf(), sharedViewModel, navController, activity)
         }) { enabled, onClick ->
             IconButton(
                 onClick = onClick,
@@ -515,23 +536,34 @@ private fun onBack(
     viewModel: ImagePickerViewModel,
     selectedMedia: MutableList<AppIcon>,
     sharedViewModel: SharedViewModel,
-    navController: NavController
+    navController: NavController,
+    activity: Activity?
 ) {
     if (isChanged) {
-        // Save selected icons and navigate back only after completion
         viewModel.saveSelectedIcons(selectedMedia, onSuccess = {
-            // Notify sharedViewModel that icons have changed
             sharedViewModel.setIconsChanged(true)
-            // Navigate back
-            navController.popBackStack()
+
+            // Hiển thị quảng cáo trước khi popBackStack
+            activity?.let {
+                InterstitialAdManager.showAd(it, inter_done) {
+                    AppOpenAdController.disableByClickAction = true
+                    navController.popBackStack()
+                }
+            } ?: navController.popBackStack()
+
         }, onFailure = { error ->
-            // Handle error (e.g., show a toast or log)
             Log.e("onBack", "Error saving icons: ${error.message}")
         })
     } else {
-        // If no changes, simply update the shared view model and navigate back
         sharedViewModel.setIconsChanged(false)
-        navController.popBackStack()
+
+        // Hiển thị quảng cáo trước khi popBackStack nếu không có thay đổi
+        activity?.let {
+            InterstitialAdManager.showAd(it, inter_done) {
+                AppOpenAdController.disableByClickAction = true
+                navController.popBackStack()
+            }
+        } ?: navController.popBackStack()
     }
 }
 

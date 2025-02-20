@@ -85,7 +85,6 @@ fun BannerAd(
                     val adaptiveAdSize = AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
                         ctx, availableWidthInDp
                     )
-
                     AdView(context).apply {
                         setAdSize(adaptiveAdSize)
                         adUnitId = bannerId  // Replace with your AdMob banner ID

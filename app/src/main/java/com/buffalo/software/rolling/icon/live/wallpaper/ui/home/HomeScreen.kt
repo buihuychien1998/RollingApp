@@ -36,6 +36,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
@@ -71,7 +72,9 @@ import com.buffalo.software.rolling.icon.live.wallpaper.theme.clr_4664FF
 import com.buffalo.software.rolling.icon.live.wallpaper.theme.clr_C2D8FF
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.AppOpenAdController
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.BannerAd
+import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.InterstitialAdManager
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.banner_all
+import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.inter_home
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.dialog.SuccessDialog
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.loading.LoadingScreen
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.share_view_model.SharedViewModel
@@ -90,6 +93,8 @@ fun HomeScreen(
 ) {
     val viewModel: HomeViewModel = viewModel()
     val context = LocalContext.current
+    val activity = context as? Activity
+
     val appIcons by remember { derivedStateOf { viewModel.appIcons } }
     val loading by remember { derivedStateOf { viewModel.loading } }
     val iconsChanged by sharedViewModel.iconsChanged.collectAsState()
@@ -149,6 +154,23 @@ fun HomeScreen(
         )
     }
 
+    LaunchedEffect(Unit) {
+        activity?.let { act ->
+            InterstitialAdManager.loadAd(act, inter_home)
+        }
+    }
+
+
+    fun showAdThenNavigate() {
+        AppOpenAdController.disableByClickAction = true
+        activity?.let { act ->
+            InterstitialAdManager.showAd(act, inter_home) {
+                AppOpenAdController.disableByClickAction = true
+                navController.navigate(viewModel.clickedRoutes.route)
+            }
+        } ?:  navController.navigate(viewModel.clickedRoutes.route)
+    }
+
     // Loading screen with a spinner and a message
     Surface(modifier = Modifier.fillMaxSize()) {
         RollingIconScreen(
@@ -157,19 +179,19 @@ fun HomeScreen(
             onAddApplication = {
                 // Handle adding application
                 viewModel.clickedRoutes = AppRoutes.AppPicker
-                navController.navigate(AppRoutes.AppPicker.route)
+                showAdThenNavigate()
             },
             onAddPhotos = {
                 // Handle adding photos
                 viewModel.clickedRoutes = AppRoutes.ImagePicker
-                navController.navigate(viewModel.clickedRoutes.route)
+                showAdThenNavigate()
 //                permissionUtils.requestStoragePermissions()
 
             },
             onAddVideos = {
                 // Handle adding videos
                 viewModel.clickedRoutes = AppRoutes.VideoPicker
-                navController.navigate(viewModel.clickedRoutes.route)
+                showAdThenNavigate()
 //                permissionUtils.requestStoragePermissions()
             }
         )

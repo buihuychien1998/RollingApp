@@ -10,29 +10,39 @@ import com.google.android.gms.ads.nativead.NativeAd
 
 object NativeAdManager {
     private var nativeAd: NativeAd? = null
+    private var fallbackNativeAd: NativeAd? = null
 
-    fun preloadNativeAd(context: Context, adUnitId: String, onAdLoaded: (NativeAd?) -> Unit) {
+    fun preloadNativeAd(
+        context: Context,
+        primaryAdUnitId: String,
+        fallbackAdUnitId: String? = null, // ✅ Optional fallback ID
+        onAdLoaded: (NativeAd?) -> Unit
+    ) {
         if (!ConsentHelper.canRequestAds()) {
             onAdLoaded(null)
             return
         }
 
-        val adLoader = AdLoader.Builder(context, adUnitId)
+        val adLoader = AdLoader.Builder(context, primaryAdUnitId)
             .forNativeAd { ad ->
-                destroyAd()
+//                destroyAds()
                 nativeAd = ad
                 onAdLoaded(ad)
-                Log.d("NativeAdManager", "Native Ad Preloaded")
+                Log.d("NativeAdManager", "✅ Primary Native Ad Loaded: $primaryAdUnitId")
             }
             .withAdListener(object : AdListener() {
                 override fun onAdFailedToLoad(error: LoadAdError) {
-                    Log.e("NativeAdManager", "Failed to load native ad: ${error.message}")
-                    onAdLoaded(null)
-
+                    Log.e("NativeAdManager", "❌ Primary Ad Failed: ${error.message}")
+                    // Try loading fallback if available
+                    if (fallbackAdUnitId != null) {
+                        loadFallbackNativeAd(context, fallbackAdUnitId, onAdLoaded)
+                    } else {
+                        onAdLoaded(null)
+                    }
                 }
 
                 override fun onAdClicked() {
-                    Log.d("NativeAdManager", "🔥 Native Ad Clicked!") // 🚀 Log Click Event Here
+                    Log.d("NativeAdManager", "🔥 Native Ad Clicked!")
                     AppOpenAdController.shouldShowAd = false
                 }
             })
@@ -41,16 +51,41 @@ object NativeAdManager {
         adLoader.loadAd(AdRequest.Builder().build())
     }
 
-    fun getPreloadedAd(): NativeAd? = nativeAd
+    private fun loadFallbackNativeAd(context: Context, fallbackAdUnitId: String, onAdLoaded: (NativeAd?) -> Unit) {
+        val fallbackLoader = AdLoader.Builder(context, fallbackAdUnitId)
+            .forNativeAd { ad ->
+                fallbackNativeAd = ad
+                onAdLoaded(ad)
+                Log.d("NativeAdManager", "✅ Fallback Native Ad Loaded: $fallbackAdUnitId")
+            }
+            .withAdListener(object : AdListener() {
+                override fun onAdFailedToLoad(error: LoadAdError) {
+                    Log.e("NativeAdManager", "❌ Fallback Ad Failed: ${error.message}")
+                    onAdLoaded(null)
+                }
+            })
+            .build()
 
-    fun reloadNativeAd(context: Context, adUnitId: String, onAdReloaded: (NativeAd?) -> Unit) {
-        destroyAd() // ✅ Ensure old ad is removed before reloading
-        preloadNativeAd(context, adUnitId, onAdReloaded)
+        fallbackLoader.loadAd(AdRequest.Builder().build())
     }
 
-    fun destroyAd() {
+    fun getPreloadedAd(): NativeAd? = nativeAd ?: fallbackNativeAd
+
+    fun reloadNativeAd(
+        context: Context,
+        primaryAdUnitId: String,
+        fallbackAdUnitId: String? = null, // ✅ Optional fallback
+        onAdReloaded: (NativeAd?) -> Unit
+    ) {
+//        destroyAds() // ✅ Ensure old ads are removed before reloading
+        preloadNativeAd(context, primaryAdUnitId, fallbackAdUnitId, onAdReloaded)
+    }
+
+    fun destroyAds() {
         nativeAd?.destroy()
+        fallbackNativeAd?.destroy()
         nativeAd = null
-        Log.d("NativeAdManager", "Native Ad Destroyed")
+        fallbackNativeAd = null
+        Log.d("NativeAdManager", "🗑️ Ads Destroyed")
     }
 }

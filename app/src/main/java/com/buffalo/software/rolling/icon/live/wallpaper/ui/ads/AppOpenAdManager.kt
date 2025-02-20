@@ -17,7 +17,8 @@ class AppOpenAdManager(private val application: Application) :
     private var appOpenAd: AppOpenAd? = null
     private var isShowingAd = false
     private var lastAdShownTime: Long = 0 // 🕒 Thời điểm hiển thị quảng cáo gần nhất
-    private val adCooldownMillis = 25_000L // ⏳ Giãn cách 25 giây
+//    private val adCooldownMillis = 25_000L // ⏳ Giãn cách 25 giây
+    private val adCooldownMillis = 0L // ⏳ Giãn cách 25 giây
 
     init {
         application.registerActivityLifecycleCallbacks(this)
@@ -51,7 +52,7 @@ class AppOpenAdManager(private val application: Application) :
             return
         }
 
-        if (!AppOpenAdController.shouldShowAd || AppOpenAdController.disableByClickAction || isShowingAd || appOpenAd == null || !ConsentHelper.canRequestAds()) {
+        if (InterstitialAdManager.isAdShowing.value || !AppOpenAdController.shouldShowAd || AppOpenAdController.disableByClickAction || isShowingAd || appOpenAd == null || !ConsentHelper.canRequestAds()) {
             onAdDismissed()
             return
         }
@@ -79,7 +80,17 @@ class AppOpenAdManager(private val application: Application) :
         appOpenAd?.show(activity)
     }
 
+    private fun isAdActivityOnTop(activity: Activity): Boolean {
+        val activityName = activity.javaClass.simpleName
+        return activityName.contains("AdActivity")
+    }
+
     override fun onActivityResumed(activity: Activity) {
+        if (isAdActivityOnTop(activity)) {
+            Log.d("AppOpenAdManager", "🚫 AdActivity is on top, skipping App Open Ad")
+            return
+        }
+
         if (AppOpenAdController.shouldShowAd) {
             showAdIfAvailable(activity) {
                 AppOpenAdController.disableByClickAction = false

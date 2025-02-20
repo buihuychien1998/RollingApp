@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.lerp // ✅ Import this
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -52,11 +53,14 @@ fun BannerShimmerEffect() {
 }
 
 @Composable
-fun NativeShimmerEffect(modifier: Modifier = Modifier) {
+fun NativeShimmerEffect(
+    modifier: Modifier = Modifier,
+    backgroundTint: Color = Color.White // Default to white if not provided
+) {
     val shimmerColors = listOf(
-        Color.White.copy(alpha = 0.9f),
-        Color.White.copy(alpha = 0.5f),
-        Color.White.copy(alpha = 0.9f)
+        lerp(backgroundTint, Color.White, 0.8f), // Lightest shade
+        lerp(backgroundTint, Color.Gray, 0.5f),  // Medium shade
+        lerp(backgroundTint, Color.Black, 0.2f)  // Darkest shade
     )
 
     val transition = rememberInfiniteTransition()
@@ -70,7 +74,7 @@ fun NativeShimmerEffect(modifier: Modifier = Modifier) {
     )
 
     Box(
-        modifier =modifier
+        modifier = modifier
             .fillMaxWidth()
             .background(
                 brush = Brush.linearGradient(
