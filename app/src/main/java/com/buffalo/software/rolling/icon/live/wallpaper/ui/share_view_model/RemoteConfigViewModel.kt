@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.buffalo.software.rolling.icon.live.wallpaper.R
+import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.AppOpenAdController
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import kotlinx.coroutines.delay
@@ -47,6 +48,7 @@ class RemoteConfigViewModel : ViewModel() {
                         fetchedValues[key] = remoteConfig.getBoolean(key)
                         Log.d("RemoteConfig", "$key = ${fetchedValues[key]}")
                     }
+                    AppOpenAdController.enableConfig = fetchedValues[RemoteConfigKeys.APPOPEN_RESUME] != false
                     _configValues.value = fetchedValues
                 } else {
                     Log.d("RemoteConfig", "Fetch failed, using cached values")

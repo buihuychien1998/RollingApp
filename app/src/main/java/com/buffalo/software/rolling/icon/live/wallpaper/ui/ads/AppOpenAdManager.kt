@@ -26,7 +26,7 @@ class AppOpenAdManager(private val application: Application) :
     }
 
     private fun loadAd() {
-        if (!SHOW_AD || !ConsentHelper.canRequestAds()) return
+        if (!SHOW_AD || !AppOpenAdController.enableConfig || !ConsentHelper.canRequestAds()) return
 
         val adRequest = AdRequest.Builder().build()
         AppOpenAd.load(application, appopen_resume, adRequest, object :
@@ -52,7 +52,7 @@ class AppOpenAdManager(private val application: Application) :
             return
         }
 
-        if (InterstitialAdManager.isAdShowing.value || !AppOpenAdController.shouldShowAd || AppOpenAdController.disableByClickAction || isShowingAd || appOpenAd == null || !ConsentHelper.canRequestAds()) {
+        if (InterstitialAdManager.isAdShowing.value || !AppOpenAdController.enableConfig || !AppOpenAdController.shouldShowAd || AppOpenAdController.disableByClickAction || isShowingAd || appOpenAd == null || !ConsentHelper.canRequestAds()) {
             onAdDismissed()
             return
         }
