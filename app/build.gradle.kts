@@ -74,27 +74,27 @@ android {
             dimension = "env"  // Specify the dimension for this flavor
 //            applicationIdSuffix = ".prod"
 //            versionNameSuffix = "-prod"
-            manifestPlaceholders["ad_app_id"] = "ca-app-pub-3940256099942544~3347511713"
-            buildConfigField("String", "banner_all", "\"ca-app-pub-3940256099942544/9214589741\"")
-            buildConfigField("String", "banner_splash", "\"ca-app-pub-3940256099942544/9214589741\"")
-            buildConfigField("String", "inter_splash", "\"ca-app-pub-3940256099942544/1033173712\"")
-            buildConfigField("String", "inter_splash_high", "\"ca-app-pub-3940256099942544/1033173712\"")
-            buildConfigField("String", "inter_home", "\"ca-app-pub-3940256099942544/1033173712\"")
-            buildConfigField("String", "inter_done", "\"ca-app-pub-3940256099942544/1033173712\"")
-            buildConfigField("String", "native_language_1_1", "\"ca-app-pub-3940256099942544/2247696110\"")
-            buildConfigField("String", "native_language_1_2", "\"ca-app-pub-3940256099942544/2247696110\"")
-            buildConfigField("String", "native_language_2_1", "\"ca-app-pub-3940256099942544/2247696110\"")
-            buildConfigField("String", "native_language_2_2", "\"ca-app-pub-3940256099942544/2247696110\"")
+            manifestPlaceholders["ad_app_id"] = "ca-app-pub-2186694387101042~2894092381"
+            buildConfigField("String", "banner_all", "\"ca-app-pub-2186694387101042/7166673028\"")
+            buildConfigField("String", "banner_splash", "\"ca-app-pub-2186694387101042/5301522040\"")
+            buildConfigField("String", "inter_splash", "\"ca-app-pub-2186694387101042/9160876004\"")
+            buildConfigField("String", "inter_splash_high", "\"ca-app-pub-2186694387101042/6322959672\"")
+            buildConfigField("String", "inter_home", "\"ca-app-pub-2186694387101042/2595467654\"")
+            buildConfigField("String", "inter_done", "\"ca-app-pub-2186694387101042/9771250097\"")
+            buildConfigField("String", "native_language_1_1", "\"ca-app-pub-2186694387101042/7103093842\"")
+            buildConfigField("String", "native_language_1_2", "\"ca-app-pub-2186694387101042/5221630999\"")
+            buildConfigField("String", "native_language_2_1", "\"ca-app-pub-2186694387101042/6782124672\"")
+            buildConfigField("String", "native_language_2_2", "\"ca-app-pub-2186694387101042/2675358704\"")
             buildConfigField("String", "native_onboarding", "\"ca-app-pub-3940256099942544/2247696110\"")
-            buildConfigField("String", "native_onboarding_2", "\"ca-app-pub-3940256099942544/2247696110\"")
-            buildConfigField("String", "native_onboarding_2_1", "\"ca-app-pub-3940256099942544/2247696110\"")
-            buildConfigField("String", "native_onboarding_2_2", "\"ca-app-pub-3940256099942544/2247696110\"")
-            buildConfigField("String", "native_full_screen", "\"ca-app-pub-3940256099942544/2247696110\"")
-            buildConfigField("String", "native_full_screen_2f", "\"ca-app-pub-3940256099942544/2247696110\"")
-            buildConfigField("String", "native_full_screen2", "\"ca-app-pub-3940256099942544/2247696110\"")
-            buildConfigField("String", "native_full_screen2_2f", "\"ca-app-pub-3940256099942544/2247696110\"")
-            buildConfigField("String", "native_feature", "\"ca-app-pub-3940256099942544/2247696110\"")
-            buildConfigField("String", "appopen_resume", "\"ca-app-pub-3940256099942544/9257395921\"")
+            buildConfigField("String", "native_onboarding_2", "\"ca-app-pub-2186694387101042/2084331766\"")
+            buildConfigField("String", "native_onboarding_2_1", "\"ca-app-pub-2186694387101042/5853591358\"")
+            buildConfigField("String", "native_onboarding_2_2", "\"ca-app-pub-2186694387101042/5598440482\"")
+            buildConfigField("String", "native_full_screen", "\"ca-app-pub-2186694387101042/9537685493\"")
+            buildConfigField("String", "native_full_screen_2f", "\"ca-app-pub-2186694387101042/3696796333\"")
+            buildConfigField("String", "native_full_screen2", "\"ca-app-pub-2186694387101042/1362277034\"")
+            buildConfigField("String", "native_full_screen2_2f", "\"ca-app-pub-2186694387101042/3915530019\"")
+            buildConfigField("String", "native_feature", "\"ca-app-pub-2186694387101042/1850767168\"")
+            buildConfigField("String", "appopen_resume", "\"ca-app-pub-2186694387101042/8479754696\"")
             // Add production-specific configurations here
         }
     }
