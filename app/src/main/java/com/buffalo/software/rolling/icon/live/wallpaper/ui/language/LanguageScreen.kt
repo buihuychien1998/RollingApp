@@ -56,6 +56,8 @@ import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.native_language_2
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.native_language_2_2
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.tracking.FirebaseAnalyticsEvents
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.tracking.FirebaseEventLogger
+import com.buffalo.software.rolling.icon.live.wallpaper.ui.share_view_model.LocalRemoteConfig
+import com.buffalo.software.rolling.icon.live.wallpaper.ui.share_view_model.RemoteConfigKeys
 import com.buffalo.software.rolling.icon.live.wallpaper.utils.PreferencesHelper
 import com.buffalo.software.rolling.icon.live.wallpaper.utils.custom.SafeClick
 import com.buffalo.software.rolling.icon.live.wallpaper.utils.languages
@@ -74,14 +76,24 @@ fun LanguageScreen(
 
     val launchCount = remember { PreferencesHelper.getLaunchCount(context) }
     val hasSelectedLanguage = remember { mutableStateOf(false) }
+    val configValues = LocalRemoteConfig.current
 
-    val (nativeAdId, nativeAdLayout) = remember(launchCount, hasSelectedLanguage.value) {
+    val (nativeAdId, nativeAdLayout, languageRemoteConfig) = remember(launchCount, hasSelectedLanguage.value) {
         when {
-            launchCount == 0 && !hasSelectedLanguage.value -> native_language_1_1 to R.layout.native_ad_layout
-            launchCount == 0 && hasSelectedLanguage.value -> native_language_1_2 to R.layout.native_ad_layout
-            launchCount >= 1 && !hasSelectedLanguage.value -> native_language_2_1 to R.layout.native_language
-            launchCount >= 1 && hasSelectedLanguage.value -> native_language_2_2 to R.layout.native_language
-            else -> native_language_2_1 to R.layout.native_language
+            launchCount == 0 && !hasSelectedLanguage.value ->
+                Triple(native_language_1_1, R.layout.native_ad_layout, RemoteConfigKeys.NATIVE_LANGUAGE_1_1)
+
+            launchCount == 0 && hasSelectedLanguage.value ->
+                Triple(native_language_1_2, R.layout.native_ad_layout, RemoteConfigKeys.NATIVE_LANGUAGE_1_2)
+
+            launchCount >= 1 && !hasSelectedLanguage.value ->
+                Triple(native_language_2_1, R.layout.native_language, RemoteConfigKeys.NATIVE_LANGUAGE_2_1)
+
+            launchCount >= 1 && hasSelectedLanguage.value ->
+                Triple(native_language_2_2, R.layout.native_language, RemoteConfigKeys.NATIVE_LANGUAGE_2_2)
+
+            else ->
+                Triple(native_language_2_1, R.layout.native_language, RemoteConfigKeys.NATIVE_LANGUAGE_2_1)
         }
     }
 
@@ -179,7 +191,11 @@ fun LanguageScreen(
             }
             Spacer(modifier = Modifier.height(16.dp))
 
-            NativeAdViewCompose(context, nativeAdId, layoutResId = nativeAdLayout, reloadTrigger = reloadTrigger)
+            if (configValues[languageRemoteConfig] == true) {
+                NativeAdViewCompose(context, nativeAdId, layoutResId = nativeAdLayout, reloadTrigger = reloadTrigger)
+
+            }
+
         }
 
     }

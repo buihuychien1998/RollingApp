@@ -83,6 +83,8 @@ import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.inter_done
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.tracking.FirebaseAnalyticsEvents
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.tracking.FirebaseEventLogger
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.loading.LoadingScreen
+import com.buffalo.software.rolling.icon.live.wallpaper.ui.share_view_model.LocalRemoteConfig
+import com.buffalo.software.rolling.icon.live.wallpaper.ui.share_view_model.RemoteConfigKeys
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.share_view_model.SharedViewModel
 import com.buffalo.software.rolling.icon.live.wallpaper.utils.IconType
 import com.buffalo.software.rolling.icon.live.wallpaper.utils.SHOW_AD
@@ -101,6 +103,7 @@ fun ImagePickerScreen(
 ) {
     val context = LocalContext.current
     val activity = context as? Activity
+    val configValues = LocalRemoteConfig.current
 
     val loading = viewModel.loading.collectAsState(false)
     val selectedMedia by viewModel.selectedImage.collectAsState()
@@ -122,16 +125,27 @@ fun ImagePickerScreen(
             context,
             FirebaseAnalyticsEvents.SCREEN_ADD_PHOTO_VIEW
         )
-        activity?.let { act ->
-            InterstitialAdManager.loadAd(act, inter_done)
+        if (configValues[RemoteConfigKeys.INTER_DONE] == true) {
+            activity?.let { act ->
+                InterstitialAdManager.loadAd(act, inter_done)
+            }
         }
+
     }
 
     // Back handler to detect back press and save changes
     BackHandler {
         activity?.let {
             AppOpenAdController.disableByClickAction = true
-            onBack(isChanged, viewModel, selectedMedia ?: mutableListOf(), sharedViewModel, navController, activity)
+            onBack(
+                isChanged,
+                viewModel,
+                selectedMedia ?: mutableListOf(),
+                sharedViewModel,
+                navController,
+                activity,
+                configValues[RemoteConfigKeys.INTER_DONE] == true
+            )
         }
     }
 
@@ -188,7 +202,7 @@ fun ImagePickerScreen(
                     )
                 }
 
-                if (SHOW_AD && !selectedMedia.isNullOrEmpty()) {
+                if (SHOW_AD && configValues[RemoteConfigKeys.BANNER_ALL] == true && !selectedMedia.isNullOrEmpty()) {
                     BannerAd(banner_all)
                 }
                 Spacer(modifier = Modifier.height(16.dp))
@@ -482,6 +496,7 @@ private fun ImagePickerHeader(
 ) {
     val context = LocalContext.current
     val activity = context as? Activity
+    val configValues = LocalRemoteConfig.current
 
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -489,7 +504,15 @@ private fun ImagePickerHeader(
     ) {
         SafeClick(onClick = {
             AppOpenAdController.disableByClickAction = true
-            onBack(isChanged, viewModel, selectedMedia ?: mutableListOf(), sharedViewModel, navController, activity)
+            onBack(
+                isChanged,
+                viewModel,
+                selectedMedia ?: mutableListOf(),
+                sharedViewModel,
+                navController,
+                activity,
+                configValues[RemoteConfigKeys.INTER_DONE] == true
+            )
         }) { enabled, onClick ->
             IconButton(
                 onClick = onClick,
@@ -522,7 +545,8 @@ private fun ImagePickerHeader(
                 context,
                 FirebaseAnalyticsEvents.CLICK_CLEAR_PHOTO
             )
-            viewModel.clearSelection() }) { enabled, onClick ->
+            viewModel.clearSelection()
+        }) { enabled, onClick ->
             Button(
                 onClick = onClick,
                 enabled = enabled,
@@ -552,19 +576,25 @@ private fun onBack(
     selectedMedia: MutableList<AppIcon>,
     sharedViewModel: SharedViewModel,
     navController: NavController,
-    activity: Activity?
+    activity: Activity?,
+    showInter: Boolean
 ) {
+
     if (isChanged) {
         viewModel.saveSelectedIcons(selectedMedia, onSuccess = {
             sharedViewModel.setIconsChanged(true)
 
-            // Hiển thị quảng cáo trước khi popBackStack
-            activity?.let {
-                InterstitialAdManager.showAd(it, inter_done) {
-                    AppOpenAdController.disableByClickAction = true
-                    navController.popBackStack()
-                }
-            } ?: navController.popBackStack()
+            if (showInter) {
+                activity?.let {
+                    InterstitialAdManager.showAd(it, inter_done) {
+                        AppOpenAdController.disableByClickAction = true
+                        navController.popBackStack()
+                    }
+                } ?: navController.popBackStack()
+            } else {
+                navController.popBackStack()
+            }
+
 
         }, onFailure = { error ->
             Log.e("onBack", "Error saving icons: ${error.message}")
@@ -572,13 +602,16 @@ private fun onBack(
     } else {
         sharedViewModel.setIconsChanged(false)
 
-        // Hiển thị quảng cáo trước khi popBackStack nếu không có thay đổi
-        activity?.let {
-            InterstitialAdManager.showAd(it, inter_done) {
-                AppOpenAdController.disableByClickAction = true
-                navController.popBackStack()
-            }
-        } ?: navController.popBackStack()
+        if (showInter) {
+            activity?.let {
+                InterstitialAdManager.showAd(it, inter_done) {
+                    AppOpenAdController.disableByClickAction = true
+                    navController.popBackStack()
+                }
+            } ?: navController.popBackStack()
+        } else {
+            navController.popBackStack()
+        }
     }
 }
 

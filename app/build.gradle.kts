@@ -66,6 +66,7 @@ android {
             buildConfigField("String", "native_full_screen_2f", "\"ca-app-pub-3940256099942544/2247696110\"")
             buildConfigField("String", "native_full_screen2", "\"ca-app-pub-3940256099942544/2247696110\"")
             buildConfigField("String", "native_full_screen2_2f", "\"ca-app-pub-3940256099942544/2247696110\"")
+            buildConfigField("String", "native_feature", "\"ca-app-pub-3940256099942544/2247696110\"")
             buildConfigField("String", "appopen_resume", "\"ca-app-pub-3940256099942544/9257395921\"")
             // Add other dev-specific configurations here
         }
@@ -92,6 +93,7 @@ android {
             buildConfigField("String", "native_full_screen_2f", "\"ca-app-pub-3940256099942544/2247696110\"")
             buildConfigField("String", "native_full_screen2", "\"ca-app-pub-3940256099942544/2247696110\"")
             buildConfigField("String", "native_full_screen2_2f", "\"ca-app-pub-3940256099942544/2247696110\"")
+            buildConfigField("String", "native_feature", "\"ca-app-pub-3940256099942544/2247696110\"")
             buildConfigField("String", "appopen_resume", "\"ca-app-pub-3940256099942544/9257395921\"")
             // Add production-specific configurations here
         }

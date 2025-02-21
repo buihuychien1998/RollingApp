@@ -70,6 +70,8 @@ import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.inter_done
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.tracking.FirebaseAnalyticsEvents
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.tracking.FirebaseEventLogger
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.loading.LoadingScreen
+import com.buffalo.software.rolling.icon.live.wallpaper.ui.share_view_model.LocalRemoteConfig
+import com.buffalo.software.rolling.icon.live.wallpaper.ui.share_view_model.RemoteConfigKeys
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.share_view_model.SharedViewModel
 import com.buffalo.software.rolling.icon.live.wallpaper.utils.SHOW_AD
 import com.buffalo.software.rolling.icon.live.wallpaper.utils.custom.SafeClick
@@ -82,6 +84,7 @@ fun AppPickerScreen(
     val loading = viewModel.loading.collectAsState(false)
     val context = LocalContext.current
     val activity = context as? Activity
+    val configValues = LocalRemoteConfig.current
 
     LaunchedEffect(Unit) {
         FirebaseEventLogger.trackScreenView(
@@ -89,8 +92,10 @@ fun AppPickerScreen(
             FirebaseAnalyticsEvents.SCREEN_ADD_APPLICATION_VIEW
         )
 
-        activity?.let { act ->
-            InterstitialAdManager.loadAd(act, inter_done)
+        if (configValues[RemoteConfigKeys.INTER_DONE] == true) {
+            activity?.let { act ->
+                InterstitialAdManager.loadAd(act, inter_done)
+            }
         }
     }
 
@@ -129,11 +134,12 @@ fun AppIconList(
     val isChanged = selectedApps != initialSelectedApps
     val context = LocalContext.current
     val activity = context as? Activity
+    val configValues = LocalRemoteConfig.current
 
     // Back handler to detect back press and save changes
     BackHandler {
         AppOpenAdController.disableByClickAction = true
-        onBack(isChanged, viewModel, selectedApps, shareViewModel, navController, activity)
+        onBack(isChanged, viewModel, selectedApps, shareViewModel, navController, activity, configValues[RemoteConfigKeys.INTER_DONE] == true)
     }
 
     Column(
@@ -149,7 +155,7 @@ fun AppIconList(
         ) {
             AppPickerHeader(isChanged, viewModel, selectedApps, shareViewModel, navController)
         }
-        if (SHOW_AD && !filteredApps.isNullOrEmpty()) {
+        if (SHOW_AD && configValues[RemoteConfigKeys.BANNER_ALL] == true && !filteredApps.isNullOrEmpty()) {
             BannerAd(banner_all)
             Spacer(modifier = Modifier.height(16.dp))
         }
@@ -250,13 +256,14 @@ private fun AppPickerHeader(
 ) {
     val context = LocalContext.current
     val activity = context as? Activity
+    val configValues = LocalRemoteConfig.current
 
     Row(
         modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically
     ) {
         SafeClick(onClick = {
             AppOpenAdController.disableByClickAction = true
-            onBack(isChanged, viewModel, selectedApps, shareViewModel, navController, activity)
+            onBack(isChanged, viewModel, selectedApps, shareViewModel, navController, activity, configValues[RemoteConfigKeys.INTER_DONE] == true)
         }) { enabled, onClick ->
             IconButton(
                 onClick = onClick,
@@ -321,22 +328,25 @@ fun onBack(
     selectedApps: MutableList<AppIcon>,
     sharedViewModel: SharedViewModel,
     navController: NavController,
-    activity: Activity?
+    activity: Activity?,
+    showInter: Boolean
 ) {
-    val navigateBack = {
-        AppOpenAdController.disableByClickAction = true
-        navController.popBackStack()
-    }
 
     if (isChanged) {
         viewModel.saveSelectedIcons(selectedApps, onSuccess = {
             sharedViewModel.setIconsChanged(true)
 
-            activity?.let {
-                InterstitialAdManager.showAd(it, inter_done) {
-                    navigateBack()
-                }
-            } ?: navigateBack()
+            if (showInter) {
+                activity?.let {
+                    InterstitialAdManager.showAd(it, inter_done) {
+                        AppOpenAdController.disableByClickAction = true
+                        navController.popBackStack()
+                    }
+                } ?: navController.popBackStack()
+            } else {
+                navController.popBackStack()
+            }
+
 
         }, onFailure = { error ->
             Log.e("onBack", "Error saving icons: ${error.message}")
@@ -344,11 +354,16 @@ fun onBack(
     } else {
         sharedViewModel.setIconsChanged(false)
 
-        activity?.let {
-            InterstitialAdManager.showAd(it, inter_done) {
-                navigateBack()
-            }
-        } ?: navigateBack()
+        if (showInter) {
+            activity?.let {
+                InterstitialAdManager.showAd(it, inter_done) {
+                    AppOpenAdController.disableByClickAction = true
+                    navController.popBackStack()
+                }
+            } ?: navController.popBackStack()
+        } else {
+            navController.popBackStack()
+        }
     }
 }
 

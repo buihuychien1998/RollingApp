@@ -79,6 +79,8 @@ import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.tracking.Firebase
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.tracking.FirebaseEventLogger
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.dialog.SuccessDialog
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.loading.LoadingScreen
+import com.buffalo.software.rolling.icon.live.wallpaper.ui.share_view_model.LocalRemoteConfig
+import com.buffalo.software.rolling.icon.live.wallpaper.ui.share_view_model.RemoteConfigKeys
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.share_view_model.SharedViewModel
 import com.buffalo.software.rolling.icon.live.wallpaper.utils.IconType
 import com.buffalo.software.rolling.icon.live.wallpaper.utils.PermissionUtils
@@ -100,6 +102,7 @@ fun HomeScreen(
     val appIcons by remember { derivedStateOf { viewModel.appIcons } }
     val loading by remember { derivedStateOf { viewModel.loading } }
     val iconsChanged by sharedViewModel.iconsChanged.collectAsState()
+    val configValues = LocalRemoteConfig.current
 
     // Refresh the data when the screen regains focus
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -159,19 +162,27 @@ fun HomeScreen(
     LaunchedEffect(Unit) {
         FirebaseEventLogger.trackScreenView(context, FirebaseAnalyticsEvents.SCREEN_HOME_VIEW)
         activity?.let { act ->
-            InterstitialAdManager.loadAd(act, inter_home)
+            if (configValues[RemoteConfigKeys.INTER_HOME] == true) {
+                InterstitialAdManager.loadAd(act, inter_home)
+            }
         }
     }
 
 
     fun showAdThenNavigate() {
         AppOpenAdController.disableByClickAction = true
-        activity?.let { act ->
-            InterstitialAdManager.showAd(act, inter_home) {
-                AppOpenAdController.disableByClickAction = true
-                navController.navigate(viewModel.clickedRoutes.route)
-            }
-        } ?:  navController.navigate(viewModel.clickedRoutes.route)
+
+        if (configValues[RemoteConfigKeys.INTER_HOME] == true) {
+            activity?.let { act ->
+                InterstitialAdManager.showAd(act, inter_home) {
+                    AppOpenAdController.disableByClickAction = true
+                    navController.navigate(viewModel.clickedRoutes.route)
+                }
+            } ?: navController.navigate(viewModel.clickedRoutes.route)
+        } else {
+            navController.navigate(viewModel.clickedRoutes.route)
+        }
+
     }
 
     // Loading screen with a spinner and a message
@@ -181,13 +192,19 @@ fun HomeScreen(
             appIcons = appIcons.value?.toMutableList(),
             onAddApplication = {
                 // Handle adding application
-                FirebaseEventLogger.trackButtonClick(context, FirebaseAnalyticsEvents.CLICK_ADD_APPLICATION)
+                FirebaseEventLogger.trackButtonClick(
+                    context,
+                    FirebaseAnalyticsEvents.CLICK_ADD_APPLICATION
+                )
                 viewModel.clickedRoutes = AppRoutes.AppPicker
                 showAdThenNavigate()
             },
             onAddPhotos = {
                 // Handle adding photos
-                FirebaseEventLogger.trackButtonClick(context, FirebaseAnalyticsEvents.CLICK_ADD_PHOTOS)
+                FirebaseEventLogger.trackButtonClick(
+                    context,
+                    FirebaseAnalyticsEvents.CLICK_ADD_PHOTOS
+                )
                 viewModel.clickedRoutes = AppRoutes.ImagePicker
                 showAdThenNavigate()
 //                permissionUtils.requestStoragePermissions()
@@ -195,7 +212,10 @@ fun HomeScreen(
             },
             onAddVideos = {
                 // Handle adding videos
-                FirebaseEventLogger.trackButtonClick(context, FirebaseAnalyticsEvents.CLICK_ADD_VIDEO)
+                FirebaseEventLogger.trackButtonClick(
+                    context,
+                    FirebaseAnalyticsEvents.CLICK_ADD_VIDEO
+                )
                 viewModel.clickedRoutes = AppRoutes.VideoPicker
                 showAdThenNavigate()
 //                permissionUtils.requestStoragePermissions()
@@ -219,11 +239,15 @@ fun RollingIconScreen(
     val showCreateDialog = remember { mutableStateOf(false) }
     val isWallpaperSet = remember { mutableStateOf(false) }
     val context = LocalContext.current
+    val configValues = LocalRemoteConfig.current
 
     // You can do the assignment inside onAttach or onCreate, i.e, before the activity is displayed
     val liveWallpaperLauncher: ActivityResultLauncher<Intent> =
         rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            FirebaseEventLogger.trackButtonClick(context, FirebaseAnalyticsEvents.CLICK_SET_WALLPAPER)
+            FirebaseEventLogger.trackButtonClick(
+                context,
+                FirebaseAnalyticsEvents.CLICK_SET_WALLPAPER
+            )
             if (result.resultCode == Activity.RESULT_OK) {
                 // There are no request codes
                 isWallpaperSet.value = true
@@ -257,7 +281,7 @@ fun RollingIconScreen(
                 HomeHeader(navController, liveWallpaperLauncher, appIcons)
             }
 
-            if (SHOW_AD && !appIcons.isNullOrEmpty()) {
+            if (SHOW_AD && configValues[RemoteConfigKeys.BANNER_ALL] == true && !appIcons.isNullOrEmpty()) {
                 BannerAd(banner_all)
                 Spacer(modifier = Modifier.height(16.dp))
             }
@@ -352,7 +376,10 @@ private fun AddIconSection(
             modifier = Modifier
                 .fillMaxWidth()
                 .clickable {
-                    FirebaseEventLogger.trackButtonClick(context, FirebaseAnalyticsEvents.CLICK_ADD_ICON)
+                    FirebaseEventLogger.trackButtonClick(
+                        context,
+                        FirebaseAnalyticsEvents.CLICK_ADD_ICON
+                    )
                     showDialog.value = true
                 }
         ) {
@@ -391,7 +418,10 @@ private fun AddIconSection(
                 modifier = Modifier
                     .weight(1f)
                     .clickable {
-                        FirebaseEventLogger.trackButtonClick(context, FirebaseAnalyticsEvents.CLICK_ADD_ICON)
+                        FirebaseEventLogger.trackButtonClick(
+                            context,
+                            FirebaseAnalyticsEvents.CLICK_ADD_ICON
+                        )
                         showDialog.value = true
                     }
             ) {
@@ -508,8 +538,12 @@ private fun HomeHeader(
         )
         Spacer(modifier = Modifier.width(4.dp))
         SafeClick(onClick = {
-            FirebaseEventLogger.trackButtonClick(context, FirebaseAnalyticsEvents.CLICK_SETTINGS_ICON)
-            navController.navigate(AppRoutes.Settings.route) }) { enabled, onClick ->
+            FirebaseEventLogger.trackButtonClick(
+                context,
+                FirebaseAnalyticsEvents.CLICK_SETTINGS_ICON
+            )
+            navController.navigate(AppRoutes.Settings.route)
+        }) { enabled, onClick ->
             IconButton(
                 onClick = onClick,
                 enabled = enabled
@@ -531,7 +565,10 @@ private fun HomeHeader(
                         .show()
                     return@SafeClick
                 }
-                FirebaseEventLogger.trackScreenView(context, FirebaseAnalyticsEvents.SCREEN_PREVIEW_VIEW)
+                FirebaseEventLogger.trackScreenView(
+                    context,
+                    FirebaseAnalyticsEvents.SCREEN_PREVIEW_VIEW
+                )
                 AppOpenAdController.disableByClickAction = true
                 context.startWallpaperService(launcher = launcher)
             } catch (e: Exception) {

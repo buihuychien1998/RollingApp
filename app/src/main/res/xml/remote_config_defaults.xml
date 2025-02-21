@@ -1,5 +1,79 @@
-<?xml version="1.0" encoding="utf-8"?>
-<defaultsMap>
-    <entry key="welcome_message" value="Hello, User!" />
-    <entry key="feature_enabled" value="false" />
-</defaultsMap>
+<?xml version="1.0" encoding="UTF-8"?>
+<defaults>
+  <entry>
+    <key>banner_splash</key>
+    <value>true</value>
+  </entry>
+  <entry>
+    <key>inter_splash</key>
+    <value>true</value>
+  </entry>
+  <entry>
+    <key>inter_splash_high</key>
+    <value>true</value>
+  </entry>
+  <entry>
+    <key>inter_home</key>
+    <value>true</value>
+  </entry>
+  <entry>
+    <key>inter_done</key>
+    <value>true</value>
+  </entry>
+  <entry>
+    <key>native_language_1_1</key>
+    <value>true</value>
+  </entry>
+  <entry>
+    <key>native_language_1_2</key>
+    <value>true</value>
+  </entry>
+  <entry>
+    <key>native_language_2_1</key>
+    <value>true</value>
+  </entry>
+  <entry>
+    <key>native_language_2_2</key>
+    <value>true</value>
+  </entry>
+  <entry>
+    <key>native_onboarding_2</key>
+    <value>true</value>
+  </entry>
+  <entry>
+    <key>native_onboarding_2_1</key>
+    <value>true</value>
+  </entry>
+  <entry>
+    <key>native_onboarding_2_2</key>
+    <value>true</value>
+  </entry>
+  <entry>
+    <key>native_full_screen</key>
+    <value>true</value>
+  </entry>
+  <entry>
+    <key>native_full_screen_2f</key>
+    <value>true</value>
+  </entry>
+  <entry>
+    <key>native_full_screen2</key>
+    <value>true</value>
+  </entry>
+  <entry>
+    <key>native_full_screen2_2f</key>
+    <value>true</value>
+  </entry>
+  <entry>
+    <key>appopen_resume</key>
+    <value>true</value>
+  </entry>
+  <entry>
+    <key>native_feature</key>
+    <value>true</value>
+  </entry>
+  <entry>
+    <key>banner_all</key>
+    <value>true</value>
+  </entry>
+</defaults>

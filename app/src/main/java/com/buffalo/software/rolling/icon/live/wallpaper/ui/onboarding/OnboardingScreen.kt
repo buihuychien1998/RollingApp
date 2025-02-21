@@ -60,8 +60,11 @@ import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.native_onboarding
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.native_onboarding_2_2
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.tracking.FirebaseAnalyticsEvents
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.tracking.FirebaseEventLogger
+import com.buffalo.software.rolling.icon.live.wallpaper.ui.share_view_model.LocalRemoteConfig
+import com.buffalo.software.rolling.icon.live.wallpaper.ui.share_view_model.RemoteConfigKeys
 import com.buffalo.software.rolling.icon.live.wallpaper.utils.LAUNCH_COUNT
 import com.buffalo.software.rolling.icon.live.wallpaper.utils.PreferencesHelper
+import com.buffalo.software.rolling.icon.live.wallpaper.utils.Quadruple
 import com.google.android.gms.ads.nativead.NativeAd
 import kotlinx.coroutines.launch
 
@@ -70,12 +73,33 @@ fun OnboardingScreen(navController: NavController) {
     val context = LocalContext.current
 
     val launchCount = remember { PreferencesHelper.getLaunchCount(context) }
+    val configValues = LocalRemoteConfig.current
 
-    val (nativeAdId, fallbackNativeID) = remember(launchCount) {
+    val (nativeAdId, fallbackNativeID, primaryRemoteKey, fallbackRemoteKey) = remember(launchCount) {
         when {
-            launchCount == 1 -> native_full_screen_2f to native_full_screen
-            launchCount >= LAUNCH_COUNT -> native_full_screen2_2f to native_full_screen2
-            else -> native_full_screen2_2f to native_full_screen2
+            launchCount == 1 ->
+                Quadruple(
+                    native_full_screen_2f,  // Primary Ad ID
+                    native_full_screen,    // Fallback Ad ID
+                    configValues[RemoteConfigKeys.NATIVE_FULL_SCREEN_2F] ?: false, // Remote Config Value (Primary)
+                    configValues[RemoteConfigKeys.NATIVE_FULL_SCREEN] ?: false     // Remote Config Value (Fallback)
+                )
+
+            launchCount >= LAUNCH_COUNT ->
+                Quadruple(
+                    native_full_screen2_2f,  // Primary Ad ID
+                    native_full_screen2,    // Fallback Ad ID
+                    configValues[RemoteConfigKeys.NATIVE_FULL_SCREEN2_2F] ?: false,
+                    configValues[RemoteConfigKeys.NATIVE_FULL_SCREEN2] ?: false
+                )
+
+            else ->
+                Quadruple(
+                    native_full_screen2_2f,  // Primary Ad ID
+                    native_full_screen2,    // Fallback Ad ID
+                    configValues[RemoteConfigKeys.NATIVE_FULL_SCREEN2_2F] ?: false,
+                    configValues[RemoteConfigKeys.NATIVE_FULL_SCREEN2] ?: false
+                )
         }
     }
     val fullOnboardingItems = listOf(
@@ -83,30 +107,52 @@ fun OnboardingScreen(navController: NavController) {
             R.drawable.onboarding_image1,
             stringResource(R.string.onboarding_title_1),
             stringResource(R.string.onboarding_desc_1),
-            native_onboarding_2_1
+            native_onboarding_2_1,
+            RemoteConfigKeys.NATIVE_ONBOARDING_2_1
         ),
         OnboardingItem(
             R.drawable.onboarding_image2,
             stringResource(R.string.onboarding_title_2),
             stringResource(R.string.onboarding_desc_2),
-            native_onboarding_2
+            native_onboarding_2,
+            RemoteConfigKeys.NATIVE_ONBOARDING_2
         ),
         OnboardingItem(
             R.drawable.onboarding_image2,
             stringResource(R.string.onboarding_title_2),
             stringResource(R.string.onboarding_desc_2),
-            nativeAdId
+            nativeAdId,
+            RemoteConfigKeys.NATIVE_ONBOARDING_2
         ),
         OnboardingItem(
             R.drawable.onboarding_image3,
             stringResource(R.string.onboarding_title_3),
             stringResource(R.string.onboarding_desc_3),
-            native_onboarding_2_2
+            native_onboarding_2_2,
+            RemoteConfigKeys.NATIVE_ONBOARDING_2_2
         )
     )
 
-    val onboardingItems = remember(launchCount) {
-        if (launchCount >= LAUNCH_COUNT) fullOnboardingItems.dropLast(1) else fullOnboardingItems
+    val onboardingItems = remember(launchCount, primaryRemoteKey, fallbackRemoteKey) {
+        when {
+            launchCount == 1 -> {
+                if (!primaryRemoteKey && !fallbackRemoteKey) {
+                    fullOnboardingItems.take(2) // Show only 2 items (Remove Ad)
+                } else {
+                    fullOnboardingItems.dropLast(1) // Show 3 items
+                }
+            }
+
+            launchCount >= LAUNCH_COUNT -> {
+                if (!primaryRemoteKey && !fallbackRemoteKey) {
+                    fullOnboardingItems.take(1) // Show only 1 item (Remove Ad)
+                } else {
+                    fullOnboardingItems.dropLast(2) // Show 2 items
+                }
+            }
+
+            else -> fullOnboardingItems
+        }
     }
 
     val pagerState = rememberPagerState(pageCount = { onboardingItems.size })
@@ -160,7 +206,7 @@ fun OnboardingScreen(navController: NavController) {
                 val item = onboardingItems[page]
                 val reloadTrigger = reloadTriggers[page] ?: mutableStateOf(false)
 
-                if (page == 2) {
+                if (page == 2 && (primaryRemoteKey || fallbackRemoteKey)) {
                     Box(
                         modifier = Modifier
                             .fillMaxSize()
@@ -178,12 +224,12 @@ fun OnboardingScreen(navController: NavController) {
                                                         ?: 0f
 
                                                 if (dragAmount < -50) { // Swipe left detected
-                                                    com.buffalo.software.rolling.icon.live.wallpaper.utils.PreferencesHelper.setOnboardingDone(
+                                                    PreferencesHelper.setOnboardingDone(
                                                         context = context,
-                                                        value = launchCount >= com.buffalo.software.rolling.icon.live.wallpaper.utils.LAUNCH_COUNT
+                                                        value = launchCount >= LAUNCH_COUNT
                                                     )
-                                                    navController.navigate(com.buffalo.software.rolling.icon.live.wallpaper.routes.AppRoutes.Home.route) {
-                                                        popUpTo(com.buffalo.software.rolling.icon.live.wallpaper.routes.AppRoutes.Onboarding.route) {
+                                                    navController.navigate(AppRoutes.Home.route) {
+                                                        popUpTo(AppRoutes.Onboarding.route) {
                                                             inclusive = true
                                                         }
                                                     }
@@ -196,21 +242,58 @@ fun OnboardingScreen(navController: NavController) {
                             ),
                         contentAlignment = Alignment.Center
                     ) {
-                        NativeAdViewCompose(
-                            context = context,
-                            nativeID = item.nativeAdId,
-                            fallbackNativeID = fallbackNativeID,
-                            existingAd = adStates[page],
-                            reloadTrigger = reloadTrigger,
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .padding(8.dp),
-                            layoutResId = R.layout.native_full_screen,
-                            onAdLoaded = {
-                                adStates[page] = it
-                                reloadTriggers[page]?.value = false
-                            },
-                        )
+                        if (primaryRemoteKey) {
+                            // ✅ Case 1: Primary Ad is enabled
+                            if (fallbackRemoteKey){
+                                NativeAdViewCompose(
+                                    context = context,
+                                    nativeID = item.nativeAdId,
+                                    fallbackNativeID = fallbackNativeID,
+                                    existingAd = adStates[page],
+                                    reloadTrigger = reloadTrigger,
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .padding(8.dp),
+                                    layoutResId = R.layout.native_full_screen,
+                                    onAdLoaded = {
+                                        adStates[page] = it
+                                        reloadTriggers[page]?.value = false
+                                    },
+                                )
+                            } else{
+                                NativeAdViewCompose(
+                                    context = context,
+                                    nativeID = item.nativeAdId,
+                                    existingAd = adStates[page],
+                                    reloadTrigger = reloadTrigger,
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .padding(8.dp),
+                                    layoutResId = R.layout.native_full_screen,
+                                    onAdLoaded = {
+                                        adStates[page] = it
+                                        reloadTriggers[page]?.value = false
+                                    },
+                                )
+                            }
+
+                        } else  {
+                            // ✅ Case 2: Primary is disabled, but Fallback Ad is enabled
+                            NativeAdViewCompose(
+                                context = context,
+                                nativeID = fallbackNativeID,
+                                existingAd = adStates[page],
+                                reloadTrigger = reloadTrigger,
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(8.dp),
+                                layoutResId = R.layout.native_full_screen,
+                                onAdLoaded = {
+                                    adStates[page] = it
+                                    reloadTriggers[page]?.value = false
+                                },
+                            )
+                        }
                     }
                 } else {
                     Column(
@@ -224,7 +307,7 @@ fun OnboardingScreen(navController: NavController) {
                             OnboardingSlide(item)
                         }
 
-                        if (page != 3)
+                        if (page != 3 && configValues[item.remoteConfigKey] == true)
                             NativeAdViewCompose(
                                 context = context,
                                 nativeID = item.nativeAdId,

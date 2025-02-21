@@ -12,6 +12,9 @@ import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
@@ -29,6 +32,8 @@ import com.buffalo.software.rolling.icon.live.wallpaper.ui.image_picker.ImagePic
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.language.LanguageScreen
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.onboarding.OnboardingScreen
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.settings.SettingsScreen
+import com.buffalo.software.rolling.icon.live.wallpaper.ui.share_view_model.LocalRemoteConfig
+import com.buffalo.software.rolling.icon.live.wallpaper.ui.share_view_model.RemoteConfigViewModel
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.share_view_model.SharedViewModel
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.splash.SplashScreen
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.video_picker.VideoPickerScreen
@@ -44,6 +49,8 @@ class HomeActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+
         // Initialize ConsentHelper
         ConsentHelper.initializeConsent(this) { isConsentGiven ->
             if (isConsentGiven) {
@@ -58,114 +65,118 @@ class HomeActivity : ComponentActivity() {
             val sharedViewModel: SharedViewModel =
                 viewModel(LocalContext.current as ComponentActivity)
 
-
+            val remoteConfigViewModel: RemoteConfigViewModel = viewModel()
+            // Observe Remote Config values
+            val configValues by remoteConfigViewModel.configValues.collectAsState()
             // Check the saved language preference or fallback to default
             val currentLanguage = PreferencesHelper.getSelectedLanguage(this)
             changeLanguage(currentLanguage)
 
-            NavHost(navController = navController,
-                startDestination = AppRoutes.Splash.route,
-                enterTransition = {
+            CompositionLocalProvider(LocalRemoteConfig provides configValues) {
+               NavHost(navController = navController,
+                   startDestination = AppRoutes.Splash.route,
+                   enterTransition = {
 //                    EnterTransition.None
-                    fadeIn(animationSpec = tween(100))
-                },
-                exitTransition = {
+                       fadeIn(animationSpec = tween(100))
+                   },
+                   exitTransition = {
 //                    ExitTransition.None
-                    fadeOut(animationSpec = tween(100))
-                },
-                popEnterTransition = {
-                    slideIntoContainer(
-                        AnimatedContentTransitionScope.SlideDirection.End,
-                        tween(TWEEN_DURATION)
-                    )
-                },
-                popExitTransition = {
-                    slideOutOfContainer(
-                        AnimatedContentTransitionScope.SlideDirection.End,
-                        tween(TWEEN_DURATION)
-                    )
-                }
-            ) {
-                composable(
-                    route = AppRoutes.Splash.route,
-                    exitTransition = {
-                        fadeOut(animationSpec = tween(100))
-                    }
-                ) {
-                    AppOpenAdController.shouldShowAd = false
-                    SplashScreen(navController)
-                }
+                       fadeOut(animationSpec = tween(100))
+                   },
+                   popEnterTransition = {
+                       slideIntoContainer(
+                           AnimatedContentTransitionScope.SlideDirection.End,
+                           tween(TWEEN_DURATION)
+                       )
+                   },
+                   popExitTransition = {
+                       slideOutOfContainer(
+                           AnimatedContentTransitionScope.SlideDirection.End,
+                           tween(TWEEN_DURATION)
+                       )
+                   }
+               ) {
+                   composable(
+                       route = AppRoutes.Splash.route,
+                       exitTransition = {
+                           fadeOut(animationSpec = tween(100))
+                       }
+                   ) {
+                       AppOpenAdController.shouldShowAd = false
+                       SplashScreen(navController, remoteConfigViewModel)
+                   }
 
-                composable(AppRoutes.Onboarding.route) {
-                    AppOpenAdController.shouldShowAd = true
-                    OnboardingScreen(navController)
-                }
-                composable(AppRoutes.Home.route) {
-                    AppOpenAdController.shouldShowAd = true
-                    HomeScreen(navController, sharedViewModel)
-                }
-                composable(AppRoutes.Language.route) {
-                    AppOpenAdController.shouldShowAd = true
-                    val fromSetting = remember {
-                        PreferencesHelper.fromSetting(this@HomeActivity)
-                    }
+                   composable(AppRoutes.Onboarding.route) {
+                       AppOpenAdController.shouldShowAd = true
+                       OnboardingScreen(navController)
+                   }
+                   composable(AppRoutes.Home.route) {
+                       AppOpenAdController.shouldShowAd = true
+                       HomeScreen(navController, sharedViewModel)
+                   }
+                   composable(AppRoutes.Language.route) {
+                       AppOpenAdController.shouldShowAd = true
+                       val fromSetting = remember {
+                           PreferencesHelper.fromSetting(this@HomeActivity)
+                       }
 
-                    // Get the current language from shared preferences
-                    val currentLanguageCode =
-                        PreferencesHelper.getSelectedLanguage(this@HomeActivity)
-                    // Set the selected language based on saved preference or default to the first one
-                    val selectedLanguage = remember {
-                        mutableStateOf(
-                            languages.firstOrNull { it.code == currentLanguageCode }
-                                ?: languages.first()
-                        )
-                    }
-                    // Pass 'showBackButton' based on the current navigation stack
-                    LanguageScreen(
-                        languages = languages,
-                        selectedLanguage = selectedLanguage.value,
-                        onLanguageSelected = { selectedLanguage.value = it },
-                        onConfirm = {
-                            // Handle confirm action, e.g., save the selected language to SharedPreferences
-                            PreferencesHelper.saveSelectedLanguage(
-                                this@HomeActivity,
-                                selectedLanguage.value
-                            )
-                            PreferencesHelper.setLFODone(this@HomeActivity, true)
-                            // Update app language
-                            changeLanguage(selectedLanguage.value.code)
+                       // Get the current language from shared preferences
+                       val currentLanguageCode =
+                           PreferencesHelper.getSelectedLanguage(this@HomeActivity)
+                       // Set the selected language based on saved preference or default to the first one
+                       val selectedLanguage = remember {
+                           mutableStateOf(
+                               languages.firstOrNull { it.code == currentLanguageCode }
+                                   ?: languages.first()
+                           )
+                       }
+                       // Pass 'showBackButton' based on the current navigation stack
+                       LanguageScreen(
+                           languages = languages,
+                           selectedLanguage = selectedLanguage.value,
+                           onLanguageSelected = { selectedLanguage.value = it },
+                           onConfirm = {
+                               // Handle confirm action, e.g., save the selected language to SharedPreferences
+                               PreferencesHelper.saveSelectedLanguage(
+                                   this@HomeActivity,
+                                   selectedLanguage.value
+                               )
+                               PreferencesHelper.setLFODone(this@HomeActivity, true)
+                               // Update app language
+                               changeLanguage(selectedLanguage.value.code)
 
-                            // Navigate to Home if it's the first open, or pop back if opened from settings
-                            if (fromSetting) {
-                                navController.popBackStack()
-                            } else {
-                                PreferencesHelper.increaseLaunchCount(this@HomeActivity)
-                                navController.navigate(if(isOnboardingDone(this@HomeActivity)) AppRoutes.Home.route else AppRoutes.Onboarding.route) {
-                                    popUpTo(AppRoutes.Language.route) { inclusive = true }
-                                }
-                            }
-                        },
-                        showBackButton = fromSetting,
-                        // Show back button if we are navigating from another screen
-                        onBackPressed = {
-                            // Handle back press action
-                            navController.popBackStack()
-                        }
-                    )
-                }
-                composable(AppRoutes.Settings.route) {
-                    SettingsScreen(navController)
-                }
-                composable(AppRoutes.AppPicker.route) {
-                    AppPickerScreen(navController)
-                }
-                composable(AppRoutes.ImagePicker.route) {
-                    ImagePickerScreen(navController, sharedViewModel = sharedViewModel)
-                }
-                composable(AppRoutes.VideoPicker.route) {
-                    VideoPickerScreen(navController, sharedViewModel = sharedViewModel)
-                }
-            }
+                               // Navigate to Home if it's the first open, or pop back if opened from settings
+                               if (fromSetting) {
+                                   navController.popBackStack()
+                               } else {
+                                   PreferencesHelper.increaseLaunchCount(this@HomeActivity)
+                                   navController.navigate(if(isOnboardingDone(this@HomeActivity)) AppRoutes.Home.route else AppRoutes.Onboarding.route) {
+                                       popUpTo(AppRoutes.Language.route) { inclusive = true }
+                                   }
+                               }
+                           },
+                           showBackButton = fromSetting,
+                           // Show back button if we are navigating from another screen
+                           onBackPressed = {
+                               // Handle back press action
+                               navController.popBackStack()
+                           }
+                       )
+                   }
+                   composable(AppRoutes.Settings.route) {
+                       SettingsScreen(navController)
+                   }
+                   composable(AppRoutes.AppPicker.route) {
+                       AppPickerScreen(navController)
+                   }
+                   composable(AppRoutes.ImagePicker.route) {
+                       ImagePickerScreen(navController, sharedViewModel = sharedViewModel)
+                   }
+                   composable(AppRoutes.VideoPicker.route) {
+                       VideoPickerScreen(navController, sharedViewModel = sharedViewModel)
+                   }
+               }
+           }
         }
     }
 
