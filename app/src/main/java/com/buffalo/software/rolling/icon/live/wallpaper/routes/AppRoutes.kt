@@ -3,6 +3,7 @@ package com.buffalo.software.rolling.icon.live.wallpaper.routes
 sealed class AppRoutes(val route: String) {
     data object Splash : AppRoutes("Splash")
     data object Onboarding : AppRoutes("Onboarding")
+    data object Feature : AppRoutes("Feature")
     data object Home : AppRoutes("Home")
     data object Language : AppRoutes("Language")
     data object Settings : AppRoutes("Settings")

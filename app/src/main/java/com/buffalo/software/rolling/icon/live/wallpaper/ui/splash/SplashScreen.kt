@@ -127,8 +127,11 @@ fun SplashScreen(navController: NavController, remoteConfigViewModel: RemoteConf
     }
 
     // ✅ Handle Ad Completion & Navigation
-    LaunchedEffect(isAdFinished, isResumed, isConfigLoaded) {
-        if (isConfigLoaded && isAdFinished && isResumed) {
+    LaunchedEffect(isAdFinished, showAd, isResumed, isConfigLoaded) {
+        println("isAdFinished $isAdFinished")
+        println("isResumed $isResumed")
+        println("isConfigLoaded $isConfigLoaded")
+        if (isConfigLoaded && (isAdFinished || !showAd) && isResumed) {
             delay(2000)
             val activity = context as? Activity
 

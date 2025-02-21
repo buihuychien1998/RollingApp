@@ -43,4 +43,8 @@
     <string name="onboarding_title_3">Customize icon appearance and effects</string>
     <string name="onboarding_desc_3">Create interactive and customized icon animations.</string>
     <string name="ad_warning">This action may contain ads</string>
+    <string name="text_features">Features</string>
+    <string name="features_subtitle">Select your favorite feature</string>
+    <string name="text_video_icon">Video icon</string>
+    <string name="text_image_icon">Image icon</string>
 </resources>

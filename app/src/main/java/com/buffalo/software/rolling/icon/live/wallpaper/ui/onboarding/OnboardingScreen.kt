@@ -134,20 +134,19 @@ fun OnboardingScreen(navController: NavController) {
     )
 
     val onboardingItems = remember(launchCount, primaryRemoteKey, fallbackRemoteKey) {
+        println("OnboardingScreen $launchCount")
         when {
             launchCount == 1 -> {
-                if (!primaryRemoteKey && !fallbackRemoteKey) {
-                    fullOnboardingItems.take(2) // Show only 2 items (Remove Ad)
-                } else {
-                    fullOnboardingItems.dropLast(1) // Show 3 items
+                when {
+                    !primaryRemoteKey && !fallbackRemoteKey -> fullOnboardingItems.filterIndexed { index, _ -> index != 2 } // Remove item 3 (index 2)
+                    else -> fullOnboardingItems
                 }
             }
 
             launchCount >= LAUNCH_COUNT -> {
-                if (!primaryRemoteKey && !fallbackRemoteKey) {
-                    fullOnboardingItems.take(1) // Show only 1 item (Remove Ad)
-                } else {
-                    fullOnboardingItems.dropLast(2) // Show 2 items
+                when {
+                    !primaryRemoteKey && !fallbackRemoteKey -> fullOnboardingItems.take(2) // Show only 1 item (Remove Ad)
+                    else -> fullOnboardingItems.dropLast(1)
                 }
             }
 
@@ -228,7 +227,7 @@ fun OnboardingScreen(navController: NavController) {
                                                         context = context,
                                                         value = launchCount >= LAUNCH_COUNT
                                                     )
-                                                    navController.navigate(AppRoutes.Home.route) {
+                                                    navController.navigate(AppRoutes.Feature.route) {
                                                         popUpTo(AppRoutes.Onboarding.route) {
                                                             inclusive = true
                                                         }
@@ -354,7 +353,7 @@ fun OnboardingScreen(navController: NavController) {
                                         context = context,
                                         value = launchCount >= LAUNCH_COUNT
                                     )
-                                    navController.navigate(AppRoutes.Home.route) {
+                                    navController.navigate(AppRoutes.Feature.route) {
                                         popUpTo(AppRoutes.Onboarding.route) { inclusive = true }
                                     }
                                 }

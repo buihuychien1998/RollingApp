@@ -28,6 +28,7 @@ import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.AppOpenAdControll
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.AppOpenAdManager
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.ConsentHelper
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.app_picker.AppPickerScreen
+import com.buffalo.software.rolling.icon.live.wallpaper.ui.feature.FeaturesScreen
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.image_picker.ImagePickerScreen
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.language.LanguageScreen
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.onboarding.OnboardingScreen
@@ -109,6 +110,10 @@ class HomeActivity : ComponentActivity() {
                    composable(AppRoutes.Onboarding.route) {
                        AppOpenAdController.shouldShowAd = true
                        OnboardingScreen(navController)
+                   }
+                   composable(AppRoutes.Feature.route) {
+                       AppOpenAdController.shouldShowAd = true
+                       FeaturesScreen(navController)
                    }
                    composable(AppRoutes.Home.route) {
                        AppOpenAdController.shouldShowAd = true

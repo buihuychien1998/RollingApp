@@ -21,4 +21,5 @@ const val native_full_screen = BuildConfig.native_full_screen
 const val native_full_screen_2f = BuildConfig.native_full_screen_2f
 const val native_full_screen2 = BuildConfig.native_full_screen2
 const val native_full_screen2_2f = BuildConfig.native_full_screen2_2f
+const val native_feature = BuildConfig.native_feature
 const val appopen_resume = BuildConfig.appopen_resume

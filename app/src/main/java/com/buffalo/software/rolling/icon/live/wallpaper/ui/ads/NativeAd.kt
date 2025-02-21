@@ -47,6 +47,7 @@ fun NativeAdViewCompose(
     fallbackNativeID: String? = null,
     existingAd: NativeAd? = null,
     modifier: Modifier = Modifier.fillMaxWidth().padding(8.dp).height(268.dp),
+    shimmerModifier: Modifier = Modifier.fillMaxWidth().height(268.dp),
     layoutResId: Int = R.layout.native_ad_layout,
     backgroundTint: Int = Color.WHITE,
     adLayout: (NativeAdView, NativeAd?) -> View? = { adView, ad ->
@@ -120,7 +121,8 @@ fun NativeAdViewCompose(
         Box(modifier = modifier) {
             if (isAdLoading) {
                 NativeShimmerEffect(
-                    modifier
+                    shimmerModifier
+                        .matchParentSize()
                         .clip(RoundedCornerShape(8.dp)),
                     backgroundTint = androidx.compose.ui.graphics.Color(backgroundTint)
                 )
