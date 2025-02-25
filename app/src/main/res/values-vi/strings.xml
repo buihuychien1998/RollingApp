@@ -46,4 +46,10 @@
     <string name="onboarding_title_3">Tùy chỉnh giao diện và hiệu ứng biểu tượng</string>
     <string name="onboarding_desc_3">Tạo hiệu ứng động biểu tượng tương tác và cá nhân hóa.</string>
     <string name="ad_warning">Hành động này có thể chứa quảng cáo</string>
+    <string name="text_features">Tính năng</string>
+    <string name="features_subtitle">Chọn tính năng yêu thích của bạn</string>
+    <string name="text_video_icon">Biểu tượng video</string>
+    <string name="text_image_icon">Biểu tượng hình ảnh</string>
+    <string name="text_save">Lưu</string>
+    <string name="text_changes_have_been_saved_successfully">Các thay đổi đã được lưu thành công!</string>
 </resources>

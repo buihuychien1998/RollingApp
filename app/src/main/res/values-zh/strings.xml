@@ -46,4 +46,10 @@
     <string name="onboarding_title_3">自定义图标外观和效果</string>
     <string name="onboarding_desc_3">创建互动和个性化的图标动画。</string>
     <string name="ad_warning">此操作可能包含广告</string>
+    <string name="text_features">功能</string>
+    <string name="features_subtitle">选择你喜欢的功能</string>
+    <string name="text_video_icon">视频图标</string>
+    <string name="text_image_icon">图片图标</string>
+    <string name="text_save">保存</string>
+    <string name="text_changes_have_been_saved_successfully">更改已成功保存！</string>
 </resources>

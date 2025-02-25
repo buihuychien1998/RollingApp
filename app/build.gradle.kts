@@ -19,7 +19,7 @@ android {
         applicationId = "com.buffalo.software.rolling.icon.live.wallpaper"
         minSdk = 24
         targetSdk = 34
-        versionCode = 2
+        versionCode = 3
         versionName = "1.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -45,7 +45,7 @@ android {
     productFlavors {
         create("dev") {
             dimension = "env"  // Specify the dimension for this flavor
-//            applicationIdSuffix = ".dev"
+            applicationIdSuffix = ".dev"
 //            versionNameSuffix = "-dev"
             manifestPlaceholders["ad_app_id"] = "ca-app-pub-3940256099942544~3347511713"
             buildConfigField("String", "banner_all", "\"ca-app-pub-3940256099942544/9214589741\"")
@@ -72,7 +72,7 @@ android {
         }
         create("prod") {
             dimension = "env"  // Specify the dimension for this flavor
-//            applicationIdSuffix = ".prod"
+            applicationIdSuffix = ".prod"
 //            versionNameSuffix = "-prod"
             manifestPlaceholders["ad_app_id"] = "ca-app-pub-2186694387101042~2894092381"
             buildConfigField("String", "banner_all", "\"ca-app-pub-2186694387101042/7166673028\"")

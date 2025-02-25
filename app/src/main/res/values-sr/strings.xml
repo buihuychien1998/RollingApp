@@ -46,4 +46,10 @@
     <string name="onboarding_title_3">Прилагодите изглед и ефекте икона</string>
     <string name="onboarding_desc_3">Креирајте интерактивне и прилагођене анимације икона.</string>
     <string name="ad_warning">Ова акција може садржати огласе</string>
+    <string name="text_features">Функције</string>
+    <string name="features_subtitle">Изаберите своју омиљену функцију</string>
+    <string name="text_video_icon">Иконица видеа</string>
+    <string name="text_image_icon">Иконица слике</string>
+    <string name="text_save">Сачувај</string>
+    <string name="text_changes_have_been_saved_successfully">Промене су успешно сачуване!</string>
 </resources>

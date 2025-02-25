@@ -46,4 +46,10 @@
     <string name="onboarding_title_3">アイコンの外観と効果をカスタマイズ</string>
     <string name="onboarding_desc_3">インタラクティブでカスタマイズされたアイコンアニメーションを作成しましょう。</string>
     <string name="ad_warning">この操作には広告が含まれる場合があります</string>
+    <string name="text_features">機能</string>
+    <string name="features_subtitle">お気に入りの機能を選択</string>
+    <string name="text_video_icon">ビデオアイコン</string>
+    <string name="text_image_icon">画像アイコン</string>
+    <string name="text_save">保存</string>
+    <string name="text_changes_have_been_saved_successfully">変更が正常に保存されました！</string>
 </resources>

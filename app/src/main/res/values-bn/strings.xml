@@ -46,4 +46,10 @@
     <string name="onboarding_title_3">আইকনের চেহারা এবং প্রভাব কাস্টমাইজ করুন</string>
     <string name="onboarding_desc_3">ইন্টারেক্টিভ এবং কাস্টমাইজড আইকন অ্যানিমেশন তৈরি করুন।</string>
     <string name="ad_warning">এই ক্রিয়াটিতে বিজ্ঞাপন থাকতে পারে</string>
+    <string name="text_features">বৈশিষ্ট্য</string>
+    <string name="features_subtitle">আপনার পছন্দের বৈশিষ্ট্য নির্বাচন করুন</string>
+    <string name="text_video_icon">ভিডিও আইকন</string>
+    <string name="text_image_icon">চিত্র আইকন</string>
+    <string name="text_save">সংরক্ষণ করুন</string>
+    <string name="text_changes_have_been_saved_successfully">পরিবর্তনগুলি সফলভাবে সংরক্ষণ করা হয়েছে!</string>
 </resources>

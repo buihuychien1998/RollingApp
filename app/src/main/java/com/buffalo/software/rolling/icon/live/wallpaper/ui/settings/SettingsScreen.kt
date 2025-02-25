@@ -58,11 +58,14 @@ import com.buffalo.software.rolling.icon.live.wallpaper.theme.clr_4664FF
 import com.buffalo.software.rolling.icon.live.wallpaper.theme.clr_96ACC4
 import com.buffalo.software.rolling.icon.live.wallpaper.theme.clr_D5DEE8
 import com.buffalo.software.rolling.icon.live.wallpaper.theme.clr_ECF4FF
+import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.AppOpenAdController
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.tracking.FirebaseAnalyticsEvents
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.tracking.FirebaseEventLogger
 import com.buffalo.software.rolling.icon.live.wallpaper.utils.PRIVACY_POLICY
 import com.buffalo.software.rolling.icon.live.wallpaper.utils.PreferencesHelper
+import com.buffalo.software.rolling.icon.live.wallpaper.utils.custom.AutoResizeText
 import com.buffalo.software.rolling.icon.live.wallpaper.utils.custom.CustomSwitch
+import com.buffalo.software.rolling.icon.live.wallpaper.utils.custom.FontSizeRange
 import com.buffalo.software.rolling.icon.live.wallpaper.utils.custom.SafeClick
 import com.buffalo.software.rolling.icon.live.wallpaper.utils.languages
 import com.buffalo.software.rolling.icon.live.wallpaper.utils.openAppRating
@@ -391,7 +394,8 @@ fun IconSettings(settingsViewModel: SettingsViewModel) {
             ).forEach { resId ->
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.padding(end = 8.dp)
+                    modifier = Modifier
+                        .padding(end = 8.dp)
                 ) {
                     Image(
                         painter = painterResource(
@@ -442,13 +446,19 @@ fun IconSettings(settingsViewModel: SettingsViewModel) {
                             } // Adjust size as needed
                     )
                     Spacer(modifier = Modifier.width(6.dp))
-                    Text(
+                    AutoResizeText(
                         text = stringResource(id = resId),
                         fontFamily = AppFont.Grandstander,
                         textAlign = TextAlign.Center,
                         style = TextStyle(fontSize = 14.sp),
                         color = clr_96ACC4,
-                        modifier = Modifier.offset(y = 2.dp) // Ensures text is centered in the Row
+                        maxLines = 1,
+                        fontSizeRange = FontSizeRange(
+                            min = 8.sp,
+                            max = 14.sp,
+                        ),
+                        modifier = Modifier
+                            .offset(y = 2.dp)
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                 }
@@ -584,7 +594,11 @@ fun InformationSection() {
             .background(Color.White, shape = RoundedCornerShape(16.dp))
             .padding(8.dp)
     ) {
-        TextButton(onClick = { openLink(context, PRIVACY_POLICY) }) {
+        TextButton(onClick = {
+            AppOpenAdController.disableByClickAction = true
+            openLink(context, PRIVACY_POLICY)
+
+        }) {
             Text(
                 text = stringResource(id = R.string.text_privacy_policy),
                 color = clr_2C323F,
@@ -595,7 +609,10 @@ fun InformationSection() {
                     .padding(vertical = 8.dp),
             )
         }
-        TextButton(onClick = { openAppRating(context) }) {
+        TextButton(onClick = {
+            AppOpenAdController.disableByClickAction = true
+            openAppRating(context)
+        }) {
             Text(
                 text = stringResource(id = R.string.text_rate_us),
                 color = clr_2C323F,

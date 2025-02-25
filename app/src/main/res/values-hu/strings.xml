@@ -46,4 +46,10 @@
     <string name="onboarding_title_3">Ikonok megjelenésének és hatásainak testreszabása</string>
     <string name="onboarding_desc_3">Hozzon létre interaktív és testreszabott ikonanimációkat.</string>
     <string name="ad_warning">Ez a művelet hirdetéseket tartalmazhat</string>
+    <string name="text_features">Funkciók</string>
+    <string name="features_subtitle">Válassza ki kedvenc funkcióját</string>
+    <string name="text_video_icon">Videó ikon</string>
+    <string name="text_image_icon">Kép ikon</string>
+    <string name="text_save">Mentés</string>
+    <string name="text_changes_have_been_saved_successfully">A módosítások sikeresen mentésre kerültek!</string>
 </resources>

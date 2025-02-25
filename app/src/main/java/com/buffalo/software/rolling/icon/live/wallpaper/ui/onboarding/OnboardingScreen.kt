@@ -36,6 +36,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.pointer.positionChange
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -50,6 +51,7 @@ import com.buffalo.software.rolling.icon.live.wallpaper.models.OnboardingItem
 import com.buffalo.software.rolling.icon.live.wallpaper.routes.AppRoutes
 import com.buffalo.software.rolling.icon.live.wallpaper.theme.AppFont
 import com.buffalo.software.rolling.icon.live.wallpaper.theme.clr_2C323F
+import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.AppOpenAdController
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.NativeAdViewCompose
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.native_full_screen
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.native_full_screen2
@@ -81,8 +83,10 @@ fun OnboardingScreen(navController: NavController) {
                 Quadruple(
                     native_full_screen_2f,  // Primary Ad ID
                     native_full_screen,    // Fallback Ad ID
-                    configValues[RemoteConfigKeys.NATIVE_FULL_SCREEN_2F] ?: false, // Remote Config Value (Primary)
-                    configValues[RemoteConfigKeys.NATIVE_FULL_SCREEN] ?: false     // Remote Config Value (Fallback)
+                    configValues[RemoteConfigKeys.NATIVE_FULL_SCREEN_2F]
+                        ?: false, // Remote Config Value (Primary)
+                    configValues[RemoteConfigKeys.NATIVE_FULL_SCREEN]
+                        ?: false     // Remote Config Value (Fallback)
                 )
 
             launchCount >= LAUNCH_COUNT ->
@@ -170,20 +174,31 @@ fun OnboardingScreen(navController: NavController) {
 
     LaunchedEffect(pagerState.currentPage) {
         when (pagerState.currentPage) {
-            0 -> FirebaseEventLogger.trackScreenView(
-                context,
-                FirebaseAnalyticsEvents.SCREEN_ONBOARDING_1_VIEW
-            )
+            0 -> {
+                AppOpenAdController.shouldShowAd = true
+                FirebaseEventLogger.trackScreenView(
+                    context,
+                    FirebaseAnalyticsEvents.SCREEN_ONBOARDING_1_VIEW
+                )
+            }
 
-            1 -> FirebaseEventLogger.trackScreenView(
-                context,
-                FirebaseAnalyticsEvents.SCREEN_ONBOARDING_2_VIEW
-            )
+            1 -> {
+                AppOpenAdController.shouldShowAd = true
+                FirebaseEventLogger.trackScreenView(
+                    context,
+                    FirebaseAnalyticsEvents.SCREEN_ONBOARDING_2_VIEW
+                )
+            }
 
-            3 -> FirebaseEventLogger.trackScreenView(
-                context,
-                FirebaseAnalyticsEvents.SCREEN_ONBOARDING_3_VIEW
-            )
+            2 -> AppOpenAdController.shouldShowAd = false
+
+            3 -> {
+                AppOpenAdController.shouldShowAd = true
+                FirebaseEventLogger.trackScreenView(
+                    context,
+                    FirebaseAnalyticsEvents.SCREEN_ONBOARDING_3_VIEW
+                )
+            }
         }
     }
 
@@ -243,7 +258,7 @@ fun OnboardingScreen(navController: NavController) {
                     ) {
                         if (primaryRemoteKey) {
                             // ✅ Case 1: Primary Ad is enabled
-                            if (fallbackRemoteKey){
+                            if (fallbackRemoteKey) {
                                 NativeAdViewCompose(
                                     context = context,
                                     nativeID = item.nativeAdId,
@@ -259,7 +274,7 @@ fun OnboardingScreen(navController: NavController) {
                                         reloadTriggers[page]?.value = false
                                     },
                                 )
-                            } else{
+                            } else {
                                 NativeAdViewCompose(
                                     context = context,
                                     nativeID = item.nativeAdId,
@@ -276,7 +291,7 @@ fun OnboardingScreen(navController: NavController) {
                                 )
                             }
 
-                        } else  {
+                        } else {
                             // ✅ Case 2: Primary is disabled, but Fallback Ad is enabled
                             NativeAdViewCompose(
                                 context = context,
@@ -392,6 +407,8 @@ fun OnboardingScreen(navController: NavController) {
 
 @Composable
 fun OnboardingSlide(item: OnboardingItem) {
+    val screenHeight = LocalConfiguration.current.screenHeightDp.dp
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -403,7 +420,7 @@ fun OnboardingSlide(item: OnboardingItem) {
             contentDescription = item.title,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(300.dp)
+                .height(screenHeight * 0.35f) // 40% of screen height
         )
         Spacer(modifier = Modifier.height(24.dp))
         Text(

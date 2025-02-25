@@ -47,4 +47,6 @@
     <string name="features_subtitle">Select your favorite feature</string>
     <string name="text_video_icon">Video icon</string>
     <string name="text_image_icon">Image icon</string>
+    <string name="text_save">Save</string>
+    <string name="text_changes_have_been_saved_successfully">Changes have been saved successfully!</string>
 </resources>

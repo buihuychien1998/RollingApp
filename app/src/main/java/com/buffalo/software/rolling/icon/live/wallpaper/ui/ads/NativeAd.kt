@@ -102,8 +102,8 @@ fun NativeAdViewCompose(
             if (event == Lifecycle.Event.ON_RESUME) {
                 println("NativeAdViewCompose: AppOpenAdController.shouldShowAd ${AppOpenAdController.shouldShowAd}")
 
-                if (!AppOpenAdController.shouldShowAd) {
-                    AppOpenAdController.shouldShowAd = true
+                if (AppOpenAdController.isAdClicked) {
+                    AppOpenAdController.isAdClicked = false
                     reloadAd()
                 }
             }

@@ -46,4 +46,10 @@
     <string name="onboarding_title_3">Simge Görünümünü ve Efektlerini Özelleştirin</string>
     <string name="onboarding_desc_3">Etkileşimli ve kişiselleştirilmiş simge animasyonları oluşturun.</string>
     <string name="ad_warning">Bu işlem reklam içerebilir</string>
+    <string name="text_features">Özellikler</string>
+    <string name="features_subtitle">Favori özelliğinizi seçin</string>
+    <string name="text_video_icon">Video simgesi</string>
+    <string name="text_image_icon">Resim simgesi</string>
+    <string name="text_save">Kaydet</string>
+    <string name="text_changes_have_been_saved_successfully">Değişiklikler başarıyla kaydedildi!</string>
 </resources>

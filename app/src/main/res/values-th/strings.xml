@@ -46,4 +46,10 @@
     <string name="onboarding_title_3">ปรับแต่งรูปลักษณ์และเอฟเฟกต์ของไอคอน</string>
     <string name="onboarding_desc_3">สร้างแอนิเมชันไอคอนแบบโต้ตอบและปรับแต่งเอง</string>
     <string name="ad_warning">การดำเนินการนี้อาจมีโฆษณา</string>
+    <string name="text_features">คุณสมบัติ</string>
+    <string name="features_subtitle">เลือกคุณสมบัติที่คุณชื่นชอบ</string>
+    <string name="text_video_icon">ไอคอนวิดีโอ</string>
+    <string name="text_image_icon">ไอคอนรูปภาพ</string>
+    <string name="text_save">บันทึก</string>
+    <string name="text_changes_have_been_saved_successfully">การเปลี่ยนแปลงได้รับการบันทึกเรียบร้อยแล้ว!</string>
 </resources>

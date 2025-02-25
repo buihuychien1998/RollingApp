@@ -46,4 +46,10 @@
     <string name="onboarding_title_3">Personalizați aspectul și efectele pictogramelor</string>
     <string name="onboarding_desc_3">Creați animații interactive și personalizate pentru pictograme.</string>
     <string name="ad_warning">Această acțiune poate conține reclame</string>
+    <string name="text_features">Funcționalități</string>
+    <string name="features_subtitle">Selectați funcția preferată</string>
+    <string name="text_video_icon">Pictogramă video</string>
+    <string name="text_image_icon">Pictogramă imagine</string>
+    <string name="text_save">Salvare</string>
+    <string name="text_changes_have_been_saved_successfully">Modificările au fost salvate cu succes!</string>
 </resources>

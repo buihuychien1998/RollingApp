@@ -46,4 +46,10 @@
     <string name="onboarding_title_3">ხატების გარეგნობის და ეფექტების მორგება</string>
     <string name="onboarding_desc_3">შექმენით ინტერაქტიული და პერსონალიზებული ხატების ანიმაციები.</string>
     <string name="ad_warning">ეს ქმედება შეიძლება შეიცავდეს რეკლამას</string>
+    <string name="text_features">მახასიათებლები</string>
+    <string name="features_subtitle">აირჩიეთ თქვენი საყვარელი ფუნქცია</string>
+    <string name="text_video_icon">ვიდეო ხატულა</string>
+    <string name="text_image_icon">სურათის ხატულა</string>
+    <string name="text_save">შენახვა</string>
+    <string name="text_changes_have_been_saved_successfully">ცვლილებები წარმატებით შეინახა!</string>
 </resources>

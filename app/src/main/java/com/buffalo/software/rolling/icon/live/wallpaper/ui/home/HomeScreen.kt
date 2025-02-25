@@ -667,6 +667,8 @@ fun AddIconDialog(
                                     contentDescription = stringResource(id = R.string.text_add_application)
                                 )
                                 Text(
+                                    modifier = Modifier
+                                        .align(alignment = Alignment.CenterHorizontally),
                                     text = stringResource(id = R.string.text_add_application),
                                     fontFamily = AppFont.Grandstander,
                                     fontWeight = FontWeight.Medium,
@@ -706,6 +708,8 @@ fun AddIconDialog(
                                         contentDescription = stringResource(id = R.string.text_add_videos)
                                     )
                                     Text(
+                                        modifier = Modifier
+                                            .align(alignment = Alignment.CenterHorizontally),
                                         text = stringResource(id = R.string.text_add_videos),
                                         fontFamily = AppFont.Grandstander,
                                         fontSize = 16.sp,
@@ -745,6 +749,8 @@ fun AddIconDialog(
                                         contentDescription = stringResource(id = R.string.text_add_photos)
                                     )
                                     Text(
+                                        modifier = Modifier
+                                            .align(alignment = Alignment.CenterHorizontally),
                                         text = stringResource(id = R.string.text_add_photos),
                                         fontFamily = AppFont.Grandstander,
                                         fontSize = 16.sp,

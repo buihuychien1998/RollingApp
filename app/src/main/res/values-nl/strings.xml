@@ -46,4 +46,10 @@
     <string name="onboarding_title_3">Pas het uiterlijk en de effecten van het pictogram aan</string>
     <string name="onboarding_desc_3">Maak interactieve en aangepaste pictogramanimaties.</string>
     <string name="ad_warning">Deze actie kan advertenties bevatten</string>
+    <string name="text_features">Functies</string>
+    <string name="features_subtitle">Selecteer je favoriete functie</string>
+    <string name="text_video_icon">Video-icoon</string>
+    <string name="text_image_icon">Afbeeldingspictogram</string>
+    <string name="text_save">Opslaan</string>
+    <string name="text_changes_have_been_saved_successfully">Wijzigingen zijn succesvol opgeslagen!</string>
 </resources>

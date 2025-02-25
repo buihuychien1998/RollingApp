@@ -46,4 +46,10 @@
     <string name="onboarding_title_3">Pielāgojiet ikonas izskatu un efektus</string>
     <string name="onboarding_desc_3">Izveidojiet interaktīvas un pielāgotas ikonu animācijas.</string>
     <string name="ad_warning">Šī darbība var ietvert reklāmas</string>
+    <string name="text_features">Funkcijas</string>
+    <string name="features_subtitle">Izvēlieties savu iecienītāko funkciju</string>
+    <string name="text_video_icon">Video ikona</string>
+    <string name="text_image_icon">Attēla ikona</string>
+    <string name="text_save">Saglabāt</string>
+    <string name="text_changes_have_been_saved_successfully">Izmaiņas veiksmīgi saglabātas!</string>
 </resources>

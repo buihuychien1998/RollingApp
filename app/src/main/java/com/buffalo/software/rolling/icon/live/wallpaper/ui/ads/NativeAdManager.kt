@@ -43,7 +43,7 @@ object NativeAdManager {
 
                 override fun onAdClicked() {
                     Log.d("NativeAdManager", "🔥 Native Ad Clicked!")
-                    AppOpenAdController.shouldShowAd = false
+                    AppOpenAdController.isAdClicked = true
                 }
             })
             .build()

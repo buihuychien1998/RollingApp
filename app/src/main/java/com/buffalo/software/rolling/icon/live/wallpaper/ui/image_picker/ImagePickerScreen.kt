@@ -5,6 +5,7 @@ import android.content.ClipData
 import android.content.ClipDescription
 import android.net.Uri
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
@@ -73,6 +74,8 @@ import coil3.compose.rememberAsyncImagePainter
 import com.buffalo.software.rolling.icon.live.wallpaper.R
 import com.buffalo.software.rolling.icon.live.wallpaper.models.AppIcon
 import com.buffalo.software.rolling.icon.live.wallpaper.theme.AppFont
+import com.buffalo.software.rolling.icon.live.wallpaper.theme.clr_4664FF
+import com.buffalo.software.rolling.icon.live.wallpaper.theme.clr_7595FF
 import com.buffalo.software.rolling.icon.live.wallpaper.theme.clr_C2D8FF
 import com.buffalo.software.rolling.icon.live.wallpaper.theme.clr_FFDDDB
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.AppOpenAdController
@@ -135,18 +138,7 @@ fun ImagePickerScreen(
 
     // Back handler to detect back press and save changes
     BackHandler {
-        activity?.let {
-            AppOpenAdController.disableByClickAction = true
-            onBack(
-                isChanged,
-                viewModel,
-                selectedMedia ?: mutableListOf(),
-                sharedViewModel,
-                navController,
-                activity,
-                configValues[RemoteConfigKeys.INTER_DONE] == true
-            )
-        }
+        navController.popBackStack()
     }
 
     val pickMediaLauncher =
@@ -207,9 +199,10 @@ fun ImagePickerScreen(
                 }
                 Spacer(modifier = Modifier.height(16.dp))
 
-                Column(modifier = Modifier.padding(horizontal = 16.dp)) {
+                Column(modifier = Modifier.weight(1f).padding(horizontal = 16.dp)) {
                     SafeClickable(
                         onClick = {
+                            AppOpenAdController.disableByClickAction = true
                             FirebaseEventLogger.trackButtonClick(
                                 context,
                                 FirebaseAnalyticsEvents.CLICK_ADD_PHOTO_ICON
@@ -440,6 +433,37 @@ fun ImagePickerScreen(
                     }
                 }
 
+                Button(
+                    onClick = {
+                        activity?.let {
+                            AppOpenAdController.disableByClickAction = true
+                            onBack(
+                                isChanged,
+                                viewModel,
+                                selectedMedia ?: mutableListOf(),
+                                sharedViewModel,
+                                navController,
+                                activity,
+                                configValues[RemoteConfigKeys.INTER_DONE] == true
+                            )
+                        }
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp)
+                        .height(52.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = Color.White, contentColor = clr_4664FF, disabledContainerColor = clr_7595FF),
+                    shape = RoundedCornerShape(16.dp),
+                    enabled = !selectedMedia.isNullOrEmpty() && isChanged // Disable if no features are selected
+                ) {
+                    Text(
+                        text = stringResource(R.string.text_save),
+                        fontFamily = AppFont.Grandstander,
+                        style = TextStyle(fontWeight = FontWeight.Medium, fontSize = 16.sp),
+                    )
+                }
+                Spacer(modifier = Modifier.height(8.dp))
+
 
             }
 
@@ -503,16 +527,7 @@ private fun ImagePickerHeader(
         verticalAlignment = Alignment.CenterVertically
     ) {
         SafeClick(onClick = {
-            AppOpenAdController.disableByClickAction = true
-            onBack(
-                isChanged,
-                viewModel,
-                selectedMedia ?: mutableListOf(),
-                sharedViewModel,
-                navController,
-                activity,
-                configValues[RemoteConfigKeys.INTER_DONE] == true
-            )
+            navController.popBackStack()
         }) { enabled, onClick ->
             IconButton(
                 onClick = onClick,
@@ -587,6 +602,7 @@ private fun onBack(
             if (showInter) {
                 activity?.let {
                     InterstitialAdManager.showAd(it, inter_done) {
+                        Toast.makeText(it, R.string.text_changes_have_been_saved_successfully, Toast.LENGTH_SHORT).show()
                         AppOpenAdController.disableByClickAction = true
                         navController.popBackStack()
                     }
@@ -605,6 +621,7 @@ private fun onBack(
         if (showInter) {
             activity?.let {
                 InterstitialAdManager.showAd(it, inter_done) {
+                    Toast.makeText(it, R.string.text_changes_have_been_saved_successfully, Toast.LENGTH_SHORT).show()
                     AppOpenAdController.disableByClickAction = true
                     navController.popBackStack()
                 }

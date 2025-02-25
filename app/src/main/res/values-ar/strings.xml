@@ -43,4 +43,10 @@
     <string name="onboarding_title_3">تخصيص مظهر الأيقونة والتأثيرات</string>
     <string name="onboarding_desc_3">قم بإنشاء رسوم متحركة تفاعلية ومخصصة للأيقونات.</string>
     <string name="ad_warning">قد تحتوي هذه العملية على إعلانات</string>
+    <string name="text_features">الميزات</string>
+    <string name="features_subtitle">حدد ميزتك المفضلة</string>
+    <string name="text_video_icon">رمز الفيديو</string>
+    <string name="text_image_icon">رمز الصورة</string>
+    <string name="text_save">حفظ</string>
+    <string name="text_changes_have_been_saved_successfully">تم حفظ التغييرات بنجاح!</string>
 </resources>

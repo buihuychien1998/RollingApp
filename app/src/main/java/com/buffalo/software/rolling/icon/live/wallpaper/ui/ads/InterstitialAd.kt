@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
-import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
@@ -21,6 +20,9 @@ object InterstitialAdManager {
     private var fallbackAd: InterstitialAd? = null
     private var isPrimaryAdLoaded = false
     private var isFallbackAdLoaded = false
+
+    var lastInterstitialTime: Long = 0 // Track last shown time
+    val interstitialCooldownMillis = 2_000L
 
     // 🚀 Load Single Ad (Original)
     fun loadAd(context: Context, adUnitId: String) {
@@ -86,10 +88,10 @@ object InterstitialAdManager {
     fun showAd(activity: Activity, adUnitId: String, onAdClosed: () -> Unit) {
         if (interstitialAd != null && currentAdUnitId == adUnitId && ConsentHelper.canRequestAds()) {
             isAdShowing.value = true // Hide UI Before Ad
-
             interstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
                 override fun onAdDismissedFullScreenContent() {
                     Log.d("InterstitialAd", "✅ Ad Closed: $adUnitId")
+                    lastInterstitialTime = System.currentTimeMillis() // Update timestamp
                     interstitialAd = null
                     isAdShowing.value = false // Show UI After Ad
                     loadAd(activity, adUnitId) // Load next ad
@@ -134,12 +136,15 @@ object InterstitialAdManager {
     private fun showPreloadedAd(activity: Activity, ad: InterstitialAd, onAdClosed: () -> Unit) {
         ad.fullScreenContentCallback = object : FullScreenContentCallback() {
             override fun onAdDismissedFullScreenContent() {
-                Log.d("InterstitialAd", "✅ Ad Closed")
+                lastInterstitialTime = System.currentTimeMillis() // Update timestamp
+                isAdShowing.value = false // Show UI After Ad
                 onAdClosed()
             }
 
-            override fun onAdFailedToShowFullScreenContent(adError: AdError) {
-                Log.e("InterstitialAd", "❌ Failed to Show Ad: ${adError.message}")
+            override fun onAdFailedToShowFullScreenContent(adError: com.google.android.gms.ads.AdError) {
+                Log.e("InterstitialAd", "❌ Ad Failed to Show: ${adError.message}")
+                interstitialAd = null
+                isAdShowing.value = false // Show UI After Ad
                 onAdClosed()
             }
         }

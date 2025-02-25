@@ -43,4 +43,10 @@
     <string name="onboarding_title_3">የአዶ መልክና ተጽዕኖ ይስሩ</string>
     <string name="onboarding_desc_3">የተዛረገ እና የሚሽከረከሩ የአዶ አንቀሳቃሽነቶች ይፍጠሩ።</string>
     <string name="ad_warning">ይህ ተግባር ማስታወቂያዎችን ሊያካትት ይችላል።</string>
+    <string name="text_features">ባህሪያት</string>
+    <string name="features_subtitle">የእርስዎን የሚወደውን ባህሪ ይምረጡ</string>
+    <string name="text_video_icon">የቪዲዮ አዶ</string>
+    <string name="text_image_icon">የምስል አዶ</string>
+    <string name="text_save">አስቀምጥ</string>
+    <string name="text_changes_have_been_saved_successfully">ለውጦቹ በተሳካ ሁኔታ ተቀመጡ!</string>
 </resources>

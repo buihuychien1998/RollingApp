@@ -46,4 +46,10 @@
     <string name="onboarding_title_3">Prilagodite videz in učinke ikon</string>
     <string name="onboarding_desc_3">Ustvarite interaktivne in prilagojene animacije ikon.</string>
     <string name="ad_warning">To dejanje lahko vsebuje oglase</string>
+    <string name="text_features">Funkcije</string>
+    <string name="features_subtitle">Izberite svojo najljubšo funkcijo</string>
+    <string name="text_video_icon">Ikona videa</string>
+    <string name="text_image_icon">Ikona slike</string>
+    <string name="text_save">Shrani</string>
+    <string name="text_changes_have_been_saved_successfully">Spremembe so bile uspešno shranjene!</string>
 </resources>

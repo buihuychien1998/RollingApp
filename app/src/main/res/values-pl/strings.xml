@@ -42,4 +42,10 @@
     <string name="onboarding_title_3">Dostosuj wygląd i efekty ikon</string>
     <string name="onboarding_desc_3">Twórz interaktywne i dostosowane animacje ikon.</string>
     <string name="ad_warning">Ta akcja może zawierać reklamy</string>
+    <string name="text_features">Funkcje</string>
+    <string name="features_subtitle">Wybierz swoją ulubioną funkcję</string>
+    <string name="text_video_icon">Ikona wideo</string>
+    <string name="text_image_icon">Ikona obrazu</string>
+    <string name="text_save">Zapisz</string>
+    <string name="text_changes_have_been_saved_successfully">Zmiany zostały pomyślnie zapisane!</string>
 </resources>

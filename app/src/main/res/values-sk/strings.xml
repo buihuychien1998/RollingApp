@@ -46,4 +46,10 @@
     <string name="onboarding_title_3">Prispôsobenie vzhľadu a efektov ikon</string>
     <string name="onboarding_desc_3">Vytvárajte interaktívne a prispôsobené animácie ikon.</string>
     <string name="ad_warning">Táto akcia môže obsahovať reklamy</string>
+    <string name="text_features">Funkcie</string>
+    <string name="features_subtitle">Vyberte si svoju obľúbenú funkciu</string>
+    <string name="text_video_icon">Ikona videa</string>
+    <string name="text_image_icon">Ikona obrázka</string>
+    <string name="text_save">Uložiť</string>
+    <string name="text_changes_have_been_saved_successfully">Zmeny boli úspešne uložené!</string>
 </resources>

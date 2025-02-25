@@ -46,4 +46,10 @@
     <string name="onboarding_title_3">Настройка внешнего вида и эффектов значков</string>
     <string name="onboarding_desc_3">Создавайте интерактивные и персонализированные анимации значков.</string>
     <string name="ad_warning">Это действие может содержать рекламу</string>
+    <string name="text_features">Функции</string>
+    <string name="features_subtitle">Выберите свою любимую функцию</string>
+    <string name="text_video_icon">Значок видео</string>
+    <string name="text_image_icon">Значок изображения</string>
+    <string name="text_save">Сохранить</string>
+    <string name="text_changes_have_been_saved_successfully">Изменения успешно сохранены!</string>
 </resources>

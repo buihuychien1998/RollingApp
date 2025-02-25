@@ -19,6 +19,7 @@ class AppOpenAdManager(private val application: Application) :
     private var lastAdShownTime: Long = 0 // 🕒 Thời điểm hiển thị quảng cáo gần nhất
     private val adCooldownMillis = 25_000L // ⏳ Giãn cách 25 giây
 //    private val adCooldownMillis = 0L // ⏳ Giãn cách 25 giây
+    private var previousActivityName: String? = null  // 🔥 Store last opened activity name
 
     init {
         application.registerActivityLifecycleCallbacks(this)
@@ -26,8 +27,12 @@ class AppOpenAdManager(private val application: Application) :
     }
 
     private fun loadAd() {
-        if (!SHOW_AD || !AppOpenAdController.enableConfig || !ConsentHelper.canRequestAds()) return
+        if (!SHOW_AD || !AppOpenAdController.enableConfig || !ConsentHelper.canRequestAds()) {
+            Log.d("AppOpenAdManager", "🚫 Ad Loading Skipped - Conditions not met")
+            return
+        }
 
+        Log.d("AppOpenAdManager", "🔄 Loading new Ad...")
         val adRequest = AdRequest.Builder().build()
         AppOpenAd.load(application, appopen_resume, adRequest, object :
             AppOpenAd.AppOpenAdLoadCallback() {
@@ -47,12 +52,19 @@ class AppOpenAdManager(private val application: Application) :
     fun showAdIfAvailable(activity: Activity, onAdDismissed: () -> Unit) {
         val currentTime = System.currentTimeMillis()
 
+        // Prevent app open ad if interstitial ad was shown recently
+        if (currentTime - InterstitialAdManager.lastInterstitialTime < InterstitialAdManager.interstitialCooldownMillis) {
+            Log.d("AppOpenAdManager", "🚫 Skipping App Open Ad due to recent interstitial ad")
+            onAdDismissed()
+            return
+        }
+
         if (!SHOW_AD || currentTime - lastAdShownTime < adCooldownMillis) {
             onAdDismissed()
             return
         }
 
-        if (InterstitialAdManager.isAdShowing.value || !AppOpenAdController.enableConfig || !AppOpenAdController.shouldShowAd || AppOpenAdController.disableByClickAction || isShowingAd || appOpenAd == null || !ConsentHelper.canRequestAds()) {
+        if (InterstitialAdManager.isAdShowing.value || !AppOpenAdController.enableConfig || !AppOpenAdController.shouldShowAd || AppOpenAdController.isAdClicked || AppOpenAdController.disableByClickAction || isShowingAd || appOpenAd == null || !ConsentHelper.canRequestAds()) {
             onAdDismissed()
             return
         }
@@ -90,6 +102,19 @@ class AppOpenAdManager(private val application: Application) :
             Log.d("AppOpenAdManager", "🚫 AdActivity is on top, skipping App Open Ad")
             return
         }
+
+        val activityName = activity.javaClass.simpleName
+        Log.d("AppOpenAdManager", "🆕 Current Activity: $activityName | Previous Activity: $previousActivityName")
+
+        // 🛑 Skip App Open Ad if the last screen was an ad screen
+        if (previousActivityName?.contains("AdActivity") == true) {
+            Log.d("AppOpenAdManager", "🚫 Skipping App Open Ad - Previous activity was an ad")
+            previousActivityName = activityName // ✅ Update for next check
+            return
+        }
+
+        previousActivityName = activityName // ✅ Update last known activity
+
 
         if (AppOpenAdController.shouldShowAd) {
             showAdIfAvailable(activity) {

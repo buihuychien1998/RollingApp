@@ -46,4 +46,10 @@
     <string name="onboarding_title_3">Tinkinkite piktogramų išvaizdą ir efektus</string>
     <string name="onboarding_desc_3">Kurti interaktyvias ir pritaikytas piktogramų animacijas.</string>
     <string name="ad_warning">Šis veiksmas gali apimti reklamas</string>
+    <string name="text_features">Funkcijos</string>
+    <string name="features_subtitle">Pasirinkite mėgstamą funkciją</string>
+    <string name="text_video_icon">Vaizdo piktograma</string>
+    <string name="text_image_icon">Paveikslėlio piktograma</string>
+    <string name="text_save">Išsaugoti</string>
+    <string name="text_changes_have_been_saved_successfully">Pakeitimai sėkmingai išsaugoti!</string>
 </resources>

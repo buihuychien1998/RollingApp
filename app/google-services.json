@@ -23,6 +23,44 @@
           "other_platform_oauth_client": []
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:50184335246:android:ac4834272deff32c9dfedf",
+        "android_client_info": {
+          "package_name": "com.buffalo.software.rolling.icon.live.wallpaper.dev"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAuJuPtOc3T8F61EB3zc8WU5A3qGXrIMsk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:50184335246:android:96fe0a615e02fadb9dfedf",
+        "android_client_info": {
+          "package_name": "com.buffalo.software.rolling.icon.live.wallpaper.prod"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAuJuPtOc3T8F61EB3zc8WU5A3qGXrIMsk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
     }
   ],
   "configuration_version": "1"

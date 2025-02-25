@@ -44,8 +44,8 @@ fun BannerAd(
         val observer = LifecycleEventObserver { _, event ->
             if (event == Lifecycle.Event.ON_RESUME) {
                 Log.d("BannerAd", "🔥 App Resumed -> Reloading Ad")
-                if (!AppOpenAdController.shouldShowAd) {
-                    AppOpenAdController.shouldShowAd = showAppOpenResume
+                if (AppOpenAdController.isAdClicked) {
+                    AppOpenAdController.isAdClicked = !showAppOpenResume
                     isAdLoading = true   // ✅ Reset loading state
                     isAdLoaded = false   // ✅ Ensure reloading works
                     isAdFailed = false
@@ -92,7 +92,7 @@ fun BannerAd(
                         this.adListener = object : AdListener() {
                             override fun onAdClicked() {
                                 Log.d("BannerAd", "Ad clicked")
-                                AppOpenAdController.shouldShowAd = false
+                                AppOpenAdController.isAdClicked = true
                             }
 
                             override fun onAdClosed() {

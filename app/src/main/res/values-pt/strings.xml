@@ -43,4 +43,10 @@
     <string name="onboarding_title_3">Personalize a aparência e os efeitos do ícone</string>
     <string name="onboarding_desc_3">Crie animações interativas e personalizadas para os ícones.</string>
     <string name="ad_warning">Esta ação pode conter anúncios</string>
+    <string name="text_features">Recursos</string>
+    <string name="features_subtitle">Selecione seu recurso favorito</string>
+    <string name="text_video_icon">Ícone de vídeo</string>
+    <string name="text_image_icon">Ícone de imagem</string>
+    <string name="text_save">Salvar</string>
+    <string name="text_changes_have_been_saved_successfully">As alterações foram salvas com sucesso!</string>
 </resources>

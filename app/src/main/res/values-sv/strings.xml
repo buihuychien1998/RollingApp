@@ -46,4 +46,10 @@
     <string name="onboarding_title_3">Anpassa ikonens utseende och effekter</string>
     <string name="onboarding_desc_3">Skapa interaktiva och anpassade ikonanimationer.</string>
     <string name="ad_warning">Denna åtgärd kan innehålla annonser</string>
+    <string name="text_features">Funktioner</string>
+    <string name="features_subtitle">Välj din favoritfunktion</string>
+    <string name="text_video_icon">Videoikon</string>
+    <string name="text_image_icon">Bildikon</string>
+    <string name="text_save">Spara</string>
+    <string name="text_changes_have_been_saved_successfully">Ändringarna har sparats framgångsrikt!</string>
 </resources>

@@ -46,4 +46,10 @@
     <string name="onboarding_title_3">Personalitza l\'aparença i els efectes de la icona</string>
     <string name="onboarding_desc_3">Crea animacions d\'icones interactives i personalitzades.</string>
     <string name="ad_warning">Aquesta acció pot contenir anuncis</string>
+    <string name="text_features">Funcions</string>
+    <string name="features_subtitle">Selecciona la teva funció preferida</string>
+    <string name="text_video_icon">Icona de vídeo</string>
+    <string name="text_image_icon">Icona d\'imatge</string>
+    <string name="text_save">Desa</string>
+    <string name="text_changes_have_been_saved_successfully">Els canvis s\'han desat correctament!</string>
 </resources>

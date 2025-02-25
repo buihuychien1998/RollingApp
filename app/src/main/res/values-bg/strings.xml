@@ -46,4 +46,10 @@
     <string name="onboarding_title_3">Персонализиране на иконите и ефектите</string>
     <string name="onboarding_desc_3">Създавайте интерактивни и персонализирани анимации на иконите.</string>
     <string name="ad_warning">Това действие може да съдържа реклами.</string>
+    <string name="text_features">Функции</string>
+    <string name="features_subtitle">Изберете любимата си функция</string>
+    <string name="text_video_icon">Видео икона</string>
+    <string name="text_image_icon">Икона на изображение</string>
+    <string name="text_save">Запази</string>
+    <string name="text_changes_have_been_saved_successfully">Промените бяха запазени успешно!</string>
 </resources>

@@ -43,4 +43,10 @@
     <string name="onboarding_title_3">آئیکن کی شکل اور اثرات کو حسب ضرورت بنائیں</string>
     <string name="onboarding_desc_3">انٹرایکٹو اور حسب ضرورت آئیکن اینیمیشنز بنائیں۔</string>
     <string name="ad_warning">اس کارروائی میں اشتہارات شامل ہوسکتے ہیں</string>
+    <string name="text_features">خصوصیات</string>
+    <string name="features_subtitle">اپنی پسندیدہ خصوصیت منتخب کریں</string>
+    <string name="text_video_icon">ویڈیو آئیکن</string>
+    <string name="text_image_icon">تصویری آئیکن</string>
+    <string name="text_save">محفوظ کریں</string>
+    <string name="text_changes_have_been_saved_successfully">تبدیلیاں کامیابی کے ساتھ محفوظ کر لی گئی ہیں!</string>
 </resources>

@@ -43,4 +43,10 @@
     <string name="onboarding_title_3">आइकन की उपस्थिति और प्रभावों को अनुकूलित करें</string>
     <string name="onboarding_desc_3">इंटरएक्टिव और कस्टमाइज़्ड आइकन एनीमेशन बनाएं।</string>
     <string name="ad_warning">इस क्रिया में विज्ञापन हो सकते हैं</string>
+    <string name="text_features">विशेषताएँ</string>
+    <string name="features_subtitle">अपनी पसंदीदा विशेषता चुनें</string>
+    <string name="text_video_icon">वीडियो आइकन</string>
+    <string name="text_image_icon">छवि आइकन</string>
+    <string name="text_save">सहेजें</string>
+    <string name="text_changes_have_been_saved_successfully">परिवर्तन सफलतापूर्वक सहेजे गए!</string>
 </resources>

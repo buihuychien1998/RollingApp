@@ -46,4 +46,10 @@
     <string name="onboarding_title_3">Налаштуйте зовнішній вигляд і ефекти іконок</string>
     <string name="onboarding_desc_3">Створюйте інтерактивні та персоналізовані анімації іконок.</string>
     <string name="ad_warning">Ця дія може містити рекламу</string>
+    <string name="text_features">Функції</string>
+    <string name="features_subtitle">Оберіть вашу улюблену функцію</string>
+    <string name="text_video_icon">Значок відео</string>
+    <string name="text_image_icon">Значок зображення</string>
+    <string name="text_save">Зберегти</string>
+    <string name="text_changes_have_been_saved_successfully">Зміни успішно збережено!</string>
 </resources>
