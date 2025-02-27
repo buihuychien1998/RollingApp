@@ -37,6 +37,14 @@ class PermissionUtils(
         requestPermissions(*permissions)
     }
 
+    /**
+     * Request notification permission (Android 13+).
+     */
+    fun requestNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requestPermissions(android.Manifest.permission.POST_NOTIFICATIONS)
+        }
+    }
 
     companion object {
         /**
@@ -49,7 +57,7 @@ class PermissionUtils(
         /**
          * Handle permissions denied.
          */
-        var onPermissionsDenied: Context.(deniedPermissions: List<String>) -> Unit = {  deniedPermissions ->
+        var onPermissionsDenied: Context.(deniedPermissions: List<String>) -> Unit = { deniedPermissions ->
             Toast.makeText(
                 this,
                 "Permissions denied: ${deniedPermissions.joinToString(", ")}",

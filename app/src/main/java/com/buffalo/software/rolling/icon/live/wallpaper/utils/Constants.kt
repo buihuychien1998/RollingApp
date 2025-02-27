@@ -5,6 +5,7 @@ import com.buffalo.software.rolling.icon.live.wallpaper.models.Language
 
 
 val languages = listOf(
+    Language("English", R.drawable.flag_us, "en"),
     Language("Ethiopia", R.drawable.flag_et, "am"),
     Language("عربي", R.drawable.flag_sa, "ar"),
     Language("български", R.drawable.flag_bg, "bg"),
@@ -15,7 +16,6 @@ val languages = listOf(
     Language("Dansk", R.drawable.flag_dk, "da"),
     Language("Deutsch", R.drawable.flag_de, "de"),
     Language("ελληνικά", R.drawable.flag_gr, "el"),
-    Language("English", R.drawable.flag_us, "en"),
     Language("Español", R.drawable.flag_es, "es"),
     Language("Français", R.drawable.flag_fr, "fr"),
     Language("भारतीय भाषा", R.drawable.flag_in, "hi"),

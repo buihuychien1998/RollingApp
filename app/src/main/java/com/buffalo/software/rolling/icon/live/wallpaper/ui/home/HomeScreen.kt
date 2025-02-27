@@ -1,7 +1,10 @@
 package com.buffalo.software.rolling.icon.live.wallpaper.ui.home
 
+import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.ActivityResultLauncher
@@ -59,6 +62,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
@@ -150,6 +154,17 @@ fun HomeScreen(
             }
         }
 
+    val notificationPermissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission(),
+        onResult = { isGranted ->
+//            if (isGranted) {
+//                Toast.makeText(context, "Notification Permission Granted", Toast.LENGTH_SHORT).show()
+//            } else {
+//                Toast.makeText(context, "Notification Permission Denied", Toast.LENGTH_SHORT).show()
+//            }
+        }
+    )
+
     // PermissionUtils instance
     val permissionUtils = remember {
 
@@ -166,6 +181,14 @@ fun HomeScreen(
                 InterstitialAdManager.loadAd(act, inter_home)
             }
         }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                AppOpenAdController.disableByClickAction = true
+                notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }
+        }
+
     }
 
 

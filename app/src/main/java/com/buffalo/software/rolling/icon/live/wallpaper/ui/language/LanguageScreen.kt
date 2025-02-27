@@ -191,7 +191,7 @@ fun LanguageScreen(
             }
             Spacer(modifier = Modifier.height(16.dp))
 
-            if (configValues[languageRemoteConfig] == true) {
+            if (!showBackButton && configValues[languageRemoteConfig] == true) {
                 NativeAdViewCompose(context, nativeAdId, layoutResId = nativeAdLayout, reloadTrigger = reloadTrigger)
 
             }

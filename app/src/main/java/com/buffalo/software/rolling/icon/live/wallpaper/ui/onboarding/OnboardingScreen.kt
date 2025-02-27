@@ -242,7 +242,7 @@ fun OnboardingScreen(navController: NavController) {
                                                         context = context,
                                                         value = launchCount >= LAUNCH_COUNT
                                                     )
-                                                    navController.navigate(AppRoutes.Feature.route) {
+                                                    navController.navigate(AppRoutes.Home.route) {
                                                         popUpTo(AppRoutes.Onboarding.route) {
                                                             inclusive = true
                                                         }
