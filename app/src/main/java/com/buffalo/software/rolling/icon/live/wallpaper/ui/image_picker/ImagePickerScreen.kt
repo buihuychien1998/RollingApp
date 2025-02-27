@@ -303,6 +303,7 @@ fun ImagePickerScreen(
                                                     // You can remove the item here if the target is at the bottom
                                                     isDragging = false
                                                     isDraggingOverDeleteZone = false
+                                                    sharedViewModel.setIconsChanged(true)
                                                     viewModel.deleteItem(dragBoxIndex)
                                                     dragBoxIndex = -1
                                                 }

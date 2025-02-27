@@ -102,6 +102,9 @@ class VideoPickerViewModel(private val application: Application) : AndroidViewMo
         // Replace the entire list with the updated one
         (_selectedVideo.value ?: mutableListOf()).clear()
         _selectedVideo.value = updatedMedia
+        if (updatedMedia.isEmpty()){
+            saveSelectedIcons(updatedMedia)
+        }
     }
 
     // Clear all selected media

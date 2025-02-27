@@ -108,6 +108,9 @@ class ImagePickerViewModel(private val application: Application) : AndroidViewMo
 
         // Update the state with the new list
         _selectedImage.value = updatedMedia
+        if (updatedMedia.isEmpty()){
+            saveSelectedIcons(updatedMedia)
+        }
 
         println("_selectedImage.value size after deletion: ${_selectedImage.value?.size}")
     }

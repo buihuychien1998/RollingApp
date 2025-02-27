@@ -1,5 +1,6 @@
 package com.buffalo.software.rolling.icon.live.wallpaper.services
 
+import android.app.WallpaperManager
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -12,6 +13,7 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.media.MediaPlayer
 import android.net.Uri
+import android.os.Bundle
 import android.service.wallpaper.WallpaperService
 import android.util.Log
 import android.view.MotionEvent
@@ -49,6 +51,7 @@ class RollingIconWallpaperService : WallpaperService() {
 
         override fun onCreate(surfaceHolder: SurfaceHolder?) {
             super.onCreate(surfaceHolder)
+            setTouchEventsEnabled(true)
             settings = loadSettings()  // Load all settings at once
             loadBackgroundImage()
             initializeSound()
@@ -255,6 +258,7 @@ class RollingIconWallpaperService : WallpaperService() {
         }
 
         override fun onTouchEvent(event: MotionEvent?) {
+            println("onTouchEvent")
             val DRAG_THRESHOLD = 10f // Adjust as needed
             event?.let {
                 val touchX = it.x
@@ -309,7 +313,31 @@ class RollingIconWallpaperService : WallpaperService() {
             }
         }
 
+        override fun onCommand(action: String?, x: Int, y: Int, z: Int, extras: Bundle?, resultRequested: Boolean): Bundle? {
+            Log.d("RollingIconEngine", "onCommand received: $action at ($x, $y)")
+
+            when (action) {
+                WallpaperManager.COMMAND_TAP -> {
+                    Log.d("RollingIconEngine", "🎯 Handling touch at ($x, $y)")
+
+                    for (icon in icons) {
+                        if (icon.isTouched(x.toFloat(), y.toFloat())) {
+                            Log.d("RollingIconEngine", "✅ Icon Clicked: ${icon.packageName}")
+                            handleIconClick(icon)
+                            break
+                        }
+                    }
+                    Log.d("RollingIconEngine", "❌ No icon found at ($x, $y)")
+                }
+                WallpaperManager.COMMAND_SECONDARY_TAP -> {
+//                    handleTouch(x.toFloat(), y.toFloat())  // ✅ Handle right-click event
+                }
+            }
+            return super.onCommand(action, x, y, z, extras, resultRequested)
+        }
+
         private fun handleIconClick(icon: AppIcon) {
+            println("handleIconClick")
             println(settings.toString())
             if (!settings.canTouch) return
 
@@ -405,6 +433,7 @@ class RollingIconWallpaperService : WallpaperService() {
 
         override fun onSurfaceCreated(holder: SurfaceHolder) {
             super.onSurfaceCreated(holder)
+            Log.d("RollingIconEngine", "✅ Surface created, touch should work!")
             isSurfaceAvailable = true
         }
 

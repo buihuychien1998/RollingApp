@@ -3,6 +3,8 @@ package com.buffalo.software.rolling.icon.live.wallpaper.ui.ads
 import android.app.Activity
 import android.app.Application
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import com.buffalo.software.rolling.icon.live.wallpaper.utils.SHOW_AD
 import com.google.android.gms.ads.AdError
@@ -14,12 +16,24 @@ import com.google.android.gms.ads.appopen.AppOpenAd
 class AppOpenAdManager(private val application: Application) :
     Application.ActivityLifecycleCallbacks {
 
-    private var appOpenAd: AppOpenAd? = null
+    companion object {
+        @Volatile
+        private var instance: AppOpenAdManager? = null
+
+        fun getInstance(application: Application): AppOpenAdManager {
+            return instance ?: synchronized(this) {
+                instance ?: AppOpenAdManager(application).also { instance = it }
+            }
+        }
+
+        private var appOpenAd: AppOpenAd? = null // ✅ Singleton instance
+    }
     private var isShowingAd = false
     private var lastAdShownTime: Long = 0 // 🕒 Thời điểm hiển thị quảng cáo gần nhất
-    private val adCooldownMillis = 25_000L // ⏳ Giãn cách 25 giây
-//    private val adCooldownMillis = 0L // ⏳ Giãn cách 25 giây
+//    private val adCooldownMillis = 25_000L // ⏳ Giãn cách 25 giây
+    private val adCooldownMillis = 500L // ⏳ Giãn cách 25 giây
     private var previousActivityName: String? = null  // 🔥 Store last opened activity name
+    private var isResumedOnce = false
 
     init {
         application.registerActivityLifecycleCallbacks(this)
@@ -27,7 +41,7 @@ class AppOpenAdManager(private val application: Application) :
     }
 
     private fun loadAd() {
-        if (!SHOW_AD || !AppOpenAdController.enableConfig || !ConsentHelper.canRequestAds()) {
+        if (!SHOW_AD || !AppOpenAdController.enableConfig || !ConsentHelper.canRequestAds() || appOpenAd != null) {
             Log.d("AppOpenAdManager", "🚫 Ad Loading Skipped - Conditions not met")
             return
         }
@@ -53,7 +67,7 @@ class AppOpenAdManager(private val application: Application) :
         val currentTime = System.currentTimeMillis()
 
         // Prevent app open ad if interstitial ad was shown recently
-        if (currentTime - InterstitialAdManager.lastInterstitialTime < InterstitialAdManager.interstitialCooldownMillis) {
+        if (currentTime - InterstitialAdManager.lastInterstitialTime < InterstitialAdManager.interstitialCooldownMillis || InterstitialAdManager.isAdShowing.value) {
             Log.d("AppOpenAdManager", "🚫 Skipping App Open Ad due to recent interstitial ad")
             onAdDismissed()
             return
@@ -64,10 +78,21 @@ class AppOpenAdManager(private val application: Application) :
             return
         }
 
-        if (InterstitialAdManager.isAdShowing.value || !AppOpenAdController.enableConfig || !AppOpenAdController.shouldShowAd || AppOpenAdController.isAdClicked || AppOpenAdController.disableByClickAction || isShowingAd || appOpenAd == null || !ConsentHelper.canRequestAds()) {
+        // If the app open ad is not available yet, invoke the callback then load the ad.
+        if (appOpenAd == null) {
+            onAdDismissed()
+            loadAd()
+            return
+        }
+
+        if (!AppOpenAdController.enableConfig
+            || !AppOpenAdController.shouldShowAd || AppOpenAdController.isAdClicked
+            || AppOpenAdController.disableByClickAction || isShowingAd
+            || !ConsentHelper.canRequestAds()) {
             onAdDismissed()
             return
         }
+        Log.d("AppOpenAdManager", "🚫 showAdIfAvailable")
 
         isShowingAd = true
         appOpenAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
@@ -75,18 +100,19 @@ class AppOpenAdManager(private val application: Application) :
                 isShowingAd = false
                 appOpenAd = null
                 lastAdShownTime = System.currentTimeMillis() // 🕒 Cập nhật thời gian hiển thị
-                loadAd() // Reload Ad after showing
                 onAdDismissed()
+                loadAd() // Reload Ad after showing
             }
 
             override fun onAdFailedToShowFullScreenContent(adError: AdError) {
+                Log.d("AppOpenAdManager", adError.message)
                 isShowingAd = false
+                appOpenAd = null
                 onAdDismissed()
             }
 
             override fun onAdShowedFullScreenContent() {
-                isShowingAd = true
-                lastAdShownTime = System.currentTimeMillis() // 🕒 Lưu thời gian hiển thị
+
             }
         }
         appOpenAd?.show(activity)
@@ -98,6 +124,20 @@ class AppOpenAdManager(private val application: Application) :
     }
 
     override fun onActivityResumed(activity: Activity) {
+        Log.d("AppOpenAdManager", "🚫 appOpenAd $appOpenAd")
+        if (isResumedOnce) {
+            Log.d("AppOpenAdManager", "🚫 Skipping duplicate onActivityResumed call")
+            return
+        }
+
+        isResumedOnce = true
+        Handler(Looper.getMainLooper()).postDelayed({ isResumedOnce = false }, adCooldownMillis) // Reset sau 500ms
+
+        if (isShowingAd) {
+            Log.d("AppOpenAdManager", "🚫 Ad is already showing, skipping onActivityResumed")
+            return
+        }
+
         if (isAdActivityOnTop(activity)) {
             Log.d("AppOpenAdManager", "🚫 AdActivity is on top, skipping App Open Ad")
             return

@@ -55,8 +55,10 @@ class HomeActivity : ComponentActivity() {
         // Initialize ConsentHelper
         ConsentHelper.initializeConsent(this) { isConsentGiven ->
             if (isConsentGiven) {
+                println("HomeActivity AppOpenAdManager")
                 // Load Ads (Only after user consent)
-                AppOpenAdManager(application)
+                val adManager = AppOpenAdManager.getInstance(application)
+
             }
         }
 
