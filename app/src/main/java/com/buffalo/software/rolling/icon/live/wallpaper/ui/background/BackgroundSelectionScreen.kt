@@ -40,11 +40,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.buffalo.software.rolling.icon.live.wallpaper.R
 import com.buffalo.software.rolling.icon.live.wallpaper.routes.AppRoutes
 import com.buffalo.software.rolling.icon.live.wallpaper.theme.AppFont
 import com.buffalo.software.rolling.icon.live.wallpaper.theme.clr_4664FF
+import com.buffalo.software.rolling.icon.live.wallpaper.ui.share_view_model.SharedViewModel
 import com.buffalo.software.rolling.icon.live.wallpaper.utils.PreferencesHelper
 import com.buffalo.software.rolling.icon.live.wallpaper.utils.custom.SafeClick
 
@@ -173,7 +175,7 @@ fun BackgroundSelectionScreen(navController: NavController) {
 }
 
 @Composable
-fun BackgroundDetailScreen(navController: NavController, backgroundRes: Int) {
+fun BackgroundDetailScreen(navController: NavController, sharedViewModel: SharedViewModel = viewModel(), backgroundRes: Int) {
     val context = LocalContext.current
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -218,7 +220,7 @@ fun BackgroundDetailScreen(navController: NavController, backgroundRes: Int) {
                         navController.previousBackStackEntry
                             ?.savedStateHandle
                             ?.set("selectedBackground", backgroundRes)
-
+                        sharedViewModel.setBackgroundChanged(true)
                         navController.popBackStack()
                     }
                     .padding(horizontal = 24.dp, vertical = 10.dp),

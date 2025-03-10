@@ -267,6 +267,7 @@ fun HomeScreen(
 fun RollingIconScreen(
     navController: NavController,
     appIcons: MutableList<AppIcon>?,
+    sharedViewModel: SharedViewModel = viewModel(),
     onAddApplication: () -> Unit,
     onAddPhotos: () -> Unit,
     onAddVideos: () -> Unit
@@ -313,7 +314,7 @@ fun RollingIconScreen(
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp)
             ) {
-                HomeHeader(navController, liveWallpaperLauncher, appIcons)
+                HomeHeader(navController, liveWallpaperLauncher, sharedViewModel, appIcons)
             }
 
             if (SHOW_AD && configValues[RemoteConfigKeys.BANNER_ALL] == true && !appIcons.isNullOrEmpty()) {
@@ -552,6 +553,7 @@ private fun AppIconItem(appIcon: AppIcon) {
 private fun HomeHeader(
     navController: NavController,
     launcher: ActivityResultLauncher<Intent>,
+    sharedViewModel: SharedViewModel = viewModel(),
     appIcons: MutableList<AppIcon>?
 ) {
     val context = LocalContext.current
@@ -577,6 +579,7 @@ private fun HomeHeader(
                 context,
                 FirebaseAnalyticsEvents.CLICK_SETTINGS_ICON
             )
+            sharedViewModel.setAppIcon(appIcons?.isEmpty() == true)
             navController.navigate(AppRoutes.Settings.route)
         }) { enabled, onClick ->
             IconButton(

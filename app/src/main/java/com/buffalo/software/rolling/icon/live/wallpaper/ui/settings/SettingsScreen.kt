@@ -1,8 +1,11 @@
 package com.buffalo.software.rolling.icon.live.wallpaper.ui.settings
 
+import android.app.Activity
 import android.content.Intent
 import android.net.Uri
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
@@ -28,6 +31,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
@@ -41,12 +45,12 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -78,6 +82,7 @@ import com.buffalo.software.rolling.icon.live.wallpaper.theme.clr_ECF4FF
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.AppOpenAdController
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.tracking.FirebaseAnalyticsEvents
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.tracking.FirebaseEventLogger
+import com.buffalo.software.rolling.icon.live.wallpaper.ui.share_view_model.SharedViewModel
 import com.buffalo.software.rolling.icon.live.wallpaper.utils.PRIVACY_POLICY
 import com.buffalo.software.rolling.icon.live.wallpaper.utils.PreferencesHelper
 import com.buffalo.software.rolling.icon.live.wallpaper.utils.custom.AutoResizeText
@@ -87,9 +92,11 @@ import com.buffalo.software.rolling.icon.live.wallpaper.utils.custom.SafeClick
 import com.buffalo.software.rolling.icon.live.wallpaper.utils.languages
 import com.buffalo.software.rolling.icon.live.wallpaper.utils.openAppRating
 import com.buffalo.software.rolling.icon.live.wallpaper.utils.openLink
+import com.buffalo.software.rolling.icon.live.wallpaper.utils.startWallpaperService
 
 @Composable
-fun SettingsScreen(navController: NavController) {
+
+fun SettingsScreen(navController: NavController, sharedViewModel: SharedViewModel = viewModel()) {
     val settingsViewModel: SettingsViewModel = viewModel()
     val context = LocalContext.current
 
@@ -134,7 +141,7 @@ fun SettingsScreen(navController: NavController) {
                     Spacer(modifier = Modifier.height(16.dp))
 
                     // Language Section
-                    BackgroundSelection(navController)
+                    BackgroundSelection(navController, sharedViewModel)
 
                     Spacer(modifier = Modifier.height(16.dp))
 
@@ -287,18 +294,13 @@ fun LanguageSection(navController: NavController) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BackgroundSelection(navController: NavController) {
+fun BackgroundSelection(navController: NavController, sharedViewModel: SharedViewModel) {
     val context = LocalContext.current
     val sheetState = rememberModalBottomSheetState()
     val coroutineScope = rememberCoroutineScope()
-    val selectedBackground =
-        remember { mutableStateOf(PreferencesHelper.getBackground(context)) }
-    LaunchedEffect(Unit) {
-        snapshotFlow { PreferencesHelper.getBackground(context) }
-            .collect { updatedBackground ->
-                selectedBackground.value = updatedBackground
-            }
-    }
+    val selectedBackground = remember { mutableStateOf(PreferencesHelper.getBackground(context)) }
+    var showApplyDialog by remember { mutableStateOf(false) }
+    val backgroundChanged by sharedViewModel.backgroundChanged.collectAsState()
 
     val backgroundText = when {
         selectedBackground.value.isEmpty() -> stringResource(R.string.text_default)
@@ -322,20 +324,47 @@ fun BackgroundSelection(navController: NavController) {
         }
     }
 
+    LaunchedEffect(backgroundChanged) {
+        println("backgroundChanged $backgroundChanged")
+        if (backgroundChanged) {
+            showApplyDialog = true
+            sharedViewModel.setBackgroundChanged(false)
+        }
+    }
+
     var showSheet by remember { mutableStateOf(false) }
     // Registers a photo picker activity launcher in single-select mode.
     val pickMedia = rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
         // Callback is invoked after the user selects a media item or closes the
         // photo picker.
         if (uri != null) {
-            val flag = Intent.FLAG_GRANT_READ_URI_PERMISSION
-            context.contentResolver.takePersistableUriPermission(uri, flag)
+            try {
+                val flag = Intent.FLAG_GRANT_READ_URI_PERMISSION
+                context.contentResolver.takePersistableUriPermission(uri, flag)
+            }catch (ex: Exception){
+                ex.printStackTrace()
+            }
             PreferencesHelper.saveBackground(context, uri.toString())
             selectedBackground.value = uri.toString()
+            sharedViewModel.setBackgroundChanged(true)
+
         } else {
 
         }
     }
+
+    val liveWallpaperLauncher: ActivityResultLauncher<Intent> =
+        rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            FirebaseEventLogger.trackButtonClick(
+                context,
+                FirebaseAnalyticsEvents.CLICK_SET_WALLPAPER
+            )
+            if (result.resultCode == Activity.RESULT_OK) {
+                // There are no request codes
+//                isWallpaperSet.value = true
+            }
+        }
+
 
     Text(
         text = stringResource(id = R.string.text_background),
@@ -406,9 +435,48 @@ fun BackgroundSelection(navController: NavController) {
                     navController.navigate(AppRoutes.BackgroundSelection.route)
                 }, onGallery = {
                     showSheet = false
+                    AppOpenAdController.disableByClickAction = true
                     pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
                 })
         }
+    }
+
+    if (showApplyDialog) {
+        AlertDialog(
+            onDismissRequest = { showApplyDialog = false },
+            title = {
+                Text(
+                    text = stringResource(id = R.string.wallpaper_changed_title),
+                    fontWeight = FontWeight.Bold
+                )
+            },
+            text = {
+                Text(text = stringResource(id = R.string.wallpaper_changed_message))
+            },
+            confirmButton = {
+                TextButton(onClick = {
+                    showApplyDialog = false
+                    if (sharedViewModel.appIcon.value) {
+                        Toast.makeText(context, R.string.text_no_icons_selected, Toast.LENGTH_SHORT)
+                            .show()
+                        return@TextButton
+                    }
+                    FirebaseEventLogger.trackScreenView(
+                        context,
+                        FirebaseAnalyticsEvents.SCREEN_PREVIEW_VIEW
+                    )
+                    AppOpenAdController.disableByClickAction = true
+                    context.startWallpaperService(launcher = liveWallpaperLauncher)
+                }) {
+                    Text(text = stringResource(id = R.string.text_ok))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showApplyDialog = false }) {
+                    Text(text = stringResource(id = R.string.text_skip))
+                }
+            }
+        )
     }
 
 }

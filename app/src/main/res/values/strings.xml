@@ -57,4 +57,8 @@
     <string name="text_recommend_background">Recommend background</string>
     <string name="text_gallery">Gallery</string>
     <string name="text_default">Default</string>
+    <string name="wallpaper_changed_title">You\'ve changed your wallpaper</string>
+    <string name="wallpaper_changed_message">Do you want to apply it now?</string>
+    <string name="text_ok">OK</string>
+    <string name="text_skip">Skip</string>
 </resources>

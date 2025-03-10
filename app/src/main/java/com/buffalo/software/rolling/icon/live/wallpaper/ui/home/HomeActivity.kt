@@ -174,7 +174,7 @@ class HomeActivity : ComponentActivity() {
                        )
                    }
                    composable(AppRoutes.Settings.route) {
-                       SettingsScreen(navController)
+                       SettingsScreen(navController, sharedViewModel)
                    }
                    composable(AppRoutes.AppPicker.route) {
                        AppPickerScreen(navController)
@@ -193,7 +193,7 @@ class HomeActivity : ComponentActivity() {
                        arguments = listOf(navArgument("backgroundRes") { type = NavType.IntType })
                    ) { backStackEntry ->
                        val backgroundRes = backStackEntry.arguments?.getInt("backgroundRes") ?: R.drawable.bg_rolling_app
-                       BackgroundDetailScreen(navController, backgroundRes)
+                       BackgroundDetailScreen(navController, sharedViewModel, backgroundRes)
                    }
                }
            }

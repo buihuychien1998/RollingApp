@@ -11,4 +11,17 @@ class SharedViewModel : ViewModel() {
     fun setIconsChanged(changed: Boolean) {
         _iconsChanged.value = changed
     }
+
+    private val _appIcon = MutableStateFlow(false)
+    val appIcon: StateFlow<Boolean> = _appIcon
+
+    fun setAppIcon(changed: Boolean) {
+        _appIcon.value = changed
+    }
+
+    private val _backgroundChanged = MutableStateFlow(false)
+    val backgroundChanged: StateFlow<Boolean> = _backgroundChanged
+    fun setBackgroundChanged(changed: Boolean) {
+        _backgroundChanged.value = changed
+    }
 }
