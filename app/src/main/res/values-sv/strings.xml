@@ -52,4 +52,10 @@
     <string name="text_image_icon">Bildikon</string>
     <string name="text_save">Spara</string>
     <string name="text_changes_have_been_saved_successfully">Ändringarna har sparats framgångsrikt!</string>
+    <string name="text_background">Bakgrund</string> <!-- Swedish (sv) -->
+    <string name="text_select_background_image">Välj bakgrundsbild</string>
+    <string name="text_select_background_image_from">Välj bakgrundsbild från:</string>
+    <string name="text_recommend_background">Rekommenderad bakgrund</string>
+    <string name="text_gallery">Galleri</string>
+    <string name="text_default">Standard</string>
 </resources>

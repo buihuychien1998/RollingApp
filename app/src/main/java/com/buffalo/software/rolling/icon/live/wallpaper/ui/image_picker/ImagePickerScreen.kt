@@ -12,6 +12,7 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.draganddrop.dragAndDropSource
 import androidx.compose.foundation.draganddrop.dragAndDropTarget
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -426,6 +427,18 @@ fun ImagePickerScreen(
                                                     .size(24.dp) // Icon size for the checkmark
                                             )
                                         }
+
+                                        Image(
+                                            painter = painterResource(R.drawable.ic_remove),
+                                            contentDescription = "Remove",
+                                            modifier = Modifier
+                                                .align(Alignment.TopStart)
+                                                .clickable{
+                                                    sharedViewModel.setIconsChanged(true)
+                                                    viewModel.deleteItem(index)
+                                                }
+                                                .size(24.dp) // Icon size for the checkmark
+                                        )
                                     }
                                 }
 

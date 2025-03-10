@@ -52,4 +52,10 @@
     <string name="text_image_icon">სურათის ხატულა</string>
     <string name="text_save">შენახვა</string>
     <string name="text_changes_have_been_saved_successfully">ცვლილებები წარმატებით შეინახა!</string>
+    <string name="text_background">ფონი</string> <!-- Georgian (ka) -->
+    <string name="text_select_background_image">ფონის გამოსახულების არჩევა</string>
+    <string name="text_select_background_image_from">ფონის გამოსახულების არჩევა:</string>
+    <string name="text_recommend_background">რეკომენდებული ფონი</string>
+    <string name="text_gallery">გალერეა</string>
+    <string name="text_default">ნაგულისხმევი</string>
 </resources>

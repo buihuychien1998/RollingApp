@@ -52,4 +52,10 @@
     <string name="text_image_icon">Paveikslėlio piktograma</string>
     <string name="text_save">Išsaugoti</string>
     <string name="text_changes_have_been_saved_successfully">Pakeitimai sėkmingai išsaugoti!</string>
+    <string name="text_background">Fonas</string> <!-- Lithuanian (lt) -->
+    <string name="text_select_background_image">Pasirinkite fono vaizdą</string>
+    <string name="text_select_background_image_from">Pasirinkite fono vaizdą iš:</string>
+    <string name="text_recommend_background">Rekomenduojamas fonas</string>
+    <string name="text_gallery">Galerija</string>
+    <string name="text_default">Numatytasis</string>
 </resources>

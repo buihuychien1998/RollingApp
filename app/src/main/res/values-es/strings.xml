@@ -52,4 +52,10 @@
     <string name="text_image_icon">Ícono de imagen</string>
     <string name="text_save">Guardar</string>
     <string name="text_changes_have_been_saved_successfully">¡Los cambios se han guardado correctamente!</string>
+    <string name="text_background">Fondo</string> <!-- Spanish (es) -->
+    <string name="text_select_background_image">Seleccionar imagen de fondo</string>
+    <string name="text_select_background_image_from">Seleccionar imagen de fondo de:</string>
+    <string name="text_recommend_background">Fondo recomendado</string>
+    <string name="text_gallery">Galería</string>
+    <string name="text_default">Predeterminado</string>
 </resources>

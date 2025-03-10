@@ -52,4 +52,10 @@
     <string name="text_image_icon">图片图标</string>
     <string name="text_save">保存</string>
     <string name="text_changes_have_been_saved_successfully">更改已成功保存！</string>
+    <string name="text_background">背景</string> <!-- Chinese (zh) -->
+    <string name="text_select_background_image">选择背景图片</string>
+    <string name="text_select_background_image_from">选择背景图片来源：</string>
+    <string name="text_recommend_background">推荐背景</string>
+    <string name="text_gallery">图库</string>
+    <string name="text_default">默认</string>
 </resources>

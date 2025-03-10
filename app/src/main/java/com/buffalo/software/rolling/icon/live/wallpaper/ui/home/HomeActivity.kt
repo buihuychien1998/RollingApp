@@ -20,14 +20,19 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.buffalo.software.rolling.icon.live.wallpaper.R
 import com.buffalo.software.rolling.icon.live.wallpaper.routes.AppRoutes
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.AppOpenAdController
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.AppOpenAdManager
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.ConsentHelper
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.app_picker.AppPickerScreen
+import com.buffalo.software.rolling.icon.live.wallpaper.ui.background.BackgroundDetailScreen
+import com.buffalo.software.rolling.icon.live.wallpaper.ui.background.BackgroundSelectionScreen
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.feature.FeaturesScreen
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.image_picker.ImagePickerScreen
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.language.LanguageScreen
@@ -105,7 +110,6 @@ class HomeActivity : ComponentActivity() {
                            fadeOut(animationSpec = tween(100))
                        }
                    ) {
-                       AppOpenAdController.shouldShowAd = false
                        SplashScreen(navController, remoteConfigViewModel)
                    }
 
@@ -122,7 +126,6 @@ class HomeActivity : ComponentActivity() {
                        HomeScreen(navController, sharedViewModel)
                    }
                    composable(AppRoutes.Language.route) {
-                       AppOpenAdController.shouldShowAd = true
                        val fromSetting = remember {
                            PreferencesHelper.fromSetting(this@HomeActivity)
                        }
@@ -181,6 +184,16 @@ class HomeActivity : ComponentActivity() {
                    }
                    composable(AppRoutes.VideoPicker.route) {
                        VideoPickerScreen(navController, sharedViewModel = sharedViewModel)
+                   }
+                   composable(AppRoutes.BackgroundSelection.route) {
+                       BackgroundSelectionScreen(navController)
+                   }
+                   composable(
+                       route = "${AppRoutes.BackgroundDetail.route}/{backgroundRes}",
+                       arguments = listOf(navArgument("backgroundRes") { type = NavType.IntType })
+                   ) { backStackEntry ->
+                       val backgroundRes = backStackEntry.arguments?.getInt("backgroundRes") ?: R.drawable.bg_rolling_app
+                       BackgroundDetailScreen(navController, backgroundRes)
                    }
                }
            }

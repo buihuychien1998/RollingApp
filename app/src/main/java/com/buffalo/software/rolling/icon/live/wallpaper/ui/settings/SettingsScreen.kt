@@ -1,5 +1,10 @@
 package com.buffalo.software.rolling.icon.live.wallpaper.ui.settings
 
+import android.content.Intent
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -18,25 +23,35 @@ import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
@@ -50,11 +65,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import coil3.compose.rememberAsyncImagePainter
 import com.buffalo.software.rolling.icon.live.wallpaper.R
 import com.buffalo.software.rolling.icon.live.wallpaper.routes.AppRoutes
 import com.buffalo.software.rolling.icon.live.wallpaper.theme.AppFont
 import com.buffalo.software.rolling.icon.live.wallpaper.theme.clr_2C323F
 import com.buffalo.software.rolling.icon.live.wallpaper.theme.clr_4664FF
+import com.buffalo.software.rolling.icon.live.wallpaper.theme.clr_7C94B5
 import com.buffalo.software.rolling.icon.live.wallpaper.theme.clr_96ACC4
 import com.buffalo.software.rolling.icon.live.wallpaper.theme.clr_D5DEE8
 import com.buffalo.software.rolling.icon.live.wallpaper.theme.clr_ECF4FF
@@ -78,8 +95,7 @@ fun SettingsScreen(navController: NavController) {
 
     LaunchedEffect(Unit) {
         FirebaseEventLogger.trackScreenView(
-            context,
-            FirebaseAnalyticsEvents.SCREEN_SETTINGS_VIEW
+            context, FirebaseAnalyticsEvents.SCREEN_SETTINGS_VIEW
         )
     }
 
@@ -117,6 +133,11 @@ fun SettingsScreen(navController: NavController) {
 
                     Spacer(modifier = Modifier.height(16.dp))
 
+                    // Language Section
+                    BackgroundSelection(navController)
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
                     // Icon Settings
                     IconSettings(settingsViewModel)
 
@@ -136,19 +157,14 @@ fun SettingsScreen(navController: NavController) {
 fun SettingsTopBar(navController: NavController) {
 
     Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.fillMaxWidth()
+        verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()
     ) {
         SafeClick(onClick = { navController.popBackStack() }) { enabled, onClick ->
             IconButton(
-                onClick = onClick,
-                enabled = enabled,
-                modifier = Modifier
-                    .offset(x = (-16).dp)
+                onClick = onClick, enabled = enabled, modifier = Modifier.offset(x = (-16).dp)
             ) {
                 Image(
-                    modifier = Modifier
-                        .size(24.dp),
+                    modifier = Modifier.size(24.dp),
                     painter = painterResource(R.drawable.ic_arrow_left),
                     contentDescription = "ic_arrow_left"
                 )
@@ -239,9 +255,7 @@ fun LanguageSection(navController: NavController) {
             ),
         ) {
             Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
+                modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
                     painter = painterResource(currentLanguage.flagResId),
@@ -273,6 +287,216 @@ fun LanguageSection(navController: NavController) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
+fun BackgroundSelection(navController: NavController) {
+    val context = LocalContext.current
+    val sheetState = rememberModalBottomSheetState()
+    val coroutineScope = rememberCoroutineScope()
+    val selectedBackground =
+        remember { mutableStateOf(PreferencesHelper.getBackground(context)) }
+    LaunchedEffect(Unit) {
+        snapshotFlow { PreferencesHelper.getBackground(context) }
+            .collect { updatedBackground ->
+                selectedBackground.value = updatedBackground
+            }
+    }
+
+    val backgroundText = when {
+        selectedBackground.value.isEmpty() -> stringResource(R.string.text_default)
+        selectedBackground.value.toIntOrNull() != null -> stringResource(R.string.text_recommend_background)
+        else -> stringResource(R.string.text_gallery)
+    }
+
+    val backgroundPainter: Painter = when {
+        selectedBackground.value.isEmpty() -> {
+            painterResource(R.drawable.bg_rolling_app)
+        }
+
+        selectedBackground.value.toIntOrNull() != null -> {
+            painterResource(selectedBackground.value.toInt())
+        }
+
+        else -> {
+            rememberAsyncImagePainter( Uri.parse(
+                selectedBackground.value
+            ))
+        }
+    }
+
+    var showSheet by remember { mutableStateOf(false) }
+    // Registers a photo picker activity launcher in single-select mode.
+    val pickMedia = rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+        // Callback is invoked after the user selects a media item or closes the
+        // photo picker.
+        if (uri != null) {
+            val flag = Intent.FLAG_GRANT_READ_URI_PERMISSION
+            context.contentResolver.takePersistableUriPermission(uri, flag)
+            PreferencesHelper.saveBackground(context, uri.toString())
+            selectedBackground.value = uri.toString()
+        } else {
+
+        }
+    }
+
+    Text(
+        text = stringResource(id = R.string.text_background),
+        color = Color.White,
+        fontFamily = AppFont.Grandstander,
+        style = TextStyle(fontSize = 16.sp),
+    )
+    Spacer(modifier = Modifier.height(12.dp))
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(16.dp))
+            .background(Color.White)
+            .clickable {
+                showSheet = true
+
+            }
+            .padding(16.dp),
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically
+        ) {
+
+            Text(
+                text = stringResource(R.string.text_select_background_image),
+                color = clr_2C323F,
+                fontFamily = AppFont.Grandstander,
+                style = TextStyle(fontSize = 16.sp),
+                modifier = Modifier.weight(1f)
+            )
+            Image(
+                painter = painterResource(R.drawable.ic_arrow_right),
+                contentDescription = null,
+                modifier = Modifier.size(24.dp)
+            )
+        }
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Text(
+            text = backgroundText,
+            color = clr_4664FF,
+            fontFamily = AppFont.Grandstander,
+            style = TextStyle(fontSize = 16.sp),
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        if(selectedBackground.value.isNotEmpty()){
+            Image(
+                painter = backgroundPainter,
+                contentDescription = "Selected Background",
+                modifier = Modifier.height(199.dp)
+            )
+        }
+
+    }
+
+
+    // Show Bottom Sheet
+    if (showSheet) {
+        ModalBottomSheet(
+            containerColor = Color.White,
+            onDismissRequest = { showSheet = false },
+            sheetState = sheetState
+        ) {
+            BottomSheetContent(
+                onBackgroundSelected = {
+                    showSheet = false
+                    navController.navigate(AppRoutes.BackgroundSelection.route)
+                }, onGallery = {
+                    showSheet = false
+                    pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+                })
+        }
+    }
+
+}
+
+@Composable
+fun BottomSheetContent(onBackgroundSelected: () -> Unit, onGallery: () -> Unit) {
+    val context = LocalContext.current
+
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+    ) {
+        Text(
+            text = stringResource(R.string.text_select_background_image_from),
+            fontFamily = AppFont.Grandstander,
+            style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Bold),
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Click: Use recommended background
+        Button(
+            onClick = {
+                onBackgroundSelected()
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(8.dp)),
+            contentPadding = PaddingValues(vertical = 12.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Image(
+                    painter = painterResource(R.drawable.ic_recommend_background),
+                    contentDescription = null,
+                    modifier = Modifier.size(24.dp)
+                )
+                Spacer(modifier = Modifier.width(16.dp))
+                Text(
+                    text = stringResource(R.string.text_recommend_background),
+                    fontFamily = AppFont.Grandstander,
+                    style = TextStyle(fontSize = 16.sp, color = clr_7C94B5),
+                    modifier = Modifier.weight(1f)
+                )
+            }
+        }
+        Spacer(modifier = Modifier.height(4.dp))
+        Divider(Modifier.height(1.dp), color = clr_D5DEE8)
+        Spacer(modifier = Modifier.height(4.dp))
+        // Click: Open gallery to select background
+        Button(
+            onClick = {
+                onGallery()
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(8.dp)),
+            contentPadding = PaddingValues(vertical = 12.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Image(
+                    painter = painterResource(R.drawable.ic_gallery),
+                    contentDescription = null,
+                    modifier = Modifier.size(24.dp)
+                )
+                Spacer(modifier = Modifier.width(16.dp))
+                Text(
+                    text = stringResource(R.string.text_gallery),
+                    fontFamily = AppFont.Grandstander,
+                    style = TextStyle(fontSize = 16.sp, color = clr_7C94B5),
+                    modifier = Modifier.weight(1f)
+                )
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
 fun IconSettings(settingsViewModel: SettingsViewModel) {
     val context = LocalContext.current
 
@@ -297,8 +521,7 @@ fun IconSettings(settingsViewModel: SettingsViewModel) {
     ) {
         // Icon Size Slider
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
+            modifier = Modifier.fillMaxWidth()
         ) {
             // Text Label
             Text(
@@ -307,45 +530,48 @@ fun IconSettings(settingsViewModel: SettingsViewModel) {
                 style = TextStyle(fontSize = 16.sp),
                 color = clr_2C323F
             )
+            Spacer(modifier = Modifier.height(8.dp))
 
             // Slider Value Display and Image
-            Box(
-                contentAlignment = Alignment.BottomEnd,
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.End,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(70.dp) // Reserve space for text and image
+                    .height(
+                        ((iconSize * 4).coerceIn(
+                            40f, 280f
+                        )).dp
+                    ) // Reserve space for text and image
             ) {
                 // Display Slider Value
                 Text(
                     text = iconSize.toInt().toString(),
                     fontFamily = AppFont.Grandstander,
                     style = TextStyle(
-                        textAlign = TextAlign.Center,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 32.sp
+                        textAlign = TextAlign.Center, fontWeight = FontWeight.Bold, fontSize = 32.sp
                     ),
                     color = clr_2C323F,
-                    modifier = Modifier.fillMaxWidth() // Center text horizontally
+                    modifier = Modifier.wrapContentSize() // Center text horizontally
                 )
+
+                Spacer(modifier = Modifier.width(8.dp))
 
                 // Image with Dynamic Size
                 Image(
                     painter = painterResource(R.drawable.img_icon_size),
                     contentDescription = null,
-                    modifier = Modifier
-                        .size(
-                            (iconSize.coerceIn(
-                                10f,
-                                70f
-                            )).dp
-                        ) // Adjust size based on slider (min 40, max 100)
-                        .align(Alignment.BottomEnd) // Align image to the right
+                    modifier = Modifier.size(
+                        ((iconSize * 4).coerceIn(
+                            40f, 270f
+                        )).dp
+                    ) // Adjust size based on slider (min 40, max 100)
+
                 )
             }
         }
 
-        Slider(
-            value = iconSize,
+        Slider(value = iconSize,
             onValueChange = {
                 FirebaseEventLogger.trackUserAction(
                     context,
@@ -371,8 +597,7 @@ fun IconSettings(settingsViewModel: SettingsViewModel) {
                     contentDescription = null,
                     modifier = Modifier.size(24.dp),
                 )
-            }
-        )
+            })
 
         Spacer(modifier = Modifier.height(8.dp))
 
@@ -394,13 +619,11 @@ fun IconSettings(settingsViewModel: SettingsViewModel) {
             ).forEach { resId ->
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .padding(end = 8.dp)
+                    modifier = Modifier.padding(end = 8.dp)
                 ) {
-                    Image(
-                        painter = painterResource(
-                            if (selectedSpeed == resId) R.drawable.ic_language_selected else R.drawable.ic_language_unselected
-                        ),
+                    Image(painter = painterResource(
+                        if (selectedSpeed == resId) R.drawable.ic_language_selected else R.drawable.ic_language_unselected
+                    ),
                         contentDescription = if (selectedSpeed == resId) "Selected" else "Not Selected",
                         modifier = Modifier
                             .size(24.dp)
@@ -457,8 +680,7 @@ fun IconSettings(settingsViewModel: SettingsViewModel) {
                             min = 8.sp,
                             max = 14.sp,
                         ),
-                        modifier = Modifier
-                            .offset(y = 2.dp)
+                        modifier = Modifier.offset(y = 2.dp)
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                 }

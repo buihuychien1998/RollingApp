@@ -23,6 +23,7 @@ object PreferencesHelper {
     const val CAN_DRAG_KEY = "can_drag"
     const val CAN_EXPLOSION_KEY = "can_explosion"
     const val CAN_SOUND_KEY = "can_sound"
+    const val BACKGROUND_KEY = "BACKGROUND_KEY"
 
     // Initialize SharedPreferences
     private fun getPreferences(context: Context): SharedPreferences {
@@ -186,7 +187,7 @@ object PreferencesHelper {
 
     // Function to load individual settings
     fun loadIconSize(context: Context): Float {
-        return get(context, ICON_SIZE_KEY, 20f)
+        return get(context, ICON_SIZE_KEY, 15f)
     }
 
     fun loadIconSpeed(context: Context): Speed {
@@ -208,5 +209,13 @@ object PreferencesHelper {
 
     fun loadCanSound(context: Context): Boolean {
         return get(context, CAN_SOUND_KEY, true) // Default true
+    }
+
+    fun saveBackground(context: Context, background: String) {
+        put(context, BACKGROUND_KEY, background)
+    }
+
+    fun getBackground(context: Context): String {
+        return get(context, BACKGROUND_KEY, "")
     }
 }

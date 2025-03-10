@@ -52,4 +52,10 @@
     <string name="text_image_icon">Ikona slike</string>
     <string name="text_save">Shrani</string>
     <string name="text_changes_have_been_saved_successfully">Spremembe so bile uspešno shranjene!</string>
+    <string name="text_background">Ozadje</string> <!-- Slovenian (sl) -->
+    <string name="text_select_background_image">Izberite sliko ozadja</string>
+    <string name="text_select_background_image_from">Izberite sliko ozadja iz:</string>
+    <string name="text_recommend_background">Priporočeno ozadje</string>
+    <string name="text_gallery">Galerija</string>
+    <string name="text_default">Privzeto</string>
 </resources>

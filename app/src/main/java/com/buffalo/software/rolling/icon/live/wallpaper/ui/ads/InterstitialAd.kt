@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
+import com.buffalo.software.rolling.icon.live.wallpaper.utils.SHOW_AD
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
@@ -86,7 +87,7 @@ object InterstitialAdManager {
 
     // 🚀 Show Ad with Single ID (Original)
     fun showAd(activity: Activity, adUnitId: String, onAdClosed: () -> Unit) {
-        if (interstitialAd != null && currentAdUnitId == adUnitId && ConsentHelper.canRequestAds()) {
+        if (interstitialAd != null && currentAdUnitId == adUnitId && ConsentHelper.canRequestAds() && SHOW_AD) {
             isAdShowing.value = true // Hide UI Before Ad
             interstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
                 override fun onAdDismissedFullScreenContent() {

@@ -52,4 +52,10 @@
     <string name="text_image_icon">Resim simgesi</string>
     <string name="text_save">Kaydet</string>
     <string name="text_changes_have_been_saved_successfully">Değişiklikler başarıyla kaydedildi!</string>
+    <string name="text_background">Arka Plan</string> <!-- Turkish (tr) -->
+    <string name="text_select_background_image">Arka plan resmini seç</string>
+    <string name="text_select_background_image_from">Arka plan resmini seç:</string>
+    <string name="text_recommend_background">Önerilen arka plan</string>
+    <string name="text_gallery">Galeri</string>
+    <string name="text_default">Varsayılan</string>
 </resources>

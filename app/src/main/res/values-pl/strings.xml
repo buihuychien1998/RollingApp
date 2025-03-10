@@ -48,4 +48,10 @@
     <string name="text_image_icon">Ikona obrazu</string>
     <string name="text_save">Zapisz</string>
     <string name="text_changes_have_been_saved_successfully">Zmiany zostały pomyślnie zapisane!</string>
+    <string name="text_background">Tło</string> <!-- Polish (pl) -->
+    <string name="text_select_background_image">Wybierz obraz tła</string>
+    <string name="text_select_background_image_from">Wybierz obraz tła z:</string>
+    <string name="text_recommend_background">Zalecane tło</string>
+    <string name="text_gallery">Galeria</string>
+    <string name="text_default">Domyślnie</string>
 </resources>

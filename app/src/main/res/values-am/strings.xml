@@ -49,4 +49,10 @@
     <string name="text_image_icon">የምስል አዶ</string>
     <string name="text_save">አስቀምጥ</string>
     <string name="text_changes_have_been_saved_successfully">ለውጦቹ በተሳካ ሁኔታ ተቀመጡ!</string>
+    <string name="text_background">መነሻ ምስል</string> <!-- Amharic (am) -->
+    <string name="text_select_background_image">የመነሻ ምስል ይምረጡ</string>
+    <string name="text_select_background_image_from">የመነሻ ምስል ይምረጡ ከ:</string>
+    <string name="text_recommend_background">የሚመከር መነሻ</string>
+    <string name="text_gallery">ማኅደር</string>
+    <string name="text_default">ነባሪ</string>
 </resources>

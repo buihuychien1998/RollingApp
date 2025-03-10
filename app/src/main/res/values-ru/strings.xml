@@ -52,4 +52,10 @@
     <string name="text_image_icon">Значок изображения</string>
     <string name="text_save">Сохранить</string>
     <string name="text_changes_have_been_saved_successfully">Изменения успешно сохранены!</string>
+    <string name="text_background">Фон</string> <!-- Russian (ru) -->
+    <string name="text_select_background_image">Выберите фоновое изображение</string>
+    <string name="text_select_background_image_from">Выберите фоновое изображение из:</string>
+    <string name="text_recommend_background">Рекомендуемый фон</string>
+    <string name="text_gallery">Галерея</string>
+    <string name="text_default">По умолчанию</string>
 </resources>

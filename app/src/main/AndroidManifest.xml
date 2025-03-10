@@ -4,6 +4,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.SET_WALLPAPER_HINTS"/>
     <uses-permission android:name="android.permission.SET_WALLPAPER"/>
+<!--    <uses-permission android:name="android.permission.READ_WALLPAPER_INTERNAL"-->
+<!--        tools:ignore="ProtectedPermissions" />-->
     <uses-feature android:name="android.hardware.sensor.accelerometer" android:required="true" />
 <!--    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />-->
 <!--    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />-->
@@ -82,6 +84,17 @@
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="${ad_app_id}"/>
+        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+        <meta-data android:name="com.facebook.sdk.ClientToken" android:value="@string/facebook_client_token"/>
+        <meta-data
+            android:name="com.facebook.sdk.AutoInitEnabled"
+            android:value="true" />
+        <meta-data
+            android:name="com.facebook.sdk.AutoLogAppEventsEnabled"
+            android:value="true" />
+        <meta-data
+            android:name="com.facebook.sdk.AdvertiserIDCollectionEnabled"
+            android:value="true" />
     </application>
 
 

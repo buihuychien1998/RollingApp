@@ -52,4 +52,10 @@
     <string name="text_image_icon">Billedikon</string>
     <string name="text_save">Gem</string>
     <string name="text_changes_have_been_saved_successfully">Ændringerne blev gemt med succes!</string>
+    <string name="text_background">Baggrund</string> <!-- Danish (da) -->
+    <string name="text_select_background_image">Vælg baggrundsbillede</string>
+    <string name="text_select_background_image_from">Vælg baggrundsbillede fra:</string>
+    <string name="text_recommend_background">Anbefalet baggrund</string>
+    <string name="text_gallery">Galleri</string>
+    <string name="text_default">Standard</string>
 </resources>

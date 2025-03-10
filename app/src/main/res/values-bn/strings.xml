@@ -52,4 +52,10 @@
     <string name="text_image_icon">চিত্র আইকন</string>
     <string name="text_save">সংরক্ষণ করুন</string>
     <string name="text_changes_have_been_saved_successfully">পরিবর্তনগুলি সফলভাবে সংরক্ষণ করা হয়েছে!</string>
+    <string name="text_background">ব্যাকগ্রাউন্ড</string> <!-- Bengali (bn) -->
+    <string name="text_select_background_image">ব্যাকগ্রাউন্ড ছবি নির্বাচন করুন</string>
+    <string name="text_select_background_image_from">ব্যাকগ্রাউন্ড ছবি নির্বাচন করুন:</string>
+    <string name="text_recommend_background">প্রস্তাবিত ব্যাকগ্রাউন্ড</string>
+    <string name="text_gallery">গ্যালারি</string>
+    <string name="text_default">ডিফল্ট</string>
 </resources>

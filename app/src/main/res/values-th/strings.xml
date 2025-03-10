@@ -52,4 +52,10 @@
     <string name="text_image_icon">ไอคอนรูปภาพ</string>
     <string name="text_save">บันทึก</string>
     <string name="text_changes_have_been_saved_successfully">การเปลี่ยนแปลงได้รับการบันทึกเรียบร้อยแล้ว!</string>
+    <string name="text_background">พื้นหลัง</string> <!-- Thai (th) -->
+    <string name="text_select_background_image">เลือกภาพพื้นหลัง</string>
+    <string name="text_select_background_image_from">เลือกภาพพื้นหลังจาก:</string>
+    <string name="text_recommend_background">พื้นหลังแนะนำ</string>
+    <string name="text_gallery">แกลเลอรี</string>
+    <string name="text_default">ค่าเริ่มต้น</string>
 </resources>

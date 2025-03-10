@@ -52,4 +52,10 @@
     <string name="text_image_icon">Icona d\'imatge</string>
     <string name="text_save">Desa</string>
     <string name="text_changes_have_been_saved_successfully">Els canvis s\'han desat correctament!</string>
+    <string name="text_background">Fons</string> <!-- Catalan (ca) -->
+    <string name="text_select_background_image">Selecciona una imatge de fons</string>
+    <string name="text_select_background_image_from">Selecciona una imatge de fons de:</string>
+    <string name="text_recommend_background">Fons recomanat</string>
+    <string name="text_gallery">Galeria</string>
+    <string name="text_default">Per defecte</string>
 </resources>

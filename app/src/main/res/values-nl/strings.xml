@@ -52,4 +52,10 @@
     <string name="text_image_icon">Afbeeldingspictogram</string>
     <string name="text_save">Opslaan</string>
     <string name="text_changes_have_been_saved_successfully">Wijzigingen zijn succesvol opgeslagen!</string>
+    <string name="text_background">Achtergrond</string> <!-- Dutch (nl) -->
+    <string name="text_select_background_image">Selecteer achtergrondafbeelding</string>
+    <string name="text_select_background_image_from">Selecteer achtergrondafbeelding van:</string>
+    <string name="text_recommend_background">Aanbevolen achtergrond</string>
+    <string name="text_gallery">Galerij</string>
+    <string name="text_default">Standaard</string>
 </resources>

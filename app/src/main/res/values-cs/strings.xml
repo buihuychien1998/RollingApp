@@ -52,4 +52,10 @@
     <string name="text_image_icon">Ikona obrázku</string>
     <string name="text_save">Uložit</string>
     <string name="text_changes_have_been_saved_successfully">Změny byly úspěšně uloženy!</string>
+    <string name="text_background">Pozadí</string> <!-- Czech (cs) -->
+    <string name="text_select_background_image">Vyberte obrázek na pozadí</string>
+    <string name="text_select_background_image_from">Vyberte obrázek na pozadí z:</string>
+    <string name="text_recommend_background">Doporučené pozadí</string>
+    <string name="text_gallery">Galerie</string>
+    <string name="text_default">Výchozí</string>
 </resources>

@@ -2,9 +2,11 @@ package com.buffalo.software.rolling.icon.live.wallpaper.ui.home
 
 import android.Manifest
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
+import android.util.TypedValue
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.ActivityResultLauncher
@@ -154,6 +156,14 @@ fun HomeScreen(
             }
         }
 
+    fun getLauncherIconSizeUsingLauncherApps(context: Context): Int {
+        val displayMetrics = context.resources.displayMetrics
+
+        return TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP, 48f, displayMetrics
+        ).toInt()
+    }
+
     val notificationPermissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission(),
         onResult = { isGranted ->
@@ -175,6 +185,8 @@ fun HomeScreen(
     }
 
     LaunchedEffect(Unit) {
+        println("getLauncherIconSizeUsingLauncherApps(context)")
+        println(getLauncherIconSizeUsingLauncherApps(context))
         FirebaseEventLogger.trackScreenView(context, FirebaseAnalyticsEvents.SCREEN_HOME_VIEW)
         activity?.let { act ->
             if (configValues[RemoteConfigKeys.INTER_HOME] == true) {

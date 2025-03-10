@@ -52,4 +52,10 @@
     <string name="text_image_icon">Ikona slike</string>
     <string name="text_save">Spremi</string>
     <string name="text_changes_have_been_saved_successfully">Promjene su uspješno spremljene!</string>
+    <string name="text_background">Pozadina</string> <!-- Croatian (hr) -->
+    <string name="text_select_background_image">Odaberite pozadinsku sliku</string>
+    <string name="text_select_background_image_from">Odaberite pozadinsku sliku iz:</string>
+    <string name="text_recommend_background">Preporučena pozadina</string>
+    <string name="text_gallery">Galerija</string>
+    <string name="text_default">Zadano</string>
 </resources>

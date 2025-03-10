@@ -19,7 +19,7 @@ android {
         applicationId = "com.buffalo.software.rolling.icon.live.wallpaper"
         minSdk = 24
         targetSdk = 34
-        versionCode = 3
+        versionCode = 4
         versionName = "1.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -185,4 +185,5 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-config")
     implementation("com.google.firebase:firebase-messaging-ktx") // Firebase Messaging
+    implementation("com.facebook.android:facebook-android-sdk:18.0.2")
 }

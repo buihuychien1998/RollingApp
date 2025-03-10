@@ -49,4 +49,10 @@
     <string name="text_image_icon">छवि आइकन</string>
     <string name="text_save">सहेजें</string>
     <string name="text_changes_have_been_saved_successfully">परिवर्तन सफलतापूर्वक सहेजे गए!</string>
+    <string name="text_background">बैकग्राउंड</string> <!-- Hindi (hi) -->
+    <string name="text_select_background_image">बैकग्राउंड छवि चुनें</string>
+    <string name="text_select_background_image_from">बैकग्राउंड छवि चुनें:</string>
+    <string name="text_recommend_background">अनुशंसित बैकग्राउंड</string>
+    <string name="text_gallery">गैलरी</string>
+    <string name="text_default">डिफ़ॉल्ट</string>
 </resources>

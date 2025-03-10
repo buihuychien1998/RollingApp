@@ -10,4 +10,6 @@ sealed class AppRoutes(val route: String) {
     data object AppPicker : AppRoutes("AppPicker")
     data object ImagePicker : AppRoutes("ImagePicker")
     data object VideoPicker : AppRoutes("VideoPicker")
+    data object BackgroundSelection : AppRoutes("BackgroundSelection")
+    data object BackgroundDetail : AppRoutes("BackgroundDetail")
 }

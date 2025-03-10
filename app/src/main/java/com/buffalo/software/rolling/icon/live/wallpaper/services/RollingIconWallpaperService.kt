@@ -7,6 +7,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Paint
+import android.graphics.drawable.BitmapDrawable
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -128,8 +129,40 @@ class RollingIconWallpaperService : WallpaperService() {
         }
 
         private fun loadBackgroundImage() {
-            backgroundBitmap = BitmapFactory.decodeResource(resources, R.drawable.bg_rolling_app)
+            val selectedBackground = PreferencesHelper.getBackground(this@RollingIconWallpaperService)
+            backgroundBitmap = when {
+                selectedBackground.isEmpty() -> {
+//                    getCurrentWallpaperBitmap() ?: BitmapFactory.decodeResource(resources, R.drawable.bg_rolling_app)
+                    BitmapFactory.decodeResource(resources, R.drawable.bg_rolling_app)
+                }
+                selectedBackground.toIntOrNull() != null -> {
+                    BitmapFactory.decodeResource(resources, selectedBackground.toInt())
+                }
+                else ->  {
+                    try {
+                        val uri = Uri.parse(selectedBackground)
+                        contentResolver.openInputStream(uri)?.use { inputStream ->
+                            BitmapFactory.decodeStream(inputStream)
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                        // Nếu lỗi, quay về ảnh mặc định
+                        BitmapFactory.decodeResource(resources, R.drawable.bg_rolling_app)
+                    }
+                }
+            }
         }
+
+//        private fun getCurrentWallpaperBitmap(): Bitmap? {
+//            return try {
+//                val wallpaperManager = WallpaperManager.getInstance(this@RollingIconWallpaperService)
+//                val drawable = wallpaperManager.drawable
+//                if (drawable is BitmapDrawable) drawable.bitmap else null
+//            } catch (e: Exception) {
+//                e.printStackTrace()
+//                null
+//            }
+//        }
 
         private fun initializeSensors() {
             sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager

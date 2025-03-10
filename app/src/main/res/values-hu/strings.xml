@@ -52,4 +52,10 @@
     <string name="text_image_icon">Kép ikon</string>
     <string name="text_save">Mentés</string>
     <string name="text_changes_have_been_saved_successfully">A módosítások sikeresen mentésre kerültek!</string>
+    <string name="text_background">Háttér</string> <!-- Hungarian (hu) -->
+    <string name="text_select_background_image">Válasszon háttérképet</string>
+    <string name="text_select_background_image_from">Válasszon háttérképet innen:</string>
+    <string name="text_recommend_background">Ajánlott háttér</string>
+    <string name="text_gallery">Galéria</string>
+    <string name="text_default">Alapértelmezett</string>
 </resources>

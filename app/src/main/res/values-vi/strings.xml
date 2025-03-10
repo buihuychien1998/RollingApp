@@ -52,4 +52,10 @@
     <string name="text_image_icon">Biểu tượng hình ảnh</string>
     <string name="text_save">Lưu</string>
     <string name="text_changes_have_been_saved_successfully">Các thay đổi đã được lưu thành công!</string>
+    <string name="text_background">Hình nền</string> <!-- Vietnamese (vi) -->
+    <string name="text_select_background_image">Chọn hình nền</string>
+    <string name="text_select_background_image_from">Chọn hình nền từ:</string>
+    <string name="text_recommend_background">Hình nền đề xuất</string>
+    <string name="text_gallery">Thư viện</string>
+    <string name="text_default">Mặc định</string>
 </resources>

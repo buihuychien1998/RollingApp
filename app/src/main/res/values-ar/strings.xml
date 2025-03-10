@@ -49,4 +49,10 @@
     <string name="text_image_icon">رمز الصورة</string>
     <string name="text_save">حفظ</string>
     <string name="text_changes_have_been_saved_successfully">تم حفظ التغييرات بنجاح!</string>
+    <string name="text_background">الخلفية</string> <!-- Arabic (ar) -->
+    <string name="text_select_background_image">اختر صورة الخلفية</string>
+    <string name="text_select_background_image_from">اختر صورة الخلفية من:</string>
+    <string name="text_recommend_background">خلفية موصى بها</string>
+    <string name="text_gallery">المعرض</string>
+    <string name="text_default">الافتراضي</string>
 </resources>

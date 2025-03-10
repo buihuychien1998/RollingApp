@@ -52,4 +52,10 @@
     <string name="text_image_icon">Значок зображення</string>
     <string name="text_save">Зберегти</string>
     <string name="text_changes_have_been_saved_successfully">Зміни успішно збережено!</string>
+    <string name="text_background">Фон</string> <!-- Ukrainian (uk) -->
+    <string name="text_select_background_image">Виберіть фонове зображення</string>
+    <string name="text_select_background_image_from">Виберіть фонове зображення з:</string>
+    <string name="text_recommend_background">Рекомендований фон</string>
+    <string name="text_gallery">Галерея</string>
+    <string name="text_default">За замовчуванням</string>
 </resources>

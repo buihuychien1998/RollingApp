@@ -52,4 +52,11 @@
     <string name="text_image_icon">Иконица слике</string>
     <string name="text_save">Сачувај</string>
     <string name="text_changes_have_been_saved_successfully">Промене су успешно сачуване!</string>
+    <string name="text_background">Позадина</string> <!-- Serbian (sr) -->
+    <string name="text_select_background_image">Изаберите позадинску слику</string>
+    <string name="text_select_background_image_from">Изаберите позадинску слику из:</string>
+    <string name="text_recommend_background">Препоручена позадина</string>
+    <string name="text_gallery">Галерија</string>
+    <string name="text_default">Подразумевано</string>
+
 </resources>

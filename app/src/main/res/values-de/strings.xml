@@ -49,4 +49,10 @@
     <string name="text_image_icon">Bild-Symbol</string>
     <string name="text_save">Speichern</string>
     <string name="text_changes_have_been_saved_successfully">Änderungen wurden erfolgreich gespeichert!</string>
+    <string name="text_background">Hintergrund</string> <!-- German (de) -->
+    <string name="text_select_background_image">Hintergrundbild auswählen</string>
+    <string name="text_select_background_image_from">Hintergrundbild auswählen aus:</string>
+    <string name="text_recommend_background">Empfohlener Hintergrund</string>
+    <string name="text_gallery">Galerie</string>
+    <string name="text_default">Standard</string>
 </resources>

@@ -52,4 +52,10 @@
     <string name="text_image_icon">画像アイコン</string>
     <string name="text_save">保存</string>
     <string name="text_changes_have_been_saved_successfully">変更が正常に保存されました！</string>
+    <string name="text_background">背景</string> <!-- Japanese (ja) -->
+    <string name="text_select_background_image">背景画像を選択</string>
+    <string name="text_select_background_image_from">背景画像を選択：</string>
+    <string name="text_recommend_background">おすすめの背景</string>
+    <string name="text_gallery">ギャラリー</string>
+    <string name="text_default">デフォルト</string>
 </resources>

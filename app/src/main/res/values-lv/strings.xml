@@ -52,4 +52,10 @@
     <string name="text_image_icon">Attēla ikona</string>
     <string name="text_save">Saglabāt</string>
     <string name="text_changes_have_been_saved_successfully">Izmaiņas veiksmīgi saglabātas!</string>
+    <string name="text_background">Fons</string> <!-- Latvian (lv) -->
+    <string name="text_select_background_image">Izvēlieties fona attēlu</string>
+    <string name="text_select_background_image_from">Izvēlieties fona attēlu no:</string>
+    <string name="text_recommend_background">Ieteicamais fons</string>
+    <string name="text_gallery">Galerija</string>
+    <string name="text_default">Noklusējums</string>
 </resources>

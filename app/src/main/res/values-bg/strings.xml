@@ -52,4 +52,10 @@
     <string name="text_image_icon">Икона на изображение</string>
     <string name="text_save">Запази</string>
     <string name="text_changes_have_been_saved_successfully">Промените бяха запазени успешно!</string>
+    <string name="text_background">Фон</string> <!-- Bulgarian (bg) -->
+    <string name="text_select_background_image">Изберете фоново изображение</string>
+    <string name="text_select_background_image_from">Изберете фоново изображение от:</string>
+    <string name="text_recommend_background">Препоръчан фон</string>
+    <string name="text_gallery">Галерия</string>
+    <string name="text_default">По подразбиране</string>
 </resources>

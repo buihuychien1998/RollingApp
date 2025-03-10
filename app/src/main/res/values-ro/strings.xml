@@ -52,4 +52,10 @@
     <string name="text_image_icon">Pictogramă imagine</string>
     <string name="text_save">Salvare</string>
     <string name="text_changes_have_been_saved_successfully">Modificările au fost salvate cu succes!</string>
+    <string name="text_background">Fundal</string> <!-- Romanian (ro) -->
+    <string name="text_select_background_image">Selectați imaginea de fundal</string>
+    <string name="text_select_background_image_from">Selectați imaginea de fundal din:</string>
+    <string name="text_recommend_background">Fundal recomandat</string>
+    <string name="text_gallery">Galerie</string>
+    <string name="text_default">Implicit</string>
 </resources>

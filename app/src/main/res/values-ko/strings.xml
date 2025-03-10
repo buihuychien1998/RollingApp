@@ -50,4 +50,10 @@
     <string name="text_image_icon">이미지 아이콘</string>
     <string name="text_save">저장</string>
     <string name="text_changes_have_been_saved_successfully">변경 사항이 성공적으로 저장되었습니다!</string>
+    <string name="text_background">배경</string> <!-- Korean (ko) -->
+    <string name="text_select_background_image">배경 이미지 선택</string>
+    <string name="text_select_background_image_from">배경 이미지 선택:</string>
+    <string name="text_recommend_background">추천 배경</string>
+    <string name="text_gallery">갤러리</string>
+    <string name="text_default">기본값</string>
 </resources>

@@ -45,6 +45,7 @@ import com.buffalo.software.rolling.icon.live.wallpaper.R
 import com.buffalo.software.rolling.icon.live.wallpaper.routes.AppRoutes
 import com.buffalo.software.rolling.icon.live.wallpaper.theme.AppFont
 import com.buffalo.software.rolling.icon.live.wallpaper.theme.clr_96ACC4
+import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.AppOpenAdController
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.BannerAd
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.InterstitialAdManager
 import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.banner_splash
@@ -72,6 +73,10 @@ fun SplashScreen(navController: NavController, remoteConfigViewModel: RemoteConf
     val lifecycleOwner = LocalLifecycleOwner.current
     val configValues by remoteConfigViewModel.configValues.collectAsState()
     var showAd by remember { mutableStateOf(true) } // ✅ Controls ad visibility
+
+    LaunchedEffect(Unit){
+        AppOpenAdController.shouldShowAd = false
+    }
 
     // ✅ Track if Remote Config is loaded
     LaunchedEffect(configValues) {
@@ -181,7 +186,9 @@ fun SplashScreen(navController: NavController, remoteConfigViewModel: RemoteConf
             Image(
                 painter = painterResource(id = R.drawable.img_splash),
                 contentDescription = "Logo",
-                modifier = Modifier.scale(scale.value).size(240.dp)
+                modifier = Modifier
+                    .scale(scale.value)
+                    .size(240.dp)
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
@@ -195,7 +202,9 @@ fun SplashScreen(navController: NavController, remoteConfigViewModel: RemoteConf
         }
 
         Column(
-            Modifier.safeDrawingPadding().align(Alignment.BottomCenter),
+            Modifier
+                .safeDrawingPadding()
+                .align(Alignment.BottomCenter),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
@@ -240,6 +249,7 @@ private fun openNextScreen(
         !isOnboardingDone -> AppRoutes.Onboarding.route
         else -> AppRoutes.Home.route
     }
+    AppOpenAdController.shouldShowAd = true
 
     navController.navigate(nextRoute) {
         popUpTo(AppRoutes.Splash.route) { inclusive = true }
