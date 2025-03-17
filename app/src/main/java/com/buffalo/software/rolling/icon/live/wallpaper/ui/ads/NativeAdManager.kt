@@ -32,7 +32,7 @@ object NativeAdManager {
             }
             .withAdListener(object : AdListener() {
                 override fun onAdFailedToLoad(error: LoadAdError) {
-                    Log.e("NativeAdManager", "❌ Primary Ad Failed: ${error.message}")
+                    Log.e("NativeAdManager", "❌ Primary Ad Failed: $error")
                     // Try loading fallback if available
                     if (fallbackAdUnitId != null) {
                         loadFallbackNativeAd(context, fallbackAdUnitId, onAdLoaded)

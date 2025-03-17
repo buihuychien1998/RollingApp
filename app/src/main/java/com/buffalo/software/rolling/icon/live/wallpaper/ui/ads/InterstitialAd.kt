@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
+import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.tracking.setupInterstitialAd
 import com.buffalo.software.rolling.icon.live.wallpaper.utils.SHOW_AD
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
@@ -64,7 +65,7 @@ object InterstitialAdManager {
 
             override fun onAdFailedToLoad(error: LoadAdError) {
                 isPrimaryAdLoaded = false
-                Log.e("InterstitialAd", "❌ Primary Ad Failed: ${error.message}")
+                Log.e("InterstitialAd", "❌ Primary Ad Failed: $error")
 
                 // Load Fallback Ad if Primary Ad Fails
                 InterstitialAd.load(context, fallbackAdUnitId, AdRequest.Builder().build(), object : InterstitialAdLoadCallback() {
@@ -78,7 +79,7 @@ object InterstitialAdManager {
                     override fun onAdFailedToLoad(error: LoadAdError) {
                         isFallbackAdLoaded = false
                         isAdLoading = false
-                        Log.e("InterstitialAd", "❌ Fallback Ad Failed: ${error.message}")
+                        Log.e("InterstitialAd", "❌ Fallback Ad Failed: $error")
                     }
                 })
             }
@@ -88,6 +89,7 @@ object InterstitialAdManager {
     // 🚀 Show Ad with Single ID (Original)
     fun showAd(activity: Activity, adUnitId: String, onAdClosed: () -> Unit) {
         if (interstitialAd != null && currentAdUnitId == adUnitId && ConsentHelper.canRequestAds() && SHOW_AD) {
+            setupInterstitialAd(activity, interstitialAd!!)
             isAdShowing.value = true // Hide UI Before Ad
             interstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
                 override fun onAdDismissedFullScreenContent() {

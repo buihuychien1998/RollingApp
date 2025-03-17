@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.tracking.setupAppOpenAd
 import com.buffalo.software.rolling.icon.live.wallpaper.utils.SHOW_AD
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
@@ -95,6 +96,7 @@ class AppOpenAdManager(private val application: Application) :
         Log.d("AppOpenAdManager", "🚫 showAdIfAvailable")
 
         isShowingAd = true
+        setupAppOpenAd(activity, appOpenAd!!)
         appOpenAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
             override fun onAdDismissedFullScreenContent() {
                 isShowingAd = false

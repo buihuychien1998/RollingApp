@@ -8,6 +8,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -31,7 +32,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
@@ -67,6 +67,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil3.compose.rememberAsyncImagePainter
@@ -442,43 +443,114 @@ fun BackgroundSelection(navController: NavController, sharedViewModel: SharedVie
     }
 
     if (showApplyDialog) {
-        AlertDialog(
-            onDismissRequest = { showApplyDialog = false },
-            title = {
-                Text(
-                    text = stringResource(id = R.string.wallpaper_changed_title),
-                    fontWeight = FontWeight.Bold
+        CustomAlertDialog(
+            showDialog = showApplyDialog,
+            onDismiss = { showApplyDialog = false }, // "Skip" button action
+            onConfirm = {
+                showApplyDialog = false
+                if (sharedViewModel.appIcon.value) {
+                    Toast.makeText(context, R.string.text_no_icons_selected, Toast.LENGTH_SHORT)
+                        .show()
+                    return@CustomAlertDialog
+                }
+                FirebaseEventLogger.trackScreenView(
+                    context,
+                    FirebaseAnalyticsEvents.SCREEN_PREVIEW_VIEW
                 )
-            },
-            text = {
-                Text(text = stringResource(id = R.string.wallpaper_changed_message))
-            },
-            confirmButton = {
-                TextButton(onClick = {
-                    showApplyDialog = false
-                    if (sharedViewModel.appIcon.value) {
-                        Toast.makeText(context, R.string.text_no_icons_selected, Toast.LENGTH_SHORT)
-                            .show()
-                        return@TextButton
-                    }
-                    FirebaseEventLogger.trackScreenView(
-                        context,
-                        FirebaseAnalyticsEvents.SCREEN_PREVIEW_VIEW
-                    )
-                    AppOpenAdController.disableByClickAction = true
-                    context.startWallpaperService(launcher = liveWallpaperLauncher)
-                }) {
-                    Text(text = stringResource(id = R.string.text_ok))
-                }
-            },
-            dismissButton = {
-                TextButton(onClick = { showApplyDialog = false }) {
-                    Text(text = stringResource(id = R.string.text_skip))
-                }
+                AppOpenAdController.disableByClickAction = true
+                context.startWallpaperService(launcher = liveWallpaperLauncher)
             }
         )
     }
 
+}
+
+@Composable
+fun CustomAlertDialog(
+    showDialog: Boolean,
+    onDismiss: () -> Unit,
+    onConfirm: () -> Unit
+) {
+    if (showDialog) {
+        Dialog(onDismissRequest = onDismiss) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+                    .clip(RoundedCornerShape(16.dp))
+                    .background(Color.White)
+                    .padding(24.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+
+                    Text(
+                        text = stringResource(id = R.string.wallpaper_changed_title),
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 20.sp,
+                        fontFamily = AppFont.Grandstander,
+                        color = Color.Black
+                    )
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    Text(
+                        text = stringResource(id = R.string.wallpaper_changed_message),
+                        fontSize = 16.sp,
+                        color = Color.Gray,
+                        fontFamily = AppFont.Grandstander,
+                        textAlign = TextAlign.Center
+                    )
+
+                    Spacer(modifier = Modifier.height(24.dp))
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        // Skip Button
+                        TextButton(
+                            onClick = onDismiss,
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = Color.White, // Background white
+                                contentColor = clr_4664FF, // Text color
+                                disabledContainerColor = Color.White // Background stays white when disabled
+                            ),
+                            border = BorderStroke(1.dp, clr_4664FF), // Border color
+                            modifier = Modifier.weight(1f)
+                        ) {
+                            Text(
+                                text = stringResource(id = R.string.text_skip),
+                                style = TextStyle(
+                                    fontWeight = FontWeight.Medium,
+                                    fontSize = 16.sp,
+                                    color = clr_4664FF // Ensure text color is set
+                                )
+                            )
+                        }
+
+                        Spacer(modifier = Modifier.width(8.dp))
+
+                        // Confirm Button
+                        Button(
+                            onClick = onConfirm,
+                            colors = ButtonDefaults.buttonColors(clr_4664FF),
+                            modifier = Modifier.weight(1f)
+                        ) {
+                            Text(
+                                text = stringResource(id = R.string.text_ok),
+                                color = Color.White,
+                                fontFamily = AppFont.Grandstander,
+                                style = TextStyle(fontWeight = FontWeight.Medium, fontSize = 16.sp),
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 @Composable

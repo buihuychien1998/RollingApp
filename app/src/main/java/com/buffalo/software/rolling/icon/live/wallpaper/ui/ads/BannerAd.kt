@@ -19,6 +19,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.tracking.setupBannerAd
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
@@ -88,7 +89,7 @@ fun BannerAd(
                     AdView(context).apply {
                         setAdSize(adaptiveAdSize)
                         adUnitId = bannerId  // Replace with your AdMob banner ID
-
+                        setupBannerAd(ctx, this)
                         this.adListener = object : AdListener() {
                             override fun onAdClicked() {
                                 Log.d("BannerAd", "Ad clicked")

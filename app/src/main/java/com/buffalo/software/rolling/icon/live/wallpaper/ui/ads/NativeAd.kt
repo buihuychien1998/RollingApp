@@ -30,6 +30,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.buffalo.software.rolling.icon.live.wallpaper.R
+import com.buffalo.software.rolling.icon.live.wallpaper.ui.ads.tracking.setupNativeAd
 import com.buffalo.software.rolling.icon.live.wallpaper.utils.SHOW_AD
 import com.google.android.gms.ads.nativead.MediaView
 import com.google.android.gms.ads.nativead.NativeAd
@@ -133,6 +134,7 @@ fun NativeAdViewCompose(
                             val nativeAdView = NativeAdView(context)
                             nativeAdView.apply {
                                 removeAllViews()
+                                setupNativeAd(context, ad)
                                 addView(adLayout(this, ad))
                             }
 
@@ -140,6 +142,7 @@ fun NativeAdViewCompose(
                         update = { nativeAdView ->
                             nativeAdView.apply {
                                 removeAllViews()
+                                setupNativeAd(context, ad)
                                 addView(adLayout(this, ad))
                             }
                         }
